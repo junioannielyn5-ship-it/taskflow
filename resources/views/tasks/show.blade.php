@@ -1,0 +1,582 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="space-y-6">
+    <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div class="pointer-events-none absolute -right-16 -top-16 h-52 w-52 rounded-full bg-cyan-200/35 blur-3xl"></div>
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-800">{{ $task->title }}</h1>
+                <p class="text-sm text-slate-500">Project: {{ $task->project?->name ?? 'N/A' }}</p>
+            </div>
+            <a href="{{ route('tasks.list') }}" class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">Back to Tasks</a>
+        </div>
+    </div>
+
+    @if (session('success'))
+        <div class="mb-4 rounded border border-green-200 bg-green-50 px-4 py-3 text-green-700">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('info'))
+        <div class="mb-4 rounded border border-blue-200 bg-blue-50 px-4 py-3 text-blue-700">
+            {{ session('info') }}
+        </div>
+    @endif
+
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div class="space-y-6 lg:col-span-2">
+            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <h2 class="mb-4 text-lg font-semibold text-slate-800">Task Details</h2>
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-2 text-sm">
+                    <div>
+                        <p class="text-slate-500">Status</p>
+                        <p class="font-medium text-slate-800">{{ ucwords(str_replace('_', ' ', $task->status)) }}</p>
+                    </div>
+                    <div>
+                        <p class="text-slate-500">Priority</p>
+                        <p class="font-medium text-slate-800">{{ ucfirst($task->priority) }}</p>
+                    </div>
+                    <div>
+                        <p class="text-slate-500">Due</p>
+                        <p class="font-medium text-slate-800">{{ $task->due_date ? $task->due_date->format('m-d-Y') : '-' }}</p>
+                    </div>
+                    <div>
+                        <p class="text-slate-500">Date Received</p>
+                        <p class="font-medium text-slate-800">{{ $task->date_received ? $task->date_received->format('M d, Y') : '-' }}</p>
+                    </div>
+                    <div>
+                        <p class="text-slate-500">Date Started</p>
+                        <p class="font-medium text-slate-800">{{ $task->date_started ? $task->date_started->format('M d, Y') : '-' }}</p>
+                    </div>
+                    <div>
+                        <p class="text-slate-500">Task Process</p>
+                        <p class="font-medium text-slate-800">{{ $task->task_process ?: '-' }}</p>
+                    </div>
+                    <div>
+                        <p class="text-slate-500">Company/Client</p>
+                        <p class="font-medium text-slate-800">{{ $task->company ?: '-' }}</p>
+                    </div>
+                    <div>
+                        <p class="text-slate-500">Person-in-charge</p>
+                        <p class="font-medium text-slate-800">{{ $task->team_in_charge ?: '-' }}</p>
+                    </div>
+                    <div>
+                        <p class="text-slate-500">Blocked By</p>
+                        <p class="font-medium text-slate-800">
+                            @if($task->blockedByTask)
+                                <a href="{{ route('tasks.show', $task->blockedByTask) }}" class="text-blue-600 hover:underline">{{ $task->blockedByTask->title }}</a>
+                            @else
+                                -
+                            @endif
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-slate-500">Deliverables</p>
+                        <p class="font-medium text-slate-800">{{ $task->deliverables ?: '-' }}</p>
+                    </div>
+                    <div>
+                        <p class="text-slate-500">Project Owner</p>
+                        <p class="font-medium text-slate-800">{{ $task->project?->project_owner ?: 'Sales (Sales Project)' }}</p>
+                    </div>
+                </div>
+                @if($task->remarks)
+                    <div class="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+                        <p class="mb-1 text-xs font-semibold uppercase tracking-wide">Remarks</p>
+                        <p>{{ $task->remarks }}</p>
+                    </div>
+                @endif
+                @if($task->description)
+                    <div class="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+                        {{ $task->description }}
+                    </div>
+                @endif
+            </div>
+
+            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <h2 class="mb-4 text-lg font-semibold text-slate-800">Checklists</h2>
+
+                @can('update', $task)
+                    <form method="POST" action="{{ route('tasks.checklists.store', $task) }}" class="mb-4 flex flex-col gap-2 sm:flex-row">
+                        @csrf
+                        <input type="text" name="title" required placeholder="Add checklist item" class="w-full rounded border border-slate-300 px-3 py-2 text-sm">
+                        <button type="submit" class="rounded-lg bg-cyan-600 px-4 py-2 text-sm font-medium text-white hover:bg-cyan-700">Add</button>
+                    </form>
+                    @error('title')
+                        <p class="mb-3 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                @endcan
+
+                @if($task->checklistItems->isEmpty())
+                    <p class="text-sm text-slate-500">No checklist items yet.</p>
+                @else
+                    <ul class="space-y-2">
+                        @foreach($task->checklistItems as $item)
+                            <li class="flex items-center justify-between gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm">
+                                <form method="POST" action="{{ route('tasks.checklists.toggle', [$task, $item]) }}" class="flex items-center gap-2">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="h-4 w-4 rounded border border-slate-300 {{ $item->is_completed ? 'bg-emerald-500' : 'bg-white' }}"></button>
+                                    <span class="{{ $item->is_completed ? 'text-slate-400 line-through' : 'text-slate-700' }}">{{ $item->title }}</span>
+                                </form>
+                                @can('update', $task)
+                                    <form method="POST" action="{{ route('tasks.checklists.destroy', [$task, $item]) }}" onsubmit="return confirm('Delete this checklist item?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="rounded border border-red-200 px-2 py-1 text-xs text-red-600 hover:bg-red-50">Delete</button>
+                                    </form>
+                                @endcan
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+            </div>
+
+            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <h2 class="mb-4 text-lg font-semibold text-slate-800">Task Attachments</h2>
+                <form method="POST" action="{{ route('tasks.attachments.store', $task) }}" enctype="multipart/form-data" class="mb-4 flex flex-col gap-3 md:flex-row md:items-center">
+                    @csrf
+                    <input type="file" name="file" required class="block w-full text-sm text-slate-700 file:mr-3 file:rounded file:border-0 file:bg-cyan-600 file:px-3 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-cyan-700">
+                    <button type="submit" class="rounded-lg bg-cyan-600 px-4 py-2 text-sm font-medium text-white hover:bg-cyan-700">Upload</button>
+                </form>
+
+                @error('file')
+                    <p class="mb-3 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+
+                @if($task->attachments->isEmpty())
+                    <p class="text-sm text-slate-500">No attachments yet.</p>
+                @else
+                    <ul class="divide-y divide-slate-100">
+                        @foreach($task->attachments as $attachment)
+                            <li class="flex items-center justify-between py-3 text-sm">
+                                <div>
+                                    <p class="font-medium text-slate-700">{{ $attachment->filename }}</p>
+                                    <p class="text-slate-500">{{ number_format($attachment->size / 1024, 1) }} KB · {{ $attachment->created_at?->diffForHumans() }}</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <a href="{{ route('attachments.download', $attachment->id) }}" class="rounded border border-slate-300 px-3 py-1 text-slate-700 hover:bg-slate-50">Download</a>
+                                    @if(auth()->id() === $attachment->user_id || auth()->user()?->isAdmin())
+                                        <form method="POST" action="{{ route('attachments.destroy', $attachment->id) }}" onsubmit="return confirm('Delete this attachment?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="rounded border border-red-200 px-3 py-1 text-red-600 hover:bg-red-50">Delete</button>
+                                        </form>
+                                    @endif
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+            </div>
+
+            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <div class="mb-4 flex items-center justify-between gap-3">
+                    <h2 class="text-lg font-semibold text-slate-800">Activity Timeline</h2>
+                    <span id="task-activity-count" class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">0</span>
+                </div>
+                <div id="task-activity-timeline" class="space-y-4">
+                    <p class="text-sm text-slate-500">Loading timeline...</p>
+                </div>
+            </div>
+
+            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <h2 class="mb-4 text-lg font-semibold text-slate-800">Comments</h2>
+
+                <form method="POST" action="{{ route('comments.store', $task) }}" class="mb-4 space-y-2">
+                    @csrf
+                    <textarea
+                        name="body"
+                        rows="3"
+                        required
+                        class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                        placeholder="Write a comment..."
+                    >{{ old('body') }}</textarea>
+                    <div class="flex items-center justify-between">
+                        @error('body')
+                            <p class="text-sm text-red-600">{{ $message }}</p>
+                        @else
+                            <span class="text-xs text-slate-500">Share updates, blockers, or clarifications.</span>
+                        @enderror
+                        <button type="submit" class="rounded-lg bg-cyan-600 px-3 py-2 text-sm font-medium text-white hover:bg-cyan-700">Post Comment</button>
+                    </div>
+                </form>
+
+                @if($task->comments->isEmpty())
+                    <p class="text-sm text-slate-500">No comments yet.</p>
+                @else
+                    <ul class="space-y-3">
+                        @foreach($task->comments->sortByDesc('created_at')->take(20) as $comment)
+                            <li class="rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm">
+                                <div class="mb-1 flex items-center justify-between text-xs text-slate-500">
+                                    <span class="font-medium text-slate-700">{{ $comment->user?->name ?? 'Unknown user' }}</span>
+                                    <div class="flex items-center gap-2">
+                                        <span>{{ $comment->created_at?->diffForHumans() }}</span>
+                                        @if(auth()->id() === $comment->user_id || auth()->user()?->isAdmin())
+                                            <form method="POST" action="{{ route('comments.destroy', $comment->id) }}" onsubmit="return confirm('Delete this comment?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="rounded border border-red-200 px-2 py-0.5 text-xs text-red-600 hover:bg-red-50">Delete</button>
+                                            </form>
+                                        @endif
+                                    </div>
+                                </div>
+                                <p class="text-slate-700">{{ $comment->body }}</p>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+            </div>
+        </div>
+
+        <div class="space-y-6">
+            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <h2 class="mb-3 text-lg font-semibold text-slate-800">Completion</h2>
+                <p class="mb-3 text-sm text-slate-500">Submit for review when work is finished, then manager/admin can approve as done.</p>
+
+                @php
+                    $hasCompletionDocument = $task->attachments->isNotEmpty();
+                    $canUpdateTaskStatus = auth()->user() && Gate::allows('update-task-status', $task);
+                    $canCompleteTask = auth()->user() && Gate::allows('complete-task', $task);
+                    $canApproveNow = $task->status === 'for_review';
+                @endphp
+
+                <div class="mb-4 rounded-xl border {{ $hasCompletionDocument ? 'border-emerald-200 bg-emerald-50' : 'border-amber-200 bg-amber-50' }} px-4 py-3 text-sm">
+                    <p class="font-semibold {{ $hasCompletionDocument ? 'text-emerald-800' : 'text-amber-800' }}">
+                        {{ $hasCompletionDocument ? 'Completion document uploaded' : 'No completion document yet' }}
+                    </p>
+                    <p class="mt-1 {{ $hasCompletionDocument ? 'text-emerald-700' : 'text-amber-700' }}">
+                        {{ $hasCompletionDocument ? 'Attachment(s) are available in Task Attachments.' : 'Upload at least one proof file before requesting review.' }}
+                    </p>
+                </div>
+
+                @if($canUpdateTaskStatus)
+                    <div class="grid grid-cols-1 gap-2">
+                        <form method="POST" action="{{ route('tasks.status.update', $task) }}">
+                            @csrf
+                            <input type="hidden" name="status" value="in_progress">
+                            <button
+                                type="submit"
+                                class="w-full rounded-lg bg-cyan-600 px-3 py-2 text-sm font-medium text-white hover:bg-cyan-700"
+                            >
+                                Start Progress
+                            </button>
+                        </form>
+
+                        <form method="POST" action="{{ route('tasks.status.update', $task) }}">
+                            @csrf
+                            <input type="hidden" name="status" value="for_review">
+                            <button
+                                type="submit"
+                                class="w-full rounded-lg bg-orange-600 px-3 py-2 text-sm font-medium text-white hover:bg-orange-700"
+                            >
+                                Mark As For Review
+                            </button>
+                        </form>
+
+                        @if($canCompleteTask)
+                            <form method="POST" action="{{ route('tasks.status.update', $task) }}">
+                                @csrf
+                                <input type="hidden" name="status" value="done">
+                                <button
+                                    type="submit"
+                                    class="w-full rounded-lg px-3 py-2 text-sm font-medium text-white {{ $canApproveNow ? 'bg-emerald-600 hover:bg-emerald-700' : 'cursor-not-allowed bg-slate-400' }}"
+                                    @disabled(!$canApproveNow)
+                                >
+                                    Approve As Done
+                                </button>
+                            </form>
+                            @if(!$canApproveNow)
+                                <p class="text-xs text-amber-700">Approve As Done is enabled only after Mark As For Review.</p>
+                            @endif
+                        @endif
+                    </div>
+                    @error('status')
+                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                @else
+                    <p class="text-sm text-slate-500">You are not allowed to change task status.</p>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+@php
+    $taskTimelineData = [
+        'timelineUrl' => route('tasks.activities', $task),
+        'statusUpdateUrl' => route('tasks.status.update', $task),
+        'transitionsUrl' => route('tasks.transitions', $task),
+        'csrfToken' => csrf_token(),
+        'hasCompletionDocument' => $hasCompletionDocument,
+        'currentStatus' => $task->status,
+    ];
+@endphp
+<script id="task-timeline-data" type="application/json">@json($taskTimelineData)</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const payloadEl = document.getElementById('task-timeline-data');
+    const payload = payloadEl ? JSON.parse(payloadEl.textContent || '{}') : {};
+    const timelineEl = document.getElementById('task-activity-timeline');
+    const countEl = document.getElementById('task-activity-count');
+    const statusButtons = document.querySelectorAll('[data-task-status]');
+    const statusFeedbackEl = document.getElementById('task-status-feedback');
+    let currentStatus = String(payload.currentStatus || '');
+
+    statusButtons.forEach((button) => {
+        button.dataset.initiallyDisabled = button.disabled ? '1' : '0';
+    });
+
+    const escapeHtml = (value) => String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+
+    const iconSvg = (actionType) => {
+        if (actionType === 'status_change') {
+            return '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>';
+        }
+
+        if (actionType === 'assignee_change') {
+            return '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 1118.879 17.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>';
+        }
+
+        if (actionType === 'comment_added' || actionType === 'comment_created') {
+            return '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h8M8 14h5m-9 7l2.6-2.6A2 2 0 004 17V5a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H8.6a2 2 0 00-1.4.6L4 21z" /></svg>';
+        }
+
+        return '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l2 2m6-2a8 8 0 11-16 0 8 8 0 0116 0z" /></svg>';
+    };
+
+    const renderTimeline = (activities) => {
+        if (!timelineEl) {
+            return;
+        }
+
+        if (!activities || activities.length === 0) {
+            timelineEl.innerHTML = '<p class="text-sm text-slate-500">No activity recorded yet.</p>';
+            if (countEl) {
+                countEl.textContent = '0';
+            }
+            return;
+        }
+
+        if (countEl) {
+            countEl.textContent = String(activities.length);
+        }
+
+        timelineEl.innerHTML = `<ol class="relative border-l border-slate-200 pl-5 space-y-5">${activities.map((item) => {
+            const actor = escapeHtml(item.actor_name || item.actor?.name || 'Unknown User');
+            const description = escapeHtml(item.action_text || item.description || '-');
+            const ts = escapeHtml(item.created_at_human || item.timestamp_human || 'just now');
+            const isAutomation = Boolean(item.is_automation || item.is_system);
+            const bgClass = isAutomation ? 'bg-violet-100 text-violet-700 border-violet-200' : 'bg-blue-100 text-blue-700 border-blue-200';
+            const badge = isAutomation ? '<span class="ml-2 rounded-full bg-violet-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-violet-700">Bot</span>' : '';
+
+            return `
+                <li class="relative">
+                    <span class="absolute -left-[31px] mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full border ${bgClass}">
+                        ${iconSvg(item.action_type)}
+                    </span>
+                    <div class="rounded-xl border border-slate-200 bg-white p-3">
+                        <div class="flex items-center justify-between gap-2">
+                            <p class="flex items-center text-sm font-semibold text-slate-800">${actor}${badge}</p>
+                            <span class="text-xs text-slate-400">${ts}</span>
+                        </div>
+                        <p class="mt-1 text-sm text-slate-600">${description}</p>
+                    </div>
+                </li>
+            `;
+        }).join('')}</ol>`;
+    };
+
+    const loadTimeline = async () => {
+        if (!payload.timelineUrl) {
+            return;
+        }
+
+        try {
+            const response = await fetch(payload.timelineUrl, {
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                credentials: 'same-origin'
+            });
+
+            if (!response.ok) {
+                timelineEl.innerHTML = '<p class="text-sm text-red-500">Failed to load timeline.</p>';
+                return;
+            }
+
+            const data = await response.json();
+            renderTimeline(data.activities || []);
+        } catch (error) {
+            timelineEl.innerHTML = '<p class="text-sm text-red-500">Failed to load timeline.</p>';
+        }
+    };
+
+    const setStatusFeedback = (message, isError = false) => {
+        if (!statusFeedbackEl) {
+            return;
+        }
+
+        statusFeedbackEl.textContent = message;
+        statusFeedbackEl.className = `mt-2 text-sm ${isError ? 'text-red-600' : 'text-emerald-700'}`;
+    };
+
+    const applyStatusActionAvailability = async () => {
+        if (!payload.transitionsUrl || statusButtons.length === 0) {
+            return;
+        }
+
+        statusButtons.forEach((button) => {
+            button.disabled = true;
+            button.dataset.initiallyDisabled = '1';
+        });
+
+        try {
+            const response = await fetch(payload.transitionsUrl, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                credentials: 'same-origin',
+            });
+
+            const data = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                setStatusFeedback(data.message || 'Unable to load allowed status transitions.', true);
+                return;
+            }
+
+            const validTransitions = Array.isArray(data.valid_transitions) ? data.valid_transitions.map(String) : [];
+            const canComplete = Boolean(data.can_complete);
+            currentStatus = String(data.current_status || currentStatus);
+
+            statusButtons.forEach((button) => {
+                const status = String(button.getAttribute('data-task-status') || '');
+                const needsDocument = button.getAttribute('data-needs-document') === '1';
+
+                // Keep core actions clickable and perform safe transitions in click handler.
+                let allowed = status === 'in_progress' || status === 'done' || validTransitions.includes(status);
+
+                if (status === 'done' && !canComplete) {
+                    allowed = false;
+                }
+
+                if (needsDocument && !payload.hasCompletionDocument) {
+                    allowed = false;
+                }
+
+                button.disabled = !allowed;
+                button.dataset.initiallyDisabled = allowed ? '0' : '1';
+            });
+
+            const fromStatus = String(data.current_status || payload.currentStatus || '').replace('_', ' ');
+            const validText = validTransitions.length > 0 ? validTransitions.map((s) => s.replace('_', ' ')).join(', ') : 'none';
+            setStatusFeedback(`Current status: ${fromStatus}. Allowed next: ${validText}.`, false);
+        } catch (error) {
+            setStatusFeedback('Unable to load allowed status transitions.', true);
+        }
+    };
+
+    const withButtonsDisabled = (disabled) => {
+        statusButtons.forEach((button) => {
+            const wasInitiallyDisabled = button.dataset.initiallyDisabled === '1';
+            button.disabled = disabled || wasInitiallyDisabled;
+        });
+    };
+
+    const postStatusUpdate = async (status) => {
+        const response = await fetch(payload.statusUpdateUrl, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': payload.csrfToken || '',
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify({ status }),
+        });
+
+        const result = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            throw new Error(result.message || 'Failed to update task status.');
+        }
+
+        currentStatus = String(result.task?.status || status);
+        return result;
+    };
+
+    statusButtons.forEach((button) => {
+        button.addEventListener('click', async () => {
+            const status = button.getAttribute('data-task-status');
+            if (!status || !payload.statusUpdateUrl) {
+                return;
+            }
+
+            setStatusFeedback('Updating task status...', false);
+            withButtonsDisabled(true);
+
+            try {
+                if (status === 'in_progress') {
+                    if (currentStatus === 'in_progress') {
+                        setStatusFeedback('Task is already in progress.', false);
+                        return;
+                    }
+
+                    const result = await postStatusUpdate('in_progress');
+                    setStatusFeedback(result.message || 'Task status updated successfully.', false);
+                    window.setTimeout(() => window.location.reload(), 600);
+                    return;
+                }
+
+                if (status === 'done') {
+                    if (currentStatus === 'done') {
+                        setStatusFeedback('Task is already done.', false);
+                        return;
+                    }
+
+                    const sequenceMap = {
+                        todo: ['in_progress', 'for_review', 'done'],
+                        blocked: ['in_progress', 'for_review', 'done'],
+                        in_progress: ['for_review', 'done'],
+                        for_review: ['done'],
+                    };
+
+                    const sequence = sequenceMap[currentStatus] || ['done'];
+
+                    for (const nextStatus of sequence) {
+                        await postStatusUpdate(nextStatus);
+                    }
+
+                    setStatusFeedback('Task approved as done.', false);
+                    window.setTimeout(() => window.location.reload(), 600);
+                    return;
+                }
+
+                const result = await postStatusUpdate(status);
+
+                setStatusFeedback(result.message || 'Task status updated successfully.', false);
+                window.setTimeout(() => window.location.reload(), 600);
+            } catch (error) {
+                const message = error instanceof Error ? error.message : 'Failed to update task status.';
+                setStatusFeedback(message, true);
+            } finally {
+                withButtonsDisabled(false);
+            }
+        });
+    });
+
+    loadTimeline();
+    applyStatusActionAvailability();
+});
+</script>
+@endsection

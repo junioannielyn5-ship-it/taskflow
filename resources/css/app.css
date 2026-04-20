@@ -1,0 +1,674 @@
+@import "tailwindcss";
+
+/* Tailwind v4: Use class-based dark mode (for localStorage toggle) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Fix para hindi mag-flash ang Alpine.js */
+[x-cloak] {
+    display: none !important;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    background-color: #f8fafc;
+    color: #1e293b;
+    transition: background-color 0.3s, color 0.3s;
+}
+html.dark body {
+    background-color: #0f172a;
+    color: #e2e8f0;
+}
+
+@layer components {
+    /* --- 1. GLASSMORPHISM CARDS --- */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.70);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(226, 232, 240, 0.50);
+        border-radius: 1rem;
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+    }
+    .dark .glass-card {
+        background: rgba(15, 23, 42, 0.80);
+        border-color: #1e293b;
+        box-shadow: 0 1px 2px 0 rgba(2, 6, 23, 0.50);
+    }
+
+    /* --- 2. SIDEBAR NAVIGATION ITEMS --- */
+    .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 1rem;
+        border-radius: 0.5rem;
+        color: #64748b;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: color 0.15s, background-color 0.15s;
+    }
+    .nav-item:hover {
+        color: #0f172a;
+        background-color: #f1f5f9;
+    }
+    .dark .nav-item {
+        color: #cbd5e1;
+    }
+    .dark .nav-item:hover {
+        color: #f1f5f9;
+        background-color: rgba(30, 41, 59, 0.50);
+    }
+
+    .nav-item-active {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 1rem;
+        border-radius: 0.5rem;
+        background-color: #eef2ff;
+        color: #4f46e5;
+        border-left: 4px solid #4f46e5;
+        font-weight: 600;
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
+    }
+    .dark .nav-item-active {
+        background-color: rgba(79, 70, 229, 0.15);
+        color: #a5b4fc;
+        border-left-color: #818cf8;
+    }
+
+    /* --- 3. DASHBOARD TYPOGRAPHY --- */
+    .dashboard-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        color: #1e293b;
+    }
+    .dark .dashboard-title {
+        color: #ffffff;
+    }
+    .dashboard-subtitle {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #64748b;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+    .dark .dashboard-subtitle {
+        color: #cbd5e1;
+    }
+
+    /* --- 4. GLOBAL BODY --- */
+    .mv-body {
+        background-color: #ffffff;
+    }
+    .dark .mv-body {
+        background-color: #020617;
+    }
+
+    /* --- 5. SHELL / LAYOUT --- */
+    .mv-shell {
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        max-width: 1400px;
+        padding: 1.5rem 1rem;
+    }
+    .mv-surface {
+        border-radius: 1rem;
+        border: 1px solid rgba(255,255,255,0.70);
+        background: rgba(255,255,255,0.80);
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
+        backdrop-filter: blur(12px);
+    }
+
+    /* --- 6. NAV PILLS (used in other pages) --- */
+    .mv-nav-pill {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 9999px;
+        border: 1px solid #e2e8f0;
+        background: #fff;
+        padding: 6px 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #64748b;
+        transition: all 0.2s;
+    }
+    .mv-nav-pill:hover {
+        border-color: #22d3ee;
+        background: #ecfeff;
+        color: #0e7490;
+    }
+    .mv-nav-pill-active {
+        border-color: #22d3ee;
+        background: #cffafe;
+        color: #0e7490;
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
+    }
+    .mv-nav-danger {
+        border: 1px solid #fecaca;
+        background: #fef2f2;
+        color: #be123c;
+    }
+    .mv-nav-danger:hover {
+        border-color: #fca5a5;
+        background: #fee2e2;
+    }
+
+    /* --- 7. PAGE ENTRANCE ANIMATION --- */
+    .mv-page-enter {
+        animation: mvPageEnter 0.42s ease-out;
+    }
+    @keyframes mvPageEnter {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- 8. PRIORITY PIN BADGES --- */
+    .priority-pin {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        border: 1px solid transparent;
+    }
+    .priority-pin.pin-urgent  { background: #fef2f2; color: #dc2626; border-color: #fca5a5; }
+    .priority-pin.pin-high    { background: #fff7ed; color: #ea580c; border-color: #fdba74; }
+    .priority-pin.pin-medium  { background: #fefce8; color: #ca8a04; border-color: #fde047; }
+    .priority-pin.pin-low     { background: #f0fdf4; color: #16a34a; border-color: #86efac; }
+
+    .dark .priority-pin.pin-urgent  { background: rgba(220, 38, 38, 0.15); color: #fca5a5; border-color: rgba(220, 38, 38, 0.3); }
+    .dark .priority-pin.pin-high    { background: rgba(234, 88, 12, 0.15); color: #fdba74; border-color: rgba(234, 88, 12, 0.3); }
+    .dark .priority-pin.pin-medium  { background: rgba(202, 138, 4, 0.15); color: #fde047; border-color: rgba(202, 138, 4, 0.3); }
+    .dark .priority-pin.pin-low     { background: rgba(22, 163, 74, 0.15); color: #86efac; border-color: rgba(22, 163, 74, 0.3); }
+
+    /* --- 9. SIDEBAR TOGGLE TRANSITION --- */
+    #mv-sidebar-wrapper {
+        transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                    opacity 0.3s ease,
+                    margin 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+        will-change: width;
+    }
+    #mv-sidebar-wrapper.mv-sidebar-collapsed {
+        width: 0 !important;
+        opacity: 0;
+        pointer-events: none;
+        margin: 0 !important;
+    }
+
+    /* --- 10. DASHBOARD REVEAL ANIMATION --- */
+    @media (prefers-reduced-motion: no-preference) {
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: dashboardReveal 0.45s ease-out forwards;
+        }
+        .delay-1 { animation-delay: 0.05s; }
+        .delay-2 { animation-delay: 0.1s; }
+        .delay-3 { animation-delay: 0.15s; }
+        .delay-4 { animation-delay: 0.2s; }
+
+        @keyframes dashboardReveal {
+            to { opacity: 1; transform: translateY(0); }
+        }
+    }
+
+    /* --- 11. DARK MODE FORM FIELDS --- */
+    .dark .form-input,
+    .dark select.form-input,
+    .dark textarea.form-input {
+        background-color: #1e293b;
+        color: #fff;
+        border-color: #475569;
+    }
+    .dark .form-input::placeholder { color: #94a3b8; }
+    .dark .form-input:disabled     { background-color: #334155; color: #94a3b8; }
+    .dark .form-input:focus        { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.3); }
+
+    /* --- 12. TIMELINE (Activity Feed) --- */
+    .activity-timeline {
+        position: relative;
+    }
+    .activity-timeline::before {
+        content: '';
+        position: absolute;
+        top: 6px;
+        bottom: 6px;
+        left: 7px;
+        width: 1.5px;
+        background: #e2e8f0;
+        border-radius: 9999px;
+    }
+    .dark .activity-timeline::before {
+        background: rgba(71, 85, 105, 0.4);
+    }
+    .activity-timeline .timeline-dot {
+        width: 10px;
+        height: 10px;
+        min-width: 10px;
+        border-radius: 9999px;
+        position: relative;
+        z-index: 10;
+        margin-top: 5px;
+    }
+
+    /* --- 13. CHATBOT PANEL --- */
+    .mv-chatbot-root {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 60;
+    }
+    .mv-chatbot-launcher {
+        position: relative;
+        width: 62px;
+        height: 62px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #c4b5fd;
+        background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+        color: #fff;
+        font-size: 12px;
+        font-weight: 700;
+        border-radius: 999px;
+        padding: 0;
+        box-shadow: 0 14px 24px rgba(79, 70, 229, 0.35);
+        cursor: pointer;
+    }
+    .mv-chatbot-launcher-dot {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: #ef4444;
+        border: 2px solid #fff;
+    }
+    .mv-chatbot-launcher-dot.is-hidden { display: none; }
+    .mv-chatbot-panel {
+        width: min(420px, calc(100vw - 24px));
+        height: min(620px, calc(100vh - 96px));
+        border-radius: 16px;
+        border: 1px solid #ddd6fe;
+        background: #f8f7ff;
+        box-shadow: 0 22px 44px rgba(15, 23, 42, 0.2);
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+    .mv-chatbot-panel.is-open { display: flex; }
+    .mv-chatbot-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        color: #fff;
+        padding: 12px 14px;
+    }
+    .mv-chatbot-title    { font-size: 14px; font-weight: 800; line-height: 1.2; }
+    .mv-chatbot-subtitle { font-size: 11px; opacity: 0.92; margin-top: 2px; }
+    .mv-chatbot-language-wrap { display: inline-flex; gap: 6px; margin-top: 2px; }
+    .mv-chatbot-language {
+        border: 1px solid rgba(255, 255, 255, 0.45);
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        border-radius: 999px;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 3px 8px;
+        cursor: pointer;
+    }
+    .mv-chatbot-language.is-active { background: #fff; color: #4f46e5; border-color: #fff; }
+    .mv-chatbot-close {
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        color: #fff;
+        background: transparent;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1;
+        padding: 6px 8px;
+        cursor: pointer;
+    }
+    .mv-chatbot-quick-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 10px 12px;
+        border-bottom: 1px solid #ddd6fe;
+        background: #fff;
+    }
+    .mv-chatbot-quick {
+        border: 1px solid #c4b5fd;
+        background: #f5f3ff;
+        color: #5b21b6;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 11px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+    .mv-chatbot-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 12px;
+        background: #f8f7ff;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    .mv-chatbot-message {
+        border-radius: 12px;
+        padding: 10px;
+        font-size: 12px;
+        line-height: 1.45;
+        border: 1px solid #e2e8f0;
+    }
+    .mv-chatbot-message-user {
+        align-self: flex-end;
+        background: #ede9fe;
+        border-color: #c4b5fd;
+        color: #4c1d95;
+        max-width: 85%;
+        font-weight: 600;
+    }
+    .mv-chatbot-message-bot {
+        align-self: flex-start;
+        background: #ffffff;
+        border-color: #e2e8f0;
+        color: #1f2937;
+        max-width: 100%;
+    }
+    .mv-chatbot-message-title    { font-weight: 800; color: #1e1b4b; margin-bottom: 4px; }
+    .mv-chatbot-message-subtitle { font-weight: 700; color: #374151; margin-top: 8px; margin-bottom: 2px; }
+    .mv-chatbot-message-text     { color: #334155; }
+    .mv-chatbot-step-list { margin-left: 18px; list-style: decimal; display: grid; gap: 2px; }
+    .mv-chatbot-links     { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+    .mv-chatbot-link-pill  {
+        border: 1px solid #c4b5fd;
+        border-radius: 999px;
+        background: #f5f3ff;
+        color: #5b21b6;
+        padding: 3px 9px;
+        font-size: 11px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+    .mv-chatbot-form {
+        border-top: 1px solid #ddd6fe;
+        background: #fff;
+        padding: 10px;
+        display: flex;
+        gap: 8px;
+    }
+    .mv-chatbot-input {
+        flex: 1;
+        border: 1px solid #cbd5e1;
+        border-radius: 10px;
+        font-size: 12px;
+        padding: 9px 10px;
+        outline: none;
+    }
+    .mv-chatbot-input:focus {
+        border-color: #8b5cf6;
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+    }
+    .mv-chatbot-send {
+        border: 1px solid #7c3aed;
+        background: #7c3aed;
+        color: #fff;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 9px 12px;
+        cursor: pointer;
+    }
+
+    @media (max-width: 640px) {
+        .mv-chatbot-root { right: 10px; bottom: 10pxorwards;
+        }
+        .delay-1 { animation-delay: 0.05s; }
+        .delay-2 { animation-delay: 0.1s; }
+        .delay-3 { animation-delay: 0.15s; }
+        .delay-4 { animation-delay: 0.2s; }
+
+        @keyframes dashboardReveal {
+            to { opacity: 1; transform: translateY(0); }
+        }
+    }
+
+    /* --- 11. DARK MODE FORM FIELDS --- */
+    .dark .form-input,
+    .dark select.form-input,
+    .dark textarea.form-input {
+        background-color: #1e293b;
+        color: #fff;
+        border-color: #475569;
+    }
+    .dark .form-input::placeholder { color: #94a3b8; }
+    .dark .form-input:disabled     { background-color: #334155; color: #94a3b8; }
+    .dark .form-input:focus        { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.3); }
+
+    /* --- 12. TIMELINE (Activity Feed) --- */
+    .activity-timeline {
+        position: relative;
+    }
+    .activity-timeline::before {
+        content: '';
+        position: absolute;
+        top: 6px;
+        bottom: 6px;
+        left: 7px;
+        width: 1.5px;
+        background: #e2e8f0;
+        border-radius: 9999px;
+    }
+    .dark .activity-timeline::before {
+        background: rgba(71, 85, 105, 0.4);
+    }
+    .activity-timeline .timeline-dot {
+        width: 10px;
+        height: 10px;
+        min-width: 10px;
+        border-radius: 9999px;
+        position: relative;
+        z-index: 10;
+        margin-top: 5px;
+    }
+
+    /* --- 13. CHATBOT PANEL --- */
+    .mv-chatbot-root {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 60;
+    }
+    .mv-chatbot-launcher {
+        position: relative;
+        width: 62px;
+        height: 62px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #c4b5fd;
+        background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+        color: #fff;
+        font-size: 12px;
+        font-weight: 700;
+        border-radius: 999px;
+        padding: 0;
+        box-shadow: 0 14px 24px rgba(79, 70, 229, 0.35);
+        cursor: pointer;
+    }
+    .mv-chatbot-launcher-dot {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: #ef4444;
+        border: 2px solid #fff;
+    }
+    .mv-chatbot-launcher-dot.is-hidden { display: none; }
+    .mv-chatbot-panel {
+        width: min(420px, calc(100vw - 24px));
+        height: min(620px, calc(100vh - 96px));
+        border-radius: 16px;
+        border: 1px solid #ddd6fe;
+        background: #f8f7ff;
+        box-shadow: 0 22px 44px rgba(15, 23, 42, 0.2);
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+    .mv-chatbot-panel.is-open { display: flex; }
+    .mv-chatbot-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        color: #fff;
+        padding: 12px 14px;
+    }
+    .mv-chatbot-title    { font-size: 14px; font-weight: 800; line-height: 1.2; }
+    .mv-chatbot-subtitle { font-size: 11px; opacity: 0.92; margin-top: 2px; }
+    .mv-chatbot-language-wrap { display: inline-flex; gap: 6px; margin-top: 2px; }
+    .mv-chatbot-language {
+        border: 1px solid rgba(255, 255, 255, 0.45);
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        border-radius: 999px;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 3px 8px;
+        cursor: pointer;
+    }
+    .mv-chatbot-language.is-active { background: #fff; color: #4f46e5; border-color: #fff; }
+    .mv-chatbot-close {
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        color: #fff;
+        background: transparent;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1;
+        padding: 6px 8px;
+        cursor: pointer;
+    }
+    .mv-chatbot-quick-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 10px 12px;
+        border-bottom: 1px solid #ddd6fe;
+        background: #fff;
+    }
+    .mv-chatbot-quick {
+        border: 1px solid #c4b5fd;
+        background: #f5f3ff;
+        color: #5b21b6;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 11px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+    .mv-chatbot-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 12px;
+        background: #f8f7ff;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    .mv-chatbot-message {
+        border-radius: 12px;
+        padding: 10px;
+        font-size: 12px;
+        line-height: 1.45;
+        border: 1px solid #e2e8f0;
+    }
+    .mv-chatbot-message-user {
+        align-self: flex-end;
+        background: #ede9fe;
+        border-color: #c4b5fd;
+        color: #4c1d95;
+        max-width: 85%;
+        font-weight: 600;
+    }
+    .mv-chatbot-message-bot {
+        align-self: flex-start;
+        background: #ffffff;
+        border-color: #e2e8f0;
+        color: #1f2937;
+        max-width: 100%;
+    }
+    .mv-chatbot-message-title    { font-weight: 800; color: #1e1b4b; margin-bottom: 4px; }
+    .mv-chatbot-message-subtitle { font-weight: 700; color: #374151; margin-top: 8px; margin-bottom: 2px; }
+    .mv-chatbot-message-text     { color: #334155; }
+    .mv-chatbot-step-list { margin-left: 18px; list-style: decimal; display: grid; gap: 2px; }
+    .mv-chatbot-links     { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+    .mv-chatbot-link-pill  {
+        border: 1px solid #c4b5fd;
+        border-radius: 999px;
+        background: #f5f3ff;
+        color: #5b21b6;
+        padding: 3px 9px;
+        font-size: 11px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+    .mv-chatbot-form {
+        border-top: 1px solid #ddd6fe;
+        background: #fff;
+        padding: 10px;
+        display: flex;
+        gap: 8px;
+    }
+    .mv-chatbot-input {
+        flex: 1;
+        border: 1px solid #cbd5e1;
+        border-radius: 10px;
+        font-size: 12px;
+        padding: 9px 10px;
+        outline: none;
+    }
+    .mv-chatbot-input:focus {
+        border-color: #8b5cf6;
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+    }
+    .mv-chatbot-send {
+        border: 1px solid #7c3aed;
+        background: #7c3aed;
+        color: #fff;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 9px 12px;
+        cursor: pointer;
+    }
+
+    @media (max-width: 640px) {
+        .mv-chatbot-root { right: 10px; bottom: 10px; }
+        .mv-chatbot-panel { width: calc(100vw - 20px); height: min(70vh, 560px); }
+    }
+}
