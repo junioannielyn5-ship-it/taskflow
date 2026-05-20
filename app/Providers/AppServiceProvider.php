@@ -10,6 +10,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use App\Modules\Tasks\Models\Task;
 use App\Modules\Tasks\Observers\TaskObserver;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (str_starts_with(config('app.url'), 'http://')) {
+            URL::forceScheme('http');
+        }
+
         $this->configureDefaults();
 
         Paginator::useTailwind();

@@ -43,15 +43,34 @@
         </div>
 
         <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h2 class="mb-3 text-lg font-semibold text-slate-800">Recent Tasks</h2>
+            <h2 class="mb-3 text-lg font-semibold text-slate-800">Task List</h2>
             @if($project->tasks->isEmpty())
-                <p class="text-sm text-slate-500">No tasks yet for this project.</p>
+                <p class="text-sm text-slate-500">No tasks found for this project.</p>
             @else
                 <ul class="divide-y divide-slate-100">
                     @foreach($project->tasks as $task)
-                        <li class="py-2 text-sm">
-                            <a href="{{ route('tasks.show', $task) }}" class="font-medium text-blue-600 hover:underline">{{ $task->title }}</a>
-                            <p class="text-xs text-slate-500">{{ ucfirst(str_replace('_', ' ', $task->status ?? 'todo')) }} · {{ strtoupper($task->priority ?? 'medium') }}</p>
+                        @php
+                            $taskNumber = $task->task_no ?: sprintf('TSK-%05d', $task->id);
+                        @endphp
+                        <li class="py-3 text-sm">
+                            <div class="flex flex-col gap-2 md:flex-row md:items-start md:justify-between md:gap-4">
+                                <div class="min-w-0">
+                                    <a href="{{ route('tasks.show', $task) }}" class="font-medium text-blue-600 hover:underline">{{ $taskNumber }} — {{ $task->title }}</a>
+                                    <p class="mt-1 text-xs text-slate-500">{{ ucfirst(str_replace('_', ' ', $task->status ?? 'todo')) }} · {{ strtoupper($task->priority ?? 'medium') }}</p>
+                                    <p class="mt-2 text-xs text-slate-600 dark:text-slate-300">
+                                        <span class="font-semibold text-slate-700">Deliverables:</span>
+                                        {{ $task->deliverables ?: '-' }}
+                                    </p>
+                                </div>
+                                <div class="flex items-center gap-2 md:justify-end">
+                                    @if($task->document_link)
+                                        <a href="{{ $task->document_link }}" target="_blank" class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-200">Attach Files</a>
+                                    @else
+                                        <span class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-500">No attachment</span>
+                                    @endif
+                                    <a href="{{ route('tasks.kanban') }}" class="inline-flex items-center rounded-full bg-emerald-500 px-3 py-1 text-xs font-semibold text-white hover:bg-emerald-600">Approve</a>
+                                </div>
+                            </div>
                         </li>
                     @endforeach
                 </ul>

@@ -30,7 +30,7 @@ Artisan::command('tasks:send-delayed-alerts', function () {
 
     foreach ($delayedTasks as $task) {
         // Notify all assignees (the people the task is given to)
-        foreach ($task->assignees as $assignee) {
+        foreach ($task->assignees ?? [] as $assignee) {
             $existing = $tasksByUser->get($assignee->id, [
                 'user' => $assignee,
                 'tasks' => collect(),
@@ -292,7 +292,7 @@ Artisan::command('tasks:send-deadline-alerts', function () {
         $creatorAlertSent = false;
 
         // Notify all assignees (the people the task is given to)
-        foreach ($task->assignees as $assignee) {
+        foreach ($task->assignees ?? [] as $assignee) {
             try {
                 $assignee->notify(new TaskDeadlineAlertNotification($task, $level, $daysLeft, $managerCcEmails, $deadlineBccEmails));
                 $sentCount++;
@@ -451,7 +451,7 @@ Artisan::command('tasks:send-overdue-reminders', function () {
         $creatorAlertSent = false;
 
         // Notify all assignees (the people the task is given to)
-        foreach ($task->assignees as $assignee) {
+        foreach ($task->assignees ?? [] as $assignee) {
             try {
                 $assignee->notify(new TaskDeadlineAlertNotification($task, $level, $daysLeft, $managerCcEmails, $deadlineBccEmails));
                 $sentCount++;

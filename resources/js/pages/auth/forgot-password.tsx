@@ -8,7 +8,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
 import { login } from '@/routes';
-import { email } from '@/routes/password';
 
 export default function ForgotPassword({ status }: { status?: string }) {
     return (
@@ -24,8 +23,22 @@ export default function ForgotPassword({ status }: { status?: string }) {
                 </div>
             )}
 
+            <div className="rounded-xl border border-amber-300/40 bg-amber-500/10 px-4 py-3 text-xs leading-relaxed text-amber-100">
+                <p className="font-semibold uppercase tracking-wide text-amber-200">Local Testing Tip</p>
+                <p className="mt-1">
+                    If reset email is not delivered, open{' '}
+                    <a
+                        href="/dev/password-reset-link?email=admin@test.com"
+                        className="font-semibold text-amber-200 underline underline-offset-4 hover:text-amber-50"
+                    >
+                        direct reset link (local only)
+                    </a>
+                    {' '}using your account email.
+                </p>
+            </div>
+
             <div className="space-y-6">
-                <Form {...email.form()}>
+                <Form method="post" action="/forgot-password-local">
                     {({ processing, errors }) => (
                         <>
                             <div className="grid gap-2">

@@ -53,14 +53,12 @@ class AdminController
     public function createUser()
     {
         $this->authorizeAdmin();
-
         return view('users.create');
     }
 
     public function storeUser(Request $request)
     {
         $this->authorizeAdmin();
-
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',

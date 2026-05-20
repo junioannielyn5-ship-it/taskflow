@@ -97,9 +97,26 @@ export default function AuthSimpleLayout({
 
                 {/* Glassmorphism card */}
                 <div className="relative z-10 w-full max-w-[420px] px-6 sm:px-0">
-                    <div className="rounded-[2rem] border border-white/[0.08] bg-white/[0.04] p-8 shadow-[0_8px_60px_rgba(0,0,0,0.4)] backdrop-blur-xl sm:p-10">
+                    <div className="rounded-[2rem] border border-white/[0.12] bg-white/[0.08] p-8 shadow-[0_8px_60px_rgba(0,0,0,0.4)] backdrop-blur-xl sm:p-10
+                        [&_[data-slot=label]]:text-slate-200
+                        [&_[data-slot=input]]:bg-white/[0.08]
+                        [&_[data-slot=input]]:border-white/20
+                        [&_[data-slot=input]]:text-white
+                        [&_[data-slot=input]]:placeholder:text-slate-400
+                        [&_[data-slot=input]]:focus-visible:border-indigo-400
+                        [&_[data-slot=input]]:focus-visible:ring-indigo-400/30
+                        [&_[data-slot=button]]:bg-gradient-to-r
+                        [&_[data-slot=button]]:from-indigo-600
+                        [&_[data-slot=button]]:to-violet-600
+                        [&_[data-slot=button]]:text-white
+                        [&_[data-slot=button]]:hover:from-indigo-500
+                        [&_[data-slot=button]]:hover:to-violet-500
+                        [&_[data-slot=button]]:shadow-[0_8px_30px_rgba(79,70,229,0.35)]
+                        [&_.text-muted-foreground]:text-slate-300
+                        [&_a]:text-indigo-300
+                        [&_a]:hover:text-indigo-200">
                         {/* Inner subtle border highlight */}
-                        <div className="pointer-events-none absolute inset-[1px] rounded-[calc(2rem-1px)] border border-white/[0.05]" />
+                        <div className="pointer-events-none absolute inset-[1px] rounded-[calc(2rem-1px)] border border-white/[0.06]" />
 
                         <div className="relative">
                             <h2 className="text-[1.6rem] font-bold tracking-tight text-white">{title}</h2>

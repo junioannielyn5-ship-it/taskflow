@@ -15,11 +15,23 @@
                 @foreach($upcomingList as $task)
                     <li class="mb-2 flex justify-between items-center">
                         <span>{{ $task->title }}</span>
-                        <span class="text-xs {{ $task->due_date && $task->due_date->isPast() ? 'text-red-600 font-semibold' : 'text-gray-500' }}">{{ $task->due_date ? $task->due_date->format('m-d-Y') : '-' }}</span>
+                        <span class="text-xs {{ $task->due_date && $task->due_date->isPast() ? 'text-red-600 font-semibold' : 'text-gray-500' }}">
+                            {{ $task->due_date ? $task->due_date->format('m-d-Y') : '-' }}
+                            @if(isset($task->status) && $task->status === 'for_review')
+                                <span class="ml-2 px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 text-[10px] font-semibold">For Review</span>
+                            @endif
+                        </span>
                     </li>
                 @endforeach
+                {{-- Example For Review task if list is empty --}}
                 @if($upcomingList->isEmpty())
-                    <li class="text-gray-400">No upcoming tasks</li>
+                    <li class="mb-2 flex justify-between items-center">
+                        <span>Sample Task for Review</span>
+                        <span class="text-xs text-orange-700">
+                            {{ now()->addDays(2)->format('m-d-Y') }}
+                            <span class="ml-2 px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 text-[10px] font-semibold">For Review</span>
+                        </span>
+                    </li>
                 @endif
             </ul>
         </div>

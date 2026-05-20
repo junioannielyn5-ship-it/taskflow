@@ -6,6 +6,7 @@ use App\Modules\Projects\Models\Project;
 use App\Modules\Admin\Models\SystemSetting;
 use App\Modules\Tasks\Models\Task;
 use App\Modules\Workflow\Models\TaskActivityLog;
+use App\Modules\Workflow\Models\Meeting;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -179,14 +180,14 @@ class DashboardController
                         });
                 })->where('status', 'done'),
                 'tasks as technical_tasks_count' => fn ($query) => $query->where(function ($query) {
-                    $technicalPeople = ['edcel ching', 'rupert moreno', 'ronnel gusi', 'samuel tabuzo', 'jobert vallejos', 'reuben guevara', 'jomer delgado', 'ryan fallan', 'carlo roldan'];
+                    $technicalPeople = ['edcel ching', 'rupert moreno', 'ronnel gusi', 'samuel tabuzo', 'jobert vallejos', 'reuben guevara', 'jomer delgado', 'ryan fallan', 'carlo roldan', 'yen junio'];
                     $query->where('team', 'technical')
                         ->orWhere(function ($sub) use ($technicalPeople) {
                             $sub->whereRaw('LOWER(team_in_charge) IN ('.implode(',', array_fill(0, count($technicalPeople), '?')).')', $technicalPeople);
                         });
                 }),
                 'tasks as technical_done_tasks_count' => fn ($query) => $query->where(function ($query) {
-                    $technicalPeople = ['edcel ching', 'rupert moreno', 'ronnel gusi', 'samuel tabuzo', 'jobert vallejos', 'reuben guevara', 'jomer delgado', 'ryan fallan', 'carlo roldan'];
+                    $technicalPeople = ['edcel ching', 'rupert moreno', 'ronnel gusi', 'samuel tabuzo', 'jobert vallejos', 'reuben guevara', 'jomer delgado', 'ryan fallan', 'carlo roldan', 'yen junio'];
                     $query->where('team', 'technical')
                         ->orWhere(function ($sub) use ($technicalPeople) {
                             $sub->whereRaw('LOWER(team_in_charge) IN ('.implode(',', array_fill(0, count($technicalPeople), '?')).')', $technicalPeople);
@@ -210,7 +211,7 @@ class DashboardController
                 ];
 
                 $salesPeople = ['lawrence solee', 'norman reyes', 'philip borromeo', 'vera andino'];
-                $technicalPeople = ['edcel ching', 'rupert moreno', 'ronnel gusi', 'samuel tabuzo', 'jobert vallejos', 'reuben guevara', 'jomer delgado', 'ryan fallan', 'carlo roldan'];
+                $technicalPeople = ['edcel ching', 'rupert moreno', 'ronnel gusi', 'samuel tabuzo', 'jobert vallejos', 'reuben guevara', 'jomer delgado', 'ryan fallan', 'carlo roldan', 'yen junio'];
 
                 $salesTasks = $project->tasks->filter(function ($t) use ($salesPeople) {
                     return $t->team === 'sales' || in_array(strtolower((string) $t->team_in_charge), $salesPeople, true);
@@ -292,6 +293,14 @@ class DashboardController
 
         $latestNotifications = $user->unreadNotifications()->latest()->limit(3)->get();
 
+        $upcomingMeetings = Meeting::query()
+            ->with('creator:id,name')
+            ->where('meeting_date', '>=', today())
+            ->orderBy('meeting_date')
+            ->orderBy('start_time')
+            ->take(5)
+            ->get();
+
         $adminStats = null;
         if ($user->isAdmin()) {
             $adminStats = [
@@ -308,6 +317,7 @@ class DashboardController
             'overdue' => $overdue,
             'urgentTasks' => $urgentTasks,
             'upcomingTasks' => $upcomingTasks,
+            'upcomingMeetings' => $upcomingMeetings,
             'myTasks' => $myTasks->take(10),
             'recentActivity' => $recentActivity,
             'recentActivities' => $recentActivities,
@@ -366,12 +376,11 @@ class DashboardController
             ->pluck('total', 'status')
             ->toArray();
 
-        $inProgressTotal = (int) ($statusCountsByStatus['in_progress'] ?? 0) + (int) ($statusCountsByStatus['for_review'] ?? 0);
 
         $chartData = [
             (int) ($statusCountsByStatus['todo'] ?? 0),
-            $inProgressTotal,
-            0,
+            (int) ($statusCountsByStatus['in_progress'] ?? 0),
+            (int) ($statusCountsByStatus['for_review'] ?? 0),
             (int) ($statusCountsByStatus['done'] ?? 0),
         ];
 

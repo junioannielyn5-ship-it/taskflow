@@ -17,7 +17,7 @@ class SendTaskStatusChangedNotification
         }
 
         $actorName = Auth::user()?->name;
-        $recipients = $event->task->assignees->keyBy('id');
+        $recipients = collect($event->task->assignees)->keyBy('id');
 
         if ($event->toStatus === 'for_review') {
             $managerUsers = User::query()

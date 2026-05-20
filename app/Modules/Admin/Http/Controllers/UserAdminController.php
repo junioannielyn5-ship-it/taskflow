@@ -20,7 +20,7 @@ class UserAdminController extends Controller
     {
         Gate::authorize('admin-only');
         $validated = $request->validate([
-            'role' => 'required|string|in:admin,manager,lead,member',
+            'role' => 'required|string|in:admin,lead,project_manager,manager,member,pre-sale,sales,technical,admin_support',
         ]);
         $user->syncRoles([$validated['role']]);
         return response()->json($user->fresh('roles'));

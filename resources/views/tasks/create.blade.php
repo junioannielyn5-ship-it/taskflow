@@ -339,7 +339,7 @@
 
         <div class="mb-6">
             <label for="date_received" class="block text-gray-700 dark:text-slate-300">Date Received</label>
-            <input id="date_received" type="date" name="date_received" class="form-input mt-1 block w-full" value="{{ old('date_received') }}">
+            <input id="date_received" type="date" name="date_received" class="form-input mt-1 block w-full" value="{{ old('date_received', date('Y-m-d')) }}">
             @error('date_received')
                 <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
             @enderror
@@ -861,11 +861,72 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
     const dependencyTypeSelect = document.getElementById('dependency_type');
     const referenceForm = document.getElementById('reference-inline-form');
+
+    function syncMainToReference() {
+        // Description
+        const mainDesc = document.getElementById('description');
+        const refDesc = document.getElementById('reference_description_input');
+        if (mainDesc && refDesc) refDesc.value = mainDesc.value;
+
+        // Project
+        const mainProject = document.getElementById('project_id');
+        const refProject = document.getElementById('reference_project_id_select');
+        if (mainProject && refProject) refProject.value = mainProject.value;
+
+        // Task Process
+        const mainProcess = document.getElementById('task_process');
+        const refProcess = document.getElementById('reference_task_process_select');
+        if (mainProcess && refProcess) refProcess.value = mainProcess.value;
+
+        // Date Received
+        const mainDateReceived = document.getElementById('date_received');
+        const refDateReceived = document.getElementById('reference_date_received');
+        if (mainDateReceived && refDateReceived && mainDateReceived.value) {
+            refDateReceived.value = mainDateReceived.value;
+            refDateReceived.dispatchEvent(new Event('change'));
+        }
+
+        // Attention — sync checked assignees by name
+        const assigneesBox = document.getElementById('assignees');
+        const refAttention = document.getElementById('reference_attention_select');
+        if (assigneesBox && refAttention) {
+            const checkedBoxes = assigneesBox.querySelectorAll('input[type="checkbox"]:checked');
+            const selectedNames = Array.from(checkedBoxes).map(function(cb) {
+                const lbl = cb.closest('label');
+                const sp = lbl ? lbl.querySelector('span') : null;
+                return sp ? sp.textContent.trim() : null;
+            }).filter(Boolean);
+            Array.from(refAttention.options).forEach(function(opt) {
+                opt.selected = selectedNames.includes(opt.value);
+            });
+        }
+    }
+
+    function isReferenceActive() {
+        return dependencyTypeSelect && dependencyTypeSelect.value === 'CREATE REFERENCE';
+    }
+
+    // Live sync: whenever main fields change, update reference if active
+    ['description', 'project_id', 'task_process', 'date_received'].forEach(function(fieldId) {
+        const el = document.getElementById(fieldId);
+        if (el) {
+            el.addEventListener('change', function() { if (isReferenceActive()) syncMainToReference(); });
+            el.addEventListener('input', function() { if (isReferenceActive()) syncMainToReference(); });
+        }
+    });
+
+    // Live sync: when assignees are toggled
+    const assigneesBox = document.getElementById('assignees');
+    if (assigneesBox) {
+        assigneesBox.addEventListener('change', function() { if (isReferenceActive()) syncMainToReference(); });
+    }
+
     if (dependencyTypeSelect && referenceForm) {
         dependencyTypeSelect.addEventListener('change', function () {
             if (this.value === 'CREATE REFERENCE') {
                 referenceForm.classList.remove('hidden');
                 referenceForm.style.display = 'block';
+                syncMainToReference();
             } else {
                 referenceForm.classList.add('hidden');
                 referenceForm.style.display = 'none';
@@ -875,6 +936,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (dependencyTypeSelect.value === 'CREATE REFERENCE') {
             referenceForm.classList.remove('hidden');
             referenceForm.style.display = 'block';
+            syncMainToReference();
         } else {
             referenceForm.classList.add('hidden');
             referenceForm.style.display = 'none';

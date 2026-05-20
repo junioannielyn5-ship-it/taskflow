@@ -24,4 +24,12 @@ export default defineConfig({
     esbuild: {
         jsx: 'automatic',
     },
+    // DITO MO IDADAGDAG YUNG SERVER CONFIG
+    server: {
+        host: '0.0.0.0', // Ina-allow nito ang connections from local network
+        hmr: {
+            protocol: 'ws',
+            host: '192.168.1.45', // IMPORTANT: Palitan mo ito ng mismong IPv4 address ng PC mo sa Wi-Fi
+        },
+    },
 });

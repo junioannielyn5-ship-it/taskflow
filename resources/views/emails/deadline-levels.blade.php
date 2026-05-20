@@ -13,23 +13,27 @@
     </script>
     @vite(['resources/css/app.css'])
 </head>
-<body class="min-h-screen bg-[#f8fafc] dark:bg-slate-900 text-slate-800 dark:text-slate-200">
-    <div class="mx-auto max-w-7xl px-4 py-8 md:px-6">
+<body class="min-h-screen bg-[#f8fafc] dark:bg-[#0A0F1C] text-slate-800 dark:text-slate-200">
+    <div class="relative mx-auto max-w-7xl px-4 py-8 md:px-6">
+        <div class="pointer-events-none absolute right-0 top-0 h-64 w-64 translate-x-1/3 -translate-y-1/3 rounded-full bg-blue-100/40 blur-3xl dark:hidden"></div>
+        <div class="pointer-events-none absolute bottom-0 left-20 h-52 w-52 rounded-full bg-slate-200/30 blur-3xl dark:hidden"></div>
         <div class="mb-6 flex flex-wrap items-start justify-between gap-3">
             <div>
-                <h1 class="text-2xl font-bold text-slate-800 dark:text-white">Email Alerts Overview</h1>
-                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Task deadline levels shown when clicking Email: Warning, Critical, Reminder, Overdue.</p>
-                <p class="mt-1 text-xs text-slate-400 dark:text-slate-500">As of {{ $today->format('M d, Y') }}</p>
+                <div class="inline-flex rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-5 py-3 shadow-md" style="border-left: 4px solid #2563eb;">
+                    <h1 class="text-2xl font-bold text-slate-800 dark:text-slate-100">Email Alerts Overview</h1>
+                </div>
+                <p class="mt-2 text-sm text-slate-500 dark:text-slate-300">Task deadline levels shown when clicking Email: Warning, Critical, Reminder, Overdue.</p>
+                <p class="mt-1 text-xs text-slate-400 dark:text-slate-400">As of {{ $today->format('M d, Y') }}</p>
             </div>
             <div class="flex gap-2">
                 {{-- Dark Mode Toggle --}}
-                <button onclick="toggleDarkMode()" class="rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-slate-500 dark:text-amber-400 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors" title="Toggle Dark Mode">
+                <button onclick="toggleDarkMode()" class="rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-slate-500 dark:text-amber-300 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors" title="Toggle Dark Mode">
                     <svg class="h-5 w-5 hidden dark:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" /></svg>
                     <svg class="h-5 w-5 block dark:hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" /></svg>
                 </button>
-                <a href="{{ route('email.shortcut', ['send_test' => 1, 'to' => auth()->user()?->email]) }}" class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">Send Test Email</a>
-                <a href="#overdue-reminder-status" class="rounded-lg border border-emerald-300 dark:border-emerald-600 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-medium text-emerald-700 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-700">Open Overdue Status</a>
-                <a href="{{ route('dashboard') }}" class="rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700">Back to Dashboard</a>
+                <a href="{{ route('email.shortcut', ['send_test' => 1, 'to' => auth()->user()?->email]) }}" class="rounded-lg bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm">Send Test Email</a>
+                <a href="#overdue-reminder-status" class="rounded-lg border border-emerald-300/50 dark:border-emerald-400/35 bg-white dark:bg-white/5 px-4 py-2 text-sm font-medium text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-500/10">Open Overdue Status</a>
+                <a href="{{ route('dashboard') }}" class="rounded-lg border border-slate-300 dark:border-white/20 bg-white dark:bg-white/5 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/10">Back to Dashboard</a>
             </div>
         </div>
 
@@ -45,28 +49,28 @@
             </div>
         @endif
 
-        <details id="overdue-reminder-status" open class="mb-4 rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/30 p-4">
+        <details id="overdue-reminder-status" open class="mb-4 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-md">
             <summary class="cursor-pointer list-none text-sm font-semibold text-emerald-900 dark:text-emerald-300">
                 <span class="inline-flex items-center gap-2">Overdue Reminder Status</span>
             </summary>
-            <p class="mt-2 text-xs text-emerald-700 dark:text-emerald-400">Latest automatic overdue email reminder run details.</p>
-            <div class="mt-2 grid grid-cols-1 gap-2 text-xs text-slate-700 dark:text-slate-300 md:grid-cols-2">
-                <p><span class="font-semibold text-slate-900 dark:text-slate-100">Last Run:</span> {{ !empty($overdueReminderLastRunAt) ? \Carbon\Carbon::parse($overdueReminderLastRunAt)->format('M d, Y h:i A') : 'Not yet recorded' }}</p>
-                <p><span class="font-semibold text-slate-900 dark:text-slate-100">Emails Sent:</span> {{ $overdueReminderLastSentCount ?? 0 }}</p>
+            <p class="mt-2 text-xs text-emerald-700 dark:text-emerald-300">Latest automatic overdue email reminder run details.</p>
+            <div class="mt-2 grid grid-cols-1 gap-2 text-xs text-slate-600 dark:text-slate-300 md:grid-cols-2">
+                <p><span class="font-semibold text-slate-800 dark:text-slate-100">Last Run:</span> {{ !empty($overdueReminderLastRunAt) ? \Carbon\Carbon::parse($overdueReminderLastRunAt)->format('M d, Y h:i A') : 'Not yet recorded' }}</p>
+                <p><span class="font-semibold text-slate-800 dark:text-slate-100">Emails Sent:</span> {{ $overdueReminderLastSentCount ?? 0 }}</p>
             </div>
             <div class="mt-3 flex flex-wrap gap-2 text-xs">
-                <a href="#mail-header-preview" class="rounded border border-emerald-300 dark:border-emerald-600 bg-white dark:bg-slate-800 px-3 py-1.5 font-medium text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-slate-700">View Email Details</a>
+                <a href="#mail-header-preview" class="rounded border border-emerald-300 dark:border-emerald-400/40 bg-emerald-50 dark:bg-emerald-500/10 px-3 py-1.5 font-medium text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-500/20">View Email Details</a>
                 @if(isset($toPreview) && $toPreview->isNotEmpty())
-                    <a href="mailto:{{ $toPreview->first() }}" class="rounded border border-sky-300 dark:border-sky-600 bg-white dark:bg-slate-800 px-3 py-1.5 font-medium text-sky-700 dark:text-sky-400 hover:bg-sky-100 dark:hover:bg-slate-700">Open Email App</a>
+                    <a href="mailto:{{ $toPreview->first() }}" class="rounded border border-sky-300 dark:border-sky-400/40 bg-sky-50 dark:bg-sky-500/10 px-3 py-1.5 font-medium text-sky-700 dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-500/20">Open Email App</a>
                 @endif
             </div>
         </details>
 
-        <div id="email-overview-tabs" class="mb-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 shadow-sm">
+        <div id="email-overview-tabs" class="mb-4 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 shadow-md">
             <div class="flex flex-wrap gap-2" role="tablist" aria-label="Email Overview Tabs">
                 <button
                     type="button"
-                    class="overview-tab-btn rounded-full border border-slate-300 bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white"
+                    class="overview-tab-btn rounded-full border border-blue-300 dark:border-blue-400/40 bg-blue-100 dark:bg-blue-500/20 px-3 py-1.5 text-xs font-semibold text-blue-700 dark:text-blue-200"
                     data-overview-target="overview-panel-recipients"
                     role="tab"
                     aria-selected="true"
@@ -75,7 +79,7 @@
                 </button>
                 <button
                     type="button"
-                    class="overview-tab-btn rounded-full border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                    class="overview-tab-btn rounded-full border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600"
                     data-overview-target="overview-panel-deadlines"
                     role="tab"
                     aria-selected="false"
@@ -87,7 +91,7 @@
 
         <div id="overview-panel-recipients" class="overview-tab-panel" role="tabpanel">
 
-        <div id="mail-header-preview" class="mb-4 rounded-xl border border-sky-200 dark:border-sky-800 bg-sky-50 dark:bg-sky-950/30 p-4 scroll-mt-24">
+        <div id="mail-header-preview" class="mb-4 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 scroll-mt-24 shadow-md">
             @php
                 $senderName = null;
                 $senderEmail = null;
@@ -99,13 +103,13 @@
                 }
             @endphp
 
-            <h2 class="text-sm font-semibold text-sky-900">Mail Header Preview (Presentation View)</h2>
-            <p class="mt-1 text-xs text-sky-700">This shows the exact sender and recipients used by automatic deadline alert emails.</p>
+            <h2 class="text-sm font-semibold text-sky-700 dark:text-sky-300">Mail Header Preview (Presentation View)</h2>
+            <p class="mt-1 text-xs text-slate-600 dark:text-slate-300">This shows the exact sender and recipients used by automatic deadline alert emails.</p>
 
             <div class="mt-3 space-y-2">
-                <div class="rounded-lg border border-sky-200 bg-white/80 px-3 py-2 text-xs text-slate-700">
-                    <p class="font-semibold text-slate-900">From (Sender)</p>
-                    <p class="mt-0.5 text-slate-500">This is the email account that sends the alert.</p>
+                <div class="rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-3 py-2 text-xs text-slate-600 dark:text-slate-300">
+                    <p class="font-semibold text-slate-800 dark:text-slate-100">From (Sender)</p>
+                    <p class="mt-0.5 text-slate-500 dark:text-slate-400">This is the email account that sends the alert.</p>
                     <div class="mt-1">
                         @if($senderEmail)
                             @if(!empty($senderName))
@@ -120,9 +124,9 @@
                     </div>
                 </div>
 
-                <div class="rounded-lg border border-sky-200 bg-white/80 px-3 py-2 text-xs text-slate-700">
-                    <p class="font-semibold text-slate-900">To (Primary Recipient)</p>
-                    <p class="mt-0.5 text-slate-500">Main receiver(s) of the alert.</p>
+                <div class="rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-3 py-2 text-xs text-slate-600 dark:text-slate-300">
+                    <p class="font-semibold text-slate-800 dark:text-slate-100">To (Primary Recipient)</p>
+                    <p class="mt-0.5 text-slate-500 dark:text-slate-400">Main receiver(s) of the alert.</p>
                     @if(isset($toPreview) && $toPreview->isNotEmpty())
                         <div class="mt-1 inline-flex flex-wrap gap-1.5">
                             @foreach($toPreview as $toEmail)
@@ -134,9 +138,9 @@
                     @endif
                 </div>
 
-                <div class="rounded-lg border border-sky-200 bg-white/80 px-3 py-2 text-xs text-slate-700">
-                    <p class="font-semibold text-slate-900">CC (Visible Copy)</p>
-                    <p class="mt-0.5 text-slate-500">Additional recipient(s) visible to everyone in the email thread.</p>
+                <div class="rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-3 py-2 text-xs text-slate-600 dark:text-slate-300">
+                    <p class="font-semibold text-slate-800 dark:text-slate-100">CC (Visible Copy)</p>
+                    <p class="mt-0.5 text-slate-500 dark:text-slate-400">Additional recipient(s) visible to everyone in the email thread.</p>
                     @if(isset($ccPreview) && $ccPreview->isNotEmpty())
                         <div class="mt-1 inline-flex flex-wrap gap-1.5">
                             @foreach($ccPreview as $ccEmail)
@@ -148,9 +152,9 @@
                     @endif
                 </div>
 
-                <div class="rounded-lg border border-sky-200 bg-white/80 px-3 py-2 text-xs text-slate-700">
-                    <p class="font-semibold text-slate-900">BCC (Hidden Copy)</p>
-                    <p class="mt-0.5 text-slate-500">Recipient(s) that receive a copy but are hidden from other recipients.</p>
+                <div class="rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-3 py-2 text-xs text-slate-600 dark:text-slate-300">
+                    <p class="font-semibold text-slate-800 dark:text-slate-100">BCC (Hidden Copy)</p>
+                    <p class="mt-0.5 text-slate-500 dark:text-slate-400">Recipient(s) that receive a copy but are hidden from other recipients.</p>
                     <div class="mt-1">
                         @if(!empty($bccPreview))
                             <a href="mailto:{{ $bccPreview }}" class="rounded-full border border-rose-200 bg-rose-50 px-2 py-0.5 text-rose-700 hover:bg-rose-100">{{ $bccPreview }}</a>
@@ -162,9 +166,9 @@
             </div>
         </div>
 
-        <div class="mb-4 rounded-xl border border-teal-200 bg-teal-50 p-4">
-            <h2 class="text-sm font-semibold text-teal-900">Department Email Directory</h2>
-            <p class="mt-1 text-xs text-teal-700">Official contacts per team: Pre-Sales, Sales, Technical, Admin Support.</p>
+        <div class="mb-4 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-md">
+            <h2 class="text-sm font-semibold text-teal-700 dark:text-teal-300">Department Email Directory</h2>
+            <p class="mt-1 text-xs text-slate-600 dark:text-slate-300">Official contacts per team: Pre-Sales, Sales, Technical, Admin Support.</p>
 
             @if(isset($departmentEmailDirectory) && collect($departmentEmailDirectory)->isNotEmpty())
                 <div id="department-email-tabs" class="mt-3">
@@ -172,7 +176,7 @@
                         @foreach($departmentEmailDirectory as $index => $group)
                             <button
                                 type="button"
-                                class="department-tab-btn rounded-full border px-3 py-1.5 text-xs font-semibold transition {{ $index === 0 ? 'border-teal-300 bg-white text-teal-800' : 'border-teal-200 bg-teal-100 text-teal-700 hover:bg-white' }}"
+                                class="department-tab-btn rounded-full border px-3 py-1.5 text-xs font-semibold transition {{ $index === 0 ? 'border-blue-300 dark:border-blue-400/40 bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-200' : 'border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600' }}"
                                 data-tab-target="department-panel-{{ $index }}"
                                 role="tab"
                                 aria-selected="{{ $index === 0 ? 'true' : 'false' }}"
@@ -185,7 +189,7 @@
                     @foreach($departmentEmailDirectory as $index => $group)
                         <div
                             id="department-panel-{{ $index }}"
-                            class="department-tab-panel rounded-lg border border-teal-200 bg-white/80 p-3 text-xs text-slate-700 {{ $index === 0 ? '' : 'hidden' }}"
+                            class="department-tab-panel rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 p-3 text-xs text-slate-600 dark:text-slate-300 {{ $index === 0 ? '' : 'hidden' }}"
                             role="tabpanel"
                         >
                             <p class="font-semibold text-slate-900">{{ $group['department'] }}</p>
@@ -214,9 +218,9 @@
 
         <div id="overview-panel-deadlines" class="overview-tab-panel hidden" role="tabpanel">
 
-        <div class="mb-4 rounded-xl border border-indigo-200 bg-indigo-50 p-4">
-            <h2 class="text-sm font-semibold text-indigo-900">Example Email Alerts (Preview)</h2>
-            <p class="mt-1 text-xs text-indigo-700">This is the sample format of automatic email alerts so you can see what to expect per level.</p>
+        <div class="mb-4 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-md">
+            <h2 class="text-sm font-semibold text-indigo-700 dark:text-indigo-300">Example Email Alerts (Preview)</h2>
+            <p class="mt-1 text-xs text-slate-600 dark:text-slate-300">This is the sample format of automatic email alerts so you can see what to expect per level.</p>
             <div class="mt-3 grid grid-cols-1 gap-2 md:grid-cols-2">
                 <div class="rounded-lg border border-amber-200 bg-white px-3 py-2 text-xs text-slate-700">
                     <p class="font-semibold text-amber-700">WARNING</p>
@@ -238,22 +242,22 @@
         </div>
 
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-            <a href="#warning-section" class="rounded-xl border border-amber-200 bg-amber-50 p-4 transition hover:-translate-y-0.5 hover:shadow-sm">
+            <a href="#warning-section" class="rounded-xl border border-amber-300 dark:border-amber-500/35 bg-white dark:bg-slate-800 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
                 <p class="text-xs font-semibold uppercase tracking-wide text-amber-700">Warning</p>
                 <p class="mt-2 text-2xl font-bold text-amber-800">{{ $warningTasks->count() }}</p>
                 <p class="mt-1 text-xs text-amber-700">Due in 7 days</p>
             </a>
-            <a href="#critical-section" class="rounded-xl border border-orange-200 bg-orange-50 p-4 transition hover:-translate-y-0.5 hover:shadow-sm">
+            <a href="#critical-section" class="rounded-xl border border-orange-300 dark:border-orange-500/35 bg-white dark:bg-slate-800 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
                 <p class="text-xs font-semibold uppercase tracking-wide text-orange-700">Critical</p>
                 <p class="mt-2 text-2xl font-bold text-orange-800">{{ $criticalTasks->count() }}</p>
                 <p class="mt-1 text-xs text-orange-700">Due in 3 days</p>
             </a>
-            <a href="#reminder-section" class="rounded-xl border border-blue-200 bg-blue-50 p-4 transition hover:-translate-y-0.5 hover:shadow-sm">
+            <a href="#reminder-section" class="rounded-xl border border-blue-300 dark:border-blue-500/35 bg-white dark:bg-slate-800 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
                 <p class="text-xs font-semibold uppercase tracking-wide text-blue-700">Reminder</p>
                 <p class="mt-2 text-2xl font-bold text-blue-800">{{ $reminderTasks->count() }}</p>
                 <p class="mt-1 text-xs text-blue-700">Due today</p>
             </a>
-            <a href="#overdue-section" class="rounded-xl border border-rose-200 bg-rose-50 p-4 transition hover:-translate-y-0.5 hover:shadow-sm">
+            <a href="#overdue-section" class="rounded-xl border border-rose-300 dark:border-rose-500/35 bg-white dark:bg-slate-800 p-4 transition hover:-translate-y-0.5 hover:shadow-md">
                 <p class="text-xs font-semibold uppercase tracking-wide text-rose-700">Overdue</p>
                 <p class="mt-2 text-2xl font-bold text-rose-800">{{ $overdueTasks->count() }}</p>
                 <p class="mt-1 text-xs text-rose-700">Past deadline</p>
@@ -271,23 +275,23 @@
 
         <div class="mt-6 grid grid-cols-1 gap-4 xl:grid-cols-2">
             @foreach($sections as $key => $config)
-                <div id="{{ $key }}-section" class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm scroll-mt-24">
+                <div id="{{ $key }}-section" class="rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-md scroll-mt-24">
                     <div class="mb-3 flex items-center justify-between">
-                        <h2 class="text-sm font-semibold text-slate-800">{{ $config['label'] }}</h2>
+                        <h2 class="text-sm font-semibold text-slate-800 dark:text-slate-100">{{ $config['label'] }}</h2>
                         <span class="rounded-full px-2 py-1 text-xs font-semibold {{ $config['badge'] }}">{{ $config['tasks']->count() }} task(s)</span>
                     </div>
 
                     @if($config['tasks']->isEmpty())
-                        <p class="rounded-lg border border-dashed border-slate-200 bg-slate-50 px-3 py-5 text-center text-sm text-slate-500">No tasks in this level.</p>
+                        <p class="rounded-lg border border-dashed border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-3 py-5 text-center text-sm text-slate-500 dark:text-slate-300">No tasks in this level.</p>
                     @else
                         <div class="space-y-2">
                             @foreach($config['tasks']->take(8) as $task)
-                                <a href="{{ route('tasks.show', $task) }}" class="block rounded-lg border border-slate-200 px-3 py-2 text-sm hover:bg-slate-50 {{ $config['row'] }}">
+                                <a href="{{ route('tasks.show', $task) }}" class="block rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-3 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-600 {{ $config['row'] }}">
                                     <div class="flex items-center justify-between gap-2">
-                                        <p class="font-medium text-slate-800">{{ $task->title }}</p>
-                                        <span class="text-xs text-slate-500">{{ optional($task->due_date)->format('M d, Y') }}</span>
+                                        <p class="font-medium text-slate-800 dark:text-slate-100">{{ $task->title }}</p>
+                                        <span class="text-xs text-slate-500 dark:text-slate-400">{{ optional($task->due_date)->format('M d, Y') }}</span>
                                     </div>
-                                    <p class="mt-1 text-xs text-slate-500">Project: {{ $task->project->name ?? 'N/A' }}</p>
+                                    <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Project: {{ $task->project->name ?? 'N/A' }}</p>
                                 </a>
                             @endforeach
                         </div>
@@ -311,8 +315,8 @@
                         const targetId = button.getAttribute('data-overview-target');
 
                         overviewButtons.forEach((btn) => {
-                            btn.classList.remove('bg-slate-900', 'text-white');
-                            btn.classList.add('bg-white', 'text-slate-700');
+                            btn.classList.remove('border-blue-300', 'dark:border-blue-400/40', 'bg-blue-100', 'dark:bg-blue-500/20', 'text-blue-700', 'dark:text-blue-200');
+                            btn.classList.add('border-slate-300', 'dark:border-slate-600', 'bg-slate-100', 'dark:bg-slate-700', 'text-slate-600', 'dark:text-slate-300');
                             btn.setAttribute('aria-selected', 'false');
                         });
 
@@ -320,8 +324,8 @@
                             panel.classList.add('hidden');
                         });
 
-                        button.classList.remove('bg-white', 'text-slate-700');
-                        button.classList.add('bg-slate-900', 'text-white');
+                        button.classList.remove('border-slate-300', 'dark:border-slate-600', 'bg-slate-100', 'dark:bg-slate-700', 'text-slate-600', 'dark:text-slate-300');
+                        button.classList.add('border-blue-300', 'dark:border-blue-400/40', 'bg-blue-100', 'dark:bg-blue-500/20', 'text-blue-700', 'dark:text-blue-200');
                         button.setAttribute('aria-selected', 'true');
 
                         const targetPanel = document.getElementById(targetId);
@@ -342,8 +346,8 @@
                         const targetId = button.getAttribute('data-tab-target');
 
                         buttons.forEach((btn) => {
-                            btn.classList.remove('border-teal-300', 'bg-white', 'text-teal-800');
-                            btn.classList.add('border-teal-200', 'bg-teal-100', 'text-teal-700');
+                            btn.classList.remove('border-blue-300', 'dark:border-blue-400/40', 'bg-blue-100', 'dark:bg-blue-500/20', 'text-blue-700', 'dark:text-blue-200');
+                            btn.classList.add('border-slate-300', 'dark:border-slate-600', 'bg-slate-100', 'dark:bg-slate-700', 'text-slate-600', 'dark:text-slate-300');
                             btn.setAttribute('aria-selected', 'false');
                         });
 
@@ -351,8 +355,8 @@
                             panel.classList.add('hidden');
                         });
 
-                        button.classList.remove('border-teal-200', 'bg-teal-100', 'text-teal-700');
-                        button.classList.add('border-teal-300', 'bg-white', 'text-teal-800');
+                        button.classList.remove('border-slate-300', 'dark:border-slate-600', 'bg-slate-100', 'dark:bg-slate-700', 'text-slate-600', 'dark:text-slate-300');
+                        button.classList.add('border-blue-300', 'dark:border-blue-400/40', 'bg-blue-100', 'dark:bg-blue-500/20', 'text-blue-700', 'dark:text-blue-200');
                         button.setAttribute('aria-selected', 'true');
 
                         const targetPanel = departmentTabs.querySelector('#' + targetId);

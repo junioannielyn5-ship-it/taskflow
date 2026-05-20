@@ -10,7 +10,7 @@ class SendTaskAssignedNotification
 {
     public function handle(TaskAssigned $event)
     {
-        foreach ($event->task->assignees as $user) {
+        foreach ($event->task->assignees ?? [] as $user) {
             try {
                 $user->notify(new TaskAssignedNotification($event->task, $event->actor));
             } catch (\Throwable $e) {

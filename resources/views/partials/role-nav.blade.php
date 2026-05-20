@@ -38,7 +38,7 @@
         <a href="/reports" class="{{ $linkClass(['reports.*']) }}">Reports</a>
     @endif
 
-    @if ($user && method_exists($user, 'hasAnyRole') && $user->hasAnyRole(['member', 'employee']))
+    @if ($user && method_exists($user, 'hasAnyRole') && $user->hasAnyRole(['member', 'employee', 'technical']))
         <a href="{{ route('employee.index') }}" class="{{ $linkClass(['employee.*']) }}">Employee</a>
     @endif
 

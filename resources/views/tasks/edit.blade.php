@@ -3,6 +3,13 @@
 @section('content')
 <div class="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow">
     <h2 class="text-xl font-bold mb-4">Edit Task</h2>
+
+    @if ($errors->any())
+        <div class="mb-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+            {{ $errors->first() }}
+        </div>
+    @endif
+
     <form action="{{ route('tasks.update', $task->id) }}" method="POST">
         @csrf
         @method('PUT')
@@ -26,11 +33,13 @@
         <div class="mb-3">
             <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
             <select name="status" id="status" class="w-full border rounded px-3 py-2 bg-white text-gray-900 dark:bg-slate-800 dark:text-white">
-                <option value="todo" {{ $task->status == 'todo' ? 'selected' : '' }}>To Do</option>
-                <option value="in_progress" {{ $task->status == 'in_progress' ? 'selected' : '' }}>In Progress</option>
-                <option value="for_review" {{ $task->status == 'for_review' ? 'selected' : '' }}>For Review</option>
-                <option value="done" {{ $task->status == 'done' ? 'selected' : '' }}>Done</option>
+                @foreach(($statusOptions ?? []) as $statusValue)
+                    <option value="{{ $statusValue }}" {{ old('status', $task->status) == $statusValue ? 'selected' : '' }}>
+                        {{ ($statusLabels[$statusValue] ?? str_replace('_', ' ', ucwords($statusValue, '_'))) }}
+                    </option>
+                @endforeach
             </select>
+            <p class="mt-1 text-xs text-slate-500">Only the current and next valid workflow statuses are selectable.</p>
         </div>
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Save Changes</button>
         <a href="{{ route('tasks.list') }}" class="ml-3 text-blue-600">Cancel</a>

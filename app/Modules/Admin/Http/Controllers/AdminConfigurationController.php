@@ -210,8 +210,8 @@ class AdminConfigurationController
             abort(403, 'Forbidden');
         }
 
-        $allowed = $user->hasAnyRole(['manager', 'project_manager', 'pm', 'admin', 'member'])
-            || in_array((string) data_get($user, 'role', ''), ['manager', 'project_manager', 'pm', 'admin', 'member'], true);
+        $allowed = $user->hasAnyRole(['manager', 'project_manager', 'pm', 'admin', 'member', 'technical'])
+            || in_array((string) data_get($user, 'role', ''), ['manager', 'project_manager', 'pm', 'admin', 'member', 'technical'], true);
 
         if (!$allowed) {
             abort(403, 'Forbidden');

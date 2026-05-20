@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 use App\Modules\Identity\Models\User;
@@ -54,6 +55,49 @@ Route::middleware('guest')->group(function () {
     Route::get('/login/roles', [RoleLoginController::class, 'launcher'])->name('role.login.launcher');
     Route::get('/login/{role}', [RoleLoginController::class, 'show'])->name('role.login.show');
     Route::post('/login/{role}', [RoleLoginController::class, 'login'])->name('role.login.attempt');
+
+    Route::post('/forgot-password-local', function (Request $request) {
+        $validated = $request->validate([
+            'email' => ['required', 'email'],
+        ]);
+
+        $status = Password::broker()->sendResetLink([
+            'email' => $validated['email'],
+        ]);
+
+        return $status === Password::RESET_LINK_SENT
+            ? back()->with('status', __($status))
+            : back()->withErrors(['email' => __($status)]);
+    })->name('password.email.local');
+
+    Route::get('/dev/password-reset-link', function (Request $request) {
+        abort_unless(app()->environment('local'), 404);
+
+        $validated = $request->validate([
+            'email' => ['required', 'email'],
+        ]);
+
+        $user = User::query()->where('email', $validated['email'])->first();
+
+        if (! $user) {
+            return redirect()
+                ->route('password.request')
+                ->withErrors(['email' => 'No account found for that email.']);
+        }
+
+        $broker = app('auth.password.broker');
+
+        if (! method_exists($broker, 'createToken')) {
+            abort(500, 'Password broker token generation is unavailable.');
+        }
+
+        $token = $broker->createToken($user);
+
+        return redirect()->route('password.reset', [
+            'token' => $token,
+            'email' => $user->email,
+        ]);
+    })->name('dev.password-reset-link');
 });
 
 
@@ -673,6 +717,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::get('/notifications/history', [NotificationController::class, 'history'])->name('notifications.history');
+    Route::get('/help', fn() => view('help'))->name('help');
+    Route::get('/help/download.pdf', function () {
+        $supportEmail = config('mail.from.address') ?: env('PERSONAL_ALERT_EMAIL', 'hello@example.com');
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('help-pdf', [
+            'supportEmail' => $supportEmail,
+        ])->setPaper('a4', 'portrait');
+        return $pdf
+            ->download('TaskFlow-User-Manual-'.now()->format('Ymd-His').'.pdf')
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', '0');
+    })->name('help.pdf');
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::get('/dashboard/advanced', [DashboardController::class, 'advanced'])->name('dashboard.advanced');
     Route::get('/dashboard/notifications/unread', [DashboardController::class, 'unreadNotifications'])->name('dashboard.notifications.unread');
@@ -802,7 +858,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/holidays/{holiday}', [HolidayController::class, 'destroy'])->name('holidays.destroy');
     });
 
-    Route::middleware(['role:manager,admin,member,employee,project_manager,pm,lead,team_lead,teamlead'])->group(function () {
+    Route::middleware(['role:manager,admin,member,employee,technical,project_manager,pm,lead,team_lead,teamlead'])->group(function () {
         Route::get('/admin/configuration', [AdminConfigurationController::class, 'index'])->name('admin.config.index');
         Route::post('/admin/configuration/logo', [AdminConfigurationController::class, 'uploadLogo'])->name('admin.config.logo.update');
         Route::post('/admin/configuration/companies', [AdminConfigurationController::class, 'storeCompany'])->name('admin.config.companies.store');
@@ -826,7 +882,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/project-manager', [ProjectManagerController::class, 'index'])->name('project-manager.index');
     });
 
-    Route::middleware(['role:member,employee,admin'])->group(function () {
+    Route::middleware(['role:member,employee,technical,admin'])->group(function () {
         Route::get('/employee', [EmployeeController::class, 'index'])->name('employee.index');
     });
 
@@ -842,6 +898,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/chat', [App\Http\Controllers\ChatController::class, 'index'])->name('chat.index');
     Route::get('/messages', [App\Http\Controllers\ChatController::class, 'fetchMessages'])->name('messages.fetch');
     Route::post('/messages', [App\Http\Controllers\ChatController::class, 'sendMessage'])->name('messages.send');
+    Route::delete('/messages/{message}', [App\Http\Controllers\ChatController::class, 'deleteMessage'])->name('messages.delete');
 });
 
 

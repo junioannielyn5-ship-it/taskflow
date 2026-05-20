@@ -8,16 +8,25 @@
     $logoPath = \App\Modules\Admin\Models\SystemSetting::valueOf('branding_logo_path', null);
 ?>
 <div class="mv-dashboard-shell">
-<div class="flex flex-row items-start gap-0 w-full min-h-[calc(100vh-4.5rem)] bg-[#f8fafc] dark:bg-[#0f172a]">
+<div class="relative flex flex-row items-start gap-0 w-full min-h-[calc(100vh-4.5rem)] bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-200 overflow-hidden transition-colors duration-300">
+<div class="pointer-events-none absolute top-0 left-[-10%] hidden h-[60%] w-[40%] rounded-full bg-slate-200/30 blur-[120px]"></div>
+<div class="pointer-events-none absolute bottom-[-10%] right-[-5%] hidden h-[50%] w-[50%] rounded-full bg-slate-300/20 blur-[150px]"></div>
         <!-- Sidebar -->
-<div id="mv-sidebar-wrapper" class="shrink-0 hidden md:block sticky top-[4.7rem] z-30" style="width: 16rem; height: calc(100vh - 4.5rem);">
-<aside class="dashboard-sidebar relative bg-white dark:bg-slate-900 p-4 text-slate-800 w-full shrink-0 border-r border-slate-200 dark:border-slate-700 h-full overflow-y-auto">
-    <!-- Sidebar Header -->
-  <div class="sidebar-brand mb-6 rounded-xl bg-[#1e293b] p-4 shadow-lg">
-    <h2 class="text-center text-sm font-bold tracking-widest text-white uppercase">
-        Movaflex Task <br> Manager
-    </h2>
-</div>
+<div id="mv-sidebar-wrapper" class="shrink-0 hidden md:block sticky top-0 z-30" style="width: 16rem; height: 100vh;">
+<aside class="dashboard-sidebar relative z-10 h-full w-full shrink-0 overflow-y-auto border-r border-slate-200 dark:border-slate-700 bg-gray-100 dark:bg-slate-800 p-4 text-slate-700 dark:text-slate-200 shadow-[0_12px_26px_rgba(15,23,42,0.10)] backdrop-blur-2xl transition-colors duration-300">
+    <!-- Taskflow Sidebar Logo -->
+    <div class="mb-6 flex items-center gap-3 px-2 py-4">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#00E5FF] to-[#2962FF] shadow-[0_0_15px_rgba(0,229,255,0.4)]">
+            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+        </div>
+
+        <div>
+            <h1 class="text-2xl font-black tracking-wider text-slate-800 dark:text-white">TASK<span class="text-[#0EA5E9]">FLOW</span></h1>
+            <p class="mt-0.5 text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Workspace</p>
+        </div>
+    </div>
 
     <nav class="relative z-10 space-y-1 text-sm">
         <a href="<?php echo e(route('dashboard')); ?>" class="nav-item-active">
@@ -60,14 +69,13 @@
             <?php endif; ?>
         </a>
 
-        <hr class="my-2 border-slate-100 dark:border-slate-700">
+        <a href="<?php echo e(route('help')); ?>" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253z" /></svg>
+            <span>User Manual</span>
+        </a>
 
-        <?php if(auth()->user()?->hasAnyRole(['manager', 'project_manager', 'admin'])): ?>
-            <a href="<?php echo e(route('manager.index')); ?>" class="nav-item">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                <span>Manager</span>
-            </a>
-        <?php endif; ?>
+        <hr class="my-2 border-slate-300 dark:border-slate-700">
+
 
         <?php if(auth()->user()?->hasAnyRole(['project_manager', 'pm', 'admin'])): ?>
             <a href="<?php echo e(route('project-manager.index')); ?>" class="nav-item">
@@ -79,7 +87,7 @@
         <?php if(Route::has('logout')): ?>
             <form method="POST" action="<?php echo e(route('logout')); ?>" class="mt-4 w-fit">
                 <?php echo csrf_field(); ?>
-                <button type="submit" class="flex w-fit items-center gap-2 rounded-xl border border-rose-300 bg-rose-50 px-3 py-2 text-rose-700 transition hover:bg-rose-100">
+                <button type="submit" class="flex w-fit items-center gap-2 rounded-xl border border-rose-300 dark:border-rose-800 bg-rose-50 dark:bg-rose-900/30 px-3 py-2 text-rose-700 dark:text-rose-400 transition hover:bg-rose-100 dark:hover:bg-rose-900/50 hover:text-rose-800">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
                     Logout
                 </button>
@@ -90,151 +98,177 @@
 </div>
 
 <!-- Main Content -->
-<section class="dashboard-main flex-1 min-w-0 p-0 bg-[#f8fafc] dark:bg-[#0f172a]">
+<section class="dashboard-main relative z-10 flex-1 min-w-0 p-0 h-screen overflow-y-auto bg-gray-100 dark:bg-slate-900">
             <!-- Dashboard Navbar -->
-            <div class="mv-navbar h-12 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between px-5 sticky top-[3.5rem] z-20">
+            <div class="mv-navbar relative overflow-hidden h-14 border-b border-slate-300 dark:border-slate-700 bg-gradient-to-r from-slate-100 via-slate-50 to-gray-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 backdrop-blur-xl flex items-center justify-between px-5 sticky top-0 z-20">
+                <div class="pointer-events-none absolute right-0 top-0 h-28 w-28 translate-x-1/3 -translate-y-1/3 rounded-full bg-gradient-to-br from-[#00E5FF]/20 to-[#2962FF]/20 blur-3xl"></div>
+                <div class="pointer-events-none absolute bottom-0 left-24 h-20 w-20 rounded-full bg-[#9D4EDD]/15 blur-2xl"></div>
                 
-                <div class="flex items-center gap-3">
-                    <button onclick="mvToggleSidebar()" class="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors" title="Toggle Sidebar">
-                        <svg id="mv-sidebar-icon-open" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-500 dark:text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="relative z-10 flex items-center gap-3">
+                    <button onclick="mvToggleSidebar()" id="mv-sidebar-toggle-btn" class="p-2 rounded-xl border-2 border-cyan-400 dark:border-cyan-500 bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-cyan-900/40 dark:to-blue-900/30 shadow-[0_0_12px_rgba(0,229,255,0.4)] hover:shadow-[0_0_22px_rgba(0,229,255,0.7)] hover:scale-110 transition-all duration-200" title="Toggle Sidebar">
+                        <svg id="mv-sidebar-icon-open" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-cyan-600 dark:text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
-                        <svg id="mv-sidebar-icon-close" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-500 dark:text-slate-300 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg id="mv-sidebar-icon-close" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-cyan-600 dark:text-cyan-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
                         </svg>
                     </button>
                     <h1 class="text-2xl font-semibold text-slate-800 dark:text-slate-100">Dashboard</h1>
-                    <span class="hidden sm:inline text-xs text-slate-400"><?php echo e($greeting); ?>, <?php echo e(auth()->user()->name); ?></span>
+                    <span class="hidden sm:inline text-xs text-slate-600 dark:text-slate-400"><?php echo e($greeting); ?>, <?php echo e(auth()->user()->name); ?></span>
                 </div>
                 
-                <div class="flex items-center gap-3">
+                <div class="relative z-10 flex items-center gap-3">
                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create-project')): ?>
-                        <a href="<?php echo e(route('projects.create')); ?>" class="dashboard-create-btn rounded-xl bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm shadow-indigo-200 transition hover:bg-indigo-700">+ New Project</a>
+                        <a href="<?php echo e(route('projects.create')); ?>" class="dashboard-create-btn rounded-xl bg-gradient-to-r from-[#2962FF] to-[#00E5FF] px-4 py-2 text-sm font-medium text-white shadow-[0_0_15px_rgba(0,229,255,0.28)] transition hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(0,229,255,0.45)]">+ New Project</a>
                     <?php endif; ?>
                 </div>
             </div>
 
-            <div class="mv-content-inner px-4 pt-1 pb-3 space-y-4 transition-all duration-300">
-            <div class="dashboard-welcome-card relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-6 shadow-sm transition-all hover:shadow-md">
-    <div class="flex items-center gap-4">
-        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 dark:border-indigo-800">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z" />
-            </svg>
-        </div>
-        
-        <div>
-            <h2 class="text-2xl font-bold tracking-tight text-slate-800 dark:text-slate-100">
-                Welcome to <span class="text-indigo-600 dark:text-indigo-400">Movaflex</span> Task Manager
-            </h2>
-            <div class="flex items-center gap-2 mt-0.5">
-                <span class="flex h-2 w-2 rounded-full bg-green-400"></span>
-                <p class="text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-widest">System Online • Go-Live Edition</p>
+            <div class="mv-content-inner w-full max-w-7xl mx-auto px-4 pb-6 pt-0 md:px-6 md:pb-6 md:pt-0 space-y-6 transition-all duration-300">
+            
+            <div class="relative mt-0 overflow-hidden rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 md:p-6 shadow-md dark:shadow-none transition-all duration-300">
+
+                
+                <div class="relative z-10 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+
+                    
+                    <div class="max-w-2xl space-y-3">
+                        
+                        <div class="flex items-center gap-3">
+                            <span class="flex items-center gap-2 rounded-full border border-blue-300 bg-blue-50 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-blue-600 shadow-sm">
+                                <span class="h-2 w-2 animate-pulse rounded-full bg-blue-500"></span>
+                                System Online • Phase 1
+                            </span>
+                        </div>
+
+                        
+                        <h2 class="text-2xl font-black tracking-wide text-slate-800 dark:text-slate-100 md:text-3xl">
+                            Welcome to <span class="text-blue-600">TaskFlow Workspace</span>
+                        </h2>
+
+                        
+                        <p class="border-l-2 border-blue-500 pl-4 text-sm font-medium italic leading-relaxed text-slate-600 dark:text-slate-400">
+                            "<?php echo e($systemAnnouncement); ?>"
+                        </p>
+                    </div>
+
+                    
+                    <div class="flex w-full shrink-0 flex-col gap-2 sm:flex-row md:w-auto">
+                        <a href="<?php echo e(route('tasks.list')); ?>" class="flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-bold text-white shadow-md dark:shadow-none transition-all duration-300 hover:bg-blue-700">
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                            Open My Tasks
+                        </a>
+
+                        <a href="<?php echo e(route('tasks.kanban')); ?>" class="flex items-center justify-center gap-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-5 py-2.5 text-sm font-bold text-slate-800 dark:text-slate-200 transition-all duration-300 hover:bg-slate-50 dark:hover:bg-slate-600">
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path></svg>
+                            Kanban Board
+                        </a>
+
+                        <?php if(auth()->user()?->hasAnyRole(['admin', 'manager'])): ?>
+                        <a href="<?php echo e(route('admin.config.index')); ?>#broadcast-email" class="flex items-center justify-center gap-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-5 py-2.5 text-sm font-bold text-slate-800 dark:text-slate-200 transition-all duration-300 hover:bg-slate-50 dark:hover:bg-slate-600">
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
+                            Email Broadcast
+                        </a>
+                        <?php endif; ?>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
 
-    <div class="mt-5 max-w-3xl">
-        <p class="text-base leading-relaxed text-slate-600 dark:text-slate-300 italic border-l-4 border-indigo-200 dark:border-indigo-700 pl-6 pr-4 text-justify">
-            "<?php echo e($systemAnnouncement); ?>"
-        </p>
-    </div>
-
-    <div class="mt-8 flex flex-wrap gap-4">
-        <a href="<?php echo e(route('tasks.list')); ?>" class="group inline-flex items-center rounded-xl px-6 py-3 text-sm font-bold text-white shadow-sm transition-all hover:-translate-y-0.5 active:scale-95" style="background-color: #4f46e5; color: #ffffff;">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2.5 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
-            Open My Tasks
-        </a>
-
-        <a href="<?php echo e(route('tasks.kanban')); ?>" class="group inline-flex items-center rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-6 py-3 text-sm font-bold text-slate-700 dark:text-slate-200 transition-all hover:bg-slate-50 dark:hover:bg-slate-700 hover:-translate-y-0.5">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2.5 text-slate-400 group-hover:text-indigo-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" /></svg>
-            Kanban Board
-        </a>
-
-        <?php if(auth()->user()?->hasAnyRole(['admin', 'manager'])): ?>
-            <a href="<?php echo e(route('admin.config.index')); ?>#broadcast-email" class="inline-flex items-center rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-6 py-3 text-sm font-bold text-slate-600 dark:text-slate-300 transition-all hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2.5 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
-                Email Broadcast
-            </a>
-        <?php endif; ?>
-    </div>
-</div>
-
-            <div class="dashboard-stats grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
-                <a href="/projects" class="group relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-300 mb-1">Active Projects</p>
-                            <h3 class="text-3xl font-bold text-slate-800 dark:text-white"><?php echo e($totalProjects); ?></h3>
+            <div class="dashboard-stats grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 -mt-4">
+                
+                <a href="/projects" class="relative overflow-hidden rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 group hover:shadow-lg transition-all duration-300">
+                    
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-4">
+                            <p class="text-blue-600 text-xs font-bold uppercase tracking-wider">Active Projects</p>
+                            <div class="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg text-blue-600 border border-blue-200 dark:border-blue-800">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            </div>
                         </div>
-                        <div class="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h8m-8 4h6M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z" /></svg>
+                        <h3 class="text-slate-800 dark:text-slate-100 text-4xl font-black"><?php echo e($totalProjects); ?></h3>
+                        <div class="mt-4 h-1.5 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                            <div class="h-full w-[60%] bg-blue-500"></div>
                         </div>
                     </div>
                 </a>
-                <a href="<?php echo e(route('tasks.list')); ?>" class="group relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-300 mb-1">My Tasks</p>
-                            <h3 class="text-3xl font-bold text-slate-800 dark:text-white"><?php echo e($totalTasks); ?></h3>
+
+                <a href="<?php echo e(route('tasks.list')); ?>" class="relative overflow-hidden rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 group hover:shadow-lg transition-all duration-300">
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-4">
+                            <p class="text-purple-600 text-xs font-bold uppercase tracking-wider">My Tasks</p>
+                            <div class="p-2 bg-purple-50 dark:bg-purple-900/30 rounded-lg text-purple-600 border border-purple-200 dark:border-purple-800">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                            </div>
                         </div>
-                        <div class="w-12 h-12 rounded-xl bg-indigo-500 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2" /></svg>
-                        </div>
-                    </div>
-                </a>
-                <a href="<?php echo e(route('tasks.list', ['status' => 'for_review'])); ?>" class="group relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-300 mb-1">Pending Review</p>
-                            <h3 class="text-3xl font-bold text-slate-800 dark:text-white"><?php echo e($pendingReview); ?></h3>
-                        </div>
-                        <div class="w-12 h-12 rounded-xl bg-amber-500 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16h6M7 4h10a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2z" /></svg>
+                        <h3 class="text-slate-800 dark:text-slate-100 text-4xl font-black"><?php echo e($totalTasks); ?></h3>
+                        <div class="mt-4 h-1.5 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                            <div class="h-full w-[80%] bg-purple-500"></div>
                         </div>
                     </div>
                 </a>
-                <a href="<?php echo e(route('tasks.list')); ?>" class="group relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-300 mb-1">Overdue</p>
-                            <h3 class="text-3xl font-bold text-slate-800 dark:text-white"><?php echo e($overdue); ?></h3>
+
+                <a href="<?php echo e(route('tasks.list', ['status' => 'for_review'])); ?>" class="relative overflow-hidden rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 group hover:shadow-lg transition-all duration-300">
+                    
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-4">
+                            <p class="text-orange-600 text-xs font-bold uppercase tracking-wider">Pending Review</p>
+                            <div class="p-2 bg-orange-50 dark:bg-orange-900/30 rounded-lg text-orange-600 border border-orange-200 dark:border-orange-800">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                            </div>
                         </div>
-                        <div class="w-12 h-12 rounded-xl bg-rose-500 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M5.07 19h13.86c1.54 0 2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 0L3.34 16c-.77 1.33.19 3 1.73 3z" /></svg>
+                        <h3 class="text-slate-800 dark:text-slate-100 text-4xl font-black"><?php echo e($pendingReview); ?></h3>
+                        <div class="mt-4 h-1.5 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                            <div class="h-full w-[30%] bg-orange-500"></div>
                         </div>
                     </div>
                 </a>
+
+                <a href="<?php echo e(route('tasks.list')); ?>" class="relative overflow-hidden rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 group hover:shadow-lg transition-all duration-300">
+                    
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-4">
+                            <p class="text-rose-600 text-xs font-bold uppercase tracking-wider">Overdue</p>
+                            <div class="p-2 bg-rose-50 dark:bg-rose-900/30 rounded-lg text-rose-600 border border-rose-200 dark:border-rose-800">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                        </div>
+                        <h3 class="text-slate-800 dark:text-slate-100 text-4xl font-black"><?php echo e($overdue); ?></h3>
+                        <div class="mt-4 h-1.5 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                            <div class="h-full w-[100%] bg-rose-500"></div>
+                        </div>
+                    </div>
+                </a>
+
             </div>
 
             <div class="dashboard-analytics grid grid-cols-1 gap-4 xl:grid-cols-2">
-                <div id="latest-notifications-card" class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-6 shadow-sm hover:shadow-md transition-all scroll-mt-24">
+                <div id="latest-notifications-card" class="relative overflow-hidden rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-md dark:shadow-none transition-all scroll-mt-24" style="border-left: 4px solid #2563eb;">
                     <div class="mb-4 flex items-center justify-between gap-3">
-                        <h3 class="text-lg font-semibold text-slate-800 dark:text-white">Task Status Overview</h3>
+                        <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-100">Task Status Overview</h3>
                         <div class="flex items-center gap-2">
-                            <a href="<?php echo e(route('dashboard.export.status-overview.csv')); ?>" class="rounded border border-slate-200 dark:border-slate-600 px-3 py-1.5 text-xs font-medium text-slate-500 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-white">CSV</a>
-                            <a href="<?php echo e(route('dashboard.export.status-overview.pdf')); ?>" class="rounded border border-slate-200 dark:border-slate-600 px-3 py-1.5 text-xs font-medium text-slate-500 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-white">PDF</a>
+                            <a href="<?php echo e(route('dashboard.export.status-overview.csv')); ?>" class="rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600">CSV</a>
+                            <a href="<?php echo e(route('dashboard.export.status-overview.pdf')); ?>" class="rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600">PDF</a>
                         </div>
                     </div>
-                    <p class="mb-3 text-sm text-slate-500 dark:text-slate-300">Done: <span id="done-percentage" class="font-semibold text-emerald-600 dark:text-emerald-400"><?php echo e($donePercentage); ?>%</span> · In Progress: <span id="in-progress-percentage" class="font-semibold text-indigo-600 dark:text-indigo-400"><?php echo e($inProgressPercentage); ?>%</span></p>
-                    <div class="relative h-48 w-full">
+                    <p class="mb-3 text-sm text-slate-600 dark:text-slate-400">Done: <span id="done-percentage" class="font-semibold text-emerald-600"><?php echo e($donePercentage); ?>%</span> · In Progress: <span id="in-progress-percentage" class="font-semibold text-blue-600"><?php echo e($inProgressPercentage); ?>%</span></p>
+                    <div class="relative h-64 w-full">
                         <canvas id="taskStatusChart"></canvas>
                     </div>
                 </div>
-                <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-6 shadow-sm hover:shadow-md transition-all">
-                    <h3 class="mb-4 text-lg font-semibold text-slate-800 dark:text-white">Tasks Over Time</h3>
-                    <div class="relative h-48 w-full">
+                <div class="relative overflow-hidden rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-md dark:shadow-none transition-all" style="border-left: 4px solid #10b981;">
+                    <h3 class="mb-4 text-lg font-semibold text-slate-800 dark:text-slate-100">Tasks Over Time</h3>
+                    <div class="relative h-64 w-full">
                         <canvas id="tasksOverTimeChart"></canvas>
                     </div>
                 </div>
             </div>
 
             
-            <div class="dashboard-panel rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-5 shadow-sm hover:shadow-md transition-all" id="mv-progress-panel">
+            <div class="dashboard-panel relative overflow-hidden rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-md dark:shadow-none transition-all hover:shadow-lg" id="mv-progress-panel">
 
                 
-                <div class="mb-4 flex items-center gap-2">
-                    <h3 class="mr-auto text-lg font-semibold text-slate-800 dark:text-white">Project Progress</h3>
+                <div class="relative z-10 mb-4 flex items-center gap-2">
+                    <h3 class="mr-auto text-lg font-semibold text-slate-800 dark:text-slate-100">Project Progress</h3>
                     <button id="mv-tab-sales"
                         onclick="mvSwitchTab('sales')"
                         class="mv-tab-btn rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wide transition">
@@ -248,13 +282,37 @@
                 </div>
 
                 <?php if(collect($projectProgress ?? [])->isEmpty()): ?>
-                    <p class="text-sm text-slate-500">No project progress available yet.</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">No project progress available yet.</p>
                 <?php else: ?>
                     
-                    <div id="mv-tab-content-sales" class="mv-tab-content space-y-2">
+                    <div id="mv-tab-content-sales" class="mv-tab-content relative z-10 space-y-2">
                         <?php $salesHasAny = collect($projectProgress)->contains(fn($p) => count($p['sales']['tasks']) > 0); ?>
                         <?php if(!$salesHasAny): ?>
-                            <p class="text-sm text-slate-400">No Sales tasks found.</p>
+                            
+                            <?php $__currentLoopData = [
+                                ['name' => 'Brand Campaign 2026', 'tasks' => 5, 'done' => 3, 'total' => 5, 'percent' => 60],
+                                ['name' => 'Client Onboarding Pipeline', 'tasks' => 4, 'done' => 1, 'total' => 4, 'percent' => 25],
+                            ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ex): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="rounded-xl border-2 border-emerald-300 dark:border-emerald-500/50 overflow-hidden bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/25 dark:to-green-900/15 shadow-[0_0_10px_rgba(16,185,129,0.18)] pointer-events-none">
+                                <div class="flex w-full items-center justify-between px-4 py-3">
+                                    <div class="flex items-center gap-2 min-w-0">
+                                        <span class="h-2.5 w-2.5 flex-shrink-0 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.7)]"></span>
+                                        <span class="truncate text-sm font-bold text-emerald-800 dark:text-emerald-200"><?php echo e($ex['name']); ?></span>
+                                    </div>
+                                    <div class="ml-3 flex flex-shrink-0 items-center gap-3">
+                                        <span class="rounded-full bg-emerald-200 dark:bg-emerald-500/30 px-2 py-0.5 text-[11px] font-bold text-emerald-800 dark:text-emerald-300 shadow-sm">
+                                            <?php echo e($ex['tasks']); ?> tasks
+                                        </span>
+                                        <span class="tabular-nums text-xs font-semibold text-emerald-700 dark:text-emerald-400"><?php echo e($ex['done']); ?>/<?php echo e($ex['total']); ?></span>
+                                        <div class="relative h-2 w-24 overflow-hidden rounded-full bg-emerald-100 dark:bg-emerald-900/40">
+                                            <div class="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-emerald-400 to-emerald-600 shadow-[0_0_6px_rgba(16,185,129,0.5)] progress-bar" data-width="<?php echo e($ex['percent']); ?>"></div>
+                                        </div>
+                                        <span class="w-8 text-right text-sm font-extrabold text-emerald-600 dark:text-emerald-400"><?php echo e($ex['percent']); ?>%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <p class="text-center text-[11px] italic text-emerald-400 dark:text-emerald-600 mt-1">— Example data (no real Sales tasks yet) —</p>
                         <?php else: ?>
                             <?php $__currentLoopData = $projectProgress; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pi => $project): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <?php if(count($project['sales']['tasks']) > 0): ?>
@@ -346,10 +404,10 @@
                     </div>
 
                     
-                    <div id="mv-tab-content-technical" class="mv-tab-content hidden space-y-2">
+                    <div id="mv-tab-content-technical" class="mv-tab-content relative z-10 hidden space-y-2">
                         <?php $techHasAny = collect($projectProgress)->contains(fn($p) => count($p['technical']['tasks']) > 0); ?>
                         <?php if(!$techHasAny): ?>
-                            <p class="text-sm text-slate-400">No Technical tasks found.</p>
+                            <p class="text-sm text-slate-300">No Technical tasks found.</p>
                         <?php else: ?>
                             <?php $__currentLoopData = $projectProgress; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pi => $project): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <?php if(count($project['technical']['tasks']) > 0): ?>
@@ -441,9 +499,12 @@
             </div>
 
             <style>
-                .mv-tab-btn { background: #f1f5f9; color: #64748b; }
-                .mv-tab-btn.mv-tab-active-sales { background: #d1fae5; color: #059669; }
-                .mv-tab-btn.mv-tab-active-technical { background: #dbeafe; color: #2563eb; }
+                .mv-tab-btn { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; transition: all 0.2s; }
+                .mv-tab-btn.mv-tab-active-sales { background: linear-gradient(135deg, #d1fae5, #a7f3d0); color: #065f46; border: 2px solid #10b981; font-weight: 800; box-shadow: 0 0 14px rgba(16,185,129,0.45), 0 2px 6px rgba(16,185,129,0.25); transform: scale(1.06); }
+                .mv-tab-btn.mv-tab-active-technical { background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #1e40af; border: 2px solid #3b82f6; font-weight: 800; box-shadow: 0 0 14px rgba(59,130,246,0.45), 0 2px 6px rgba(59,130,246,0.25); transform: scale(1.06); }
+                html.dark .mv-tab-btn { background: #1e293b; color: #94a3b8; border: 1px solid #334155; transition: all 0.2s; }
+                html.dark .mv-tab-btn.mv-tab-active-sales { background: linear-gradient(135deg, rgba(16,185,129,0.30), rgba(16,185,129,0.18)); color: #6ee7b7; border: 2px solid #10b981; font-weight: 800; box-shadow: 0 0 18px rgba(16,185,129,0.55), 0 2px 8px rgba(16,185,129,0.30); transform: scale(1.06); }
+                html.dark .mv-tab-btn.mv-tab-active-technical { background: linear-gradient(135deg, rgba(59,130,246,0.30), rgba(59,130,246,0.18)); color: #93c5fd; border: 2px solid #3b82f6; font-weight: 800; box-shadow: 0 0 18px rgba(59,130,246,0.55), 0 2px 8px rgba(59,130,246,0.30); transform: scale(1.06); }
                 .mv-chevron.open { transform: rotate(180deg); }
                 .mv-task-node:not(:first-child)::before {
                     content: '';
@@ -523,83 +584,93 @@
                 document.addEventListener('DOMContentLoaded', function () { mvSwitchTab('sales'); });
             </script>
 
-            <div class="dashboard-panel rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-6 shadow-sm hover:shadow-md transition-all">
-                <div class="mb-4 flex items-center justify-between">
-                    <h3 class="text-lg font-semibold text-slate-800 dark:text-white">Urgent Tasks</h3>
-                    <a href="<?php echo e(route('tasks.list', ['priority' => 'urgent'])); ?>" class="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 hover:underline">View All</a>
-                </div>
-                <?php if($urgentTasks->isEmpty()): ?>
-                    <div class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-6 py-12 text-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-slate-400 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                        </svg>
-                        <p class="mt-3 text-sm text-slate-500">No urgent tasks found</p>
+            <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                
+                <div class="dashboard-panel relative overflow-hidden rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-md dark:shadow-none transition-all hover:shadow-lg">
+                    <div class="relative z-10 mb-3 flex items-center justify-between">
+                        <h3 class="text-base font-semibold text-slate-800 dark:text-slate-100">Urgent Tasks</h3>
+                        <a href="<?php echo e(route('tasks.list', ['priority' => 'urgent'])); ?>" class="text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:underline">View All</a>
                     </div>
-                <?php else: ?>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full text-sm">
-                            <thead>
-                                <tr class="border-2 border-b-2 border-slate-200 dark:border-slate-700">
-                                    <th class="px-3 py-2.5 text-left text-xs font-semibold uppercase tracking-widest text-slate-500">Title</th>
-                                    <th class="px-3 py-2.5 text-left text-xs font-semibold uppercase tracking-widest text-slate-500">Project</th>
-                                    <th class="px-3 py-2.5 text-left text-xs font-semibold uppercase tracking-widest text-slate-500">Assignees</th>
-                                    <th class="px-3 py-2.5 text-left text-xs font-semibold uppercase tracking-widest text-slate-500">Priority</th>
-                                    <th class="px-3 py-2.5 text-left text-xs font-semibold uppercase tracking-widest text-slate-500">Due</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white dark:bg-slate-800">
-                                <?php $__currentLoopData = $urgentTasks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $task): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <tr class="border-2 border-slate-200 dark:border-slate-700 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                                        <td class="px-3 py-3 font-medium text-slate-700 dark:text-slate-200">
-                                            <a href="<?php echo e(route('tasks.show', $task)); ?>" class="text-violet-700 dark:text-violet-400 hover:text-violet-500 dark:hover:text-violet-300 hover:underline"><?php echo e($task->title); ?></a>
-                                        </td>
-                                        <td class="px-3 py-3 text-slate-500 dark:text-slate-300"><?php echo e($task->project->name ?? '-'); ?></td>
-                                        <td class="px-3 py-3">
-                                            <div class="flex -space-x-2">
-                                                <?php $__empty_1 = true; $__currentLoopData = $task->assignees->take(4); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $assignee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                                    <div class="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white dark:border-slate-800 bg-violet-100 dark:bg-indigo-500/20 text-xs font-semibold text-violet-700 dark:text-indigo-300" title="<?php echo e($assignee->name); ?>">
-                                                        <?php echo e(strtoupper(substr($assignee->name, 0, 1))); ?>
-
-                                                    </div>
-                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                                                    <span class="text-xs text-slate-400 dark:text-slate-600">-</span>
-                                                <?php endif; ?>
-                                            </div>
-                                        </td>
-                                        <td class="px-3 py-3">
-                                            <?php
-                                                $pinClass = match($task->priority) {
-                                                    'urgent' => 'pin-urgent',
-                                                    'high' => 'pin-high',
-                                                    'low' => 'pin-low',
-                                                    default => 'pin-medium',
-                                                };
-                                            ?>
-                                            <span class="priority-pin <?php echo e($pinClass); ?>">
-                                                <?php if(($task->priority ?? '') === 'urgent'): ?>
-                                                    <span class="pin-dot inline-block h-2 w-2 rounded-full animate-pulse"></span>
-                                                <?php endif; ?>
-                                                <?php echo e(strtoupper($task->priority ?? 'medium')); ?>
-
-                                            </span>
-                                        </td>
-                                        <td class="px-3 py-3 <?php echo e($task->isOverdue() ? 'font-semibold text-rose-600 dark:text-rose-400' : 'text-slate-500 dark:text-slate-300'); ?>"><?php echo e($task->due_date ? $task->due_date->format('m-d-Y') : '-'); ?></td>
+                    <?php if($urgentTasks->isEmpty()): ?>
+                        <div class="relative z-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/30 px-4 py-6 text-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                            <p class="mt-2 text-xs text-slate-600 dark:text-slate-400">No urgent tasks</p>
+                        </div>
+                    <?php else: ?>
+                        <div class="relative z-10 overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 max-h-80 overflow-y-auto">
+                            <table class="min-w-full text-xs">
+                                <thead class="sticky top-0 bg-slate-100 dark:bg-slate-800">
+                                    <tr class="border-b border-slate-200 dark:border-slate-700">
+                                        <th class="px-2 py-2 text-left font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">Title</th>
+                                        <th class="px-2 py-2 text-left font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">Project</th>
+                                        <th class="px-2 py-2 text-left font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">Due</th>
                                     </tr>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php $__currentLoopData = ($urgentTasks ?? collect())->take(8); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $task): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <tr class="border-b border-slate-100 dark:border-slate-700/50 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800">
+                                            <td class="px-2 py-1.5 font-medium text-slate-800 dark:text-slate-200 truncate">
+                                                <a href="<?php echo e(route('tasks.show', $task)); ?>" class="text-blue-600 hover:text-blue-800 hover:underline" title="<?php echo e($task->title); ?>"><?php echo e(Illuminate\Support\Str::limit($task->title, 20)); ?></a>
+                                            </td>
+                                            <td class="px-2 py-1.5 text-slate-500 dark:text-slate-400 text-xs truncate"><?php echo e(Illuminate\Support\Str::limit($task->project->name ?? '-', 12)); ?></td>
+                                            <td class="px-2 py-1.5 <?php echo e($task->isOverdue() ? 'font-semibold text-rose-600' : 'text-slate-600 dark:text-slate-400'); ?> text-xs whitespace-nowrap"><?php echo e($task->due_date ? $task->due_date->format('m-d') : '-'); ?></td>
+                                        </tr>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                
+                <div class="dashboard-panel relative overflow-hidden rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-md dark:shadow-none transition-all hover:shadow-lg">
+                    <div class="relative z-10 mb-3 flex items-center justify-between">
+                        <h3 class="text-base font-semibold text-slate-800 dark:text-slate-100">Upcoming Meetings</h3>
+                        <a href="<?php echo e(route('meetings.index')); ?>" class="text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:underline">View All</a>
                     </div>
-                <?php endif; ?>
+                    <?php if($upcomingMeetings->isEmpty()): ?>
+                        <div class="relative z-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/30 px-4 py-6 text-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <p class="mt-2 text-xs text-slate-600 dark:text-slate-400">No meetings scheduled</p>
+                        </div>
+                    <?php else: ?>
+                        <div class="relative z-10 space-y-2 max-h-80 overflow-y-auto">
+                            <?php $__currentLoopData = $upcomingMeetings; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $meeting): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <div class="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50 p-2.5 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                                    <div class="flex items-start justify-between gap-2">
+                                        <div class="min-w-0 flex-1">
+                                            <a href="<?php echo e(route('meetings.index')); ?>" class="block text-xs font-semibold text-blue-600 hover:text-blue-800 truncate" title="<?php echo e($meeting->title); ?>">
+                                                <?php echo e(Illuminate\Support\Str::limit($meeting->title, 24)); ?>
+
+                                            </a>
+                                            <p class="mt-0.5 text-xs text-slate-500 dark:text-slate-400"><?php echo e($meeting->meeting_date?->format('M d, Y')); ?></p>
+                                            <?php if($meeting->start_time): ?>
+                                                <p class="text-xs text-slate-500 dark:text-slate-400"><?php echo e($meeting->start_time); ?><?php if($meeting->end_time): ?> - <?php echo e($meeting->end_time); ?><?php endif; ?></p>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                    <?php if($meeting->location): ?>
+                                        <p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400 truncate">📍 <?php echo e(Illuminate\Support\Str::limit($meeting->location, 20)); ?></p>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
             </div>
 
             <div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
-                <div class="dashboard-panel rounded-3xl border border-slate-200/80 dark:border-white/10 bg-white/95 dark:bg-slate-900/50 p-6 shadow-sm backdrop-blur-md transition-all hover:shadow-md">
-                    <div class="mb-6 flex items-center justify-between">
-                        <h3 class="text-lg font-bold text-slate-800 dark:text-white">Recent Activity</h3>
-                        <a href="<?php echo e(route('tasks.list')); ?>" class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">View All</a>
+                <div class="dashboard-panel relative flex h-[320px] flex-col overflow-hidden rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-md dark:shadow-none transition-all hover:shadow-lg">
+                    <div class="relative z-10 mb-3 flex items-center justify-between">
+                        <h3 class="text-base font-semibold text-slate-800 dark:text-slate-100">Recent Activity</h3>
+                        <a href="<?php echo e(route('tasks.list')); ?>" class="text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:underline">View All</a>
                     </div>
-                    <ul class="activity-timeline relative space-y-6" style="padding-left: 2px;">
-                        <?php $__empty_1 = true; $__currentLoopData = ($recentActivities ?? $recentActivity); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $log): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                    <ul class="activity-timeline relative z-10 flex-1 space-y-3 overflow-y-auto pr-1" style="padding-left: 2px;">
+                        <?php $__empty_1 = true; $__currentLoopData = ($recentActivities ?? $recentActivity); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $logIdx => $log): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                             <?php
                                 $desc = (string) $log->getDescription();
                                 $descLower = strtolower($desc);
@@ -613,50 +684,66 @@
                                         : ($isStatus
                                             ? 'background:#3b82f6'
                                             : 'background:#8b5cf6'));
+                                $isLatestLog = $logIdx === 0;
                             ?>
-                            <li class="relative flex items-start gap-4">
-                                <div class="timeline-dot" style="<?php echo e(str_contains($dotColor, 'background') ? $dotColor : 'background:' . $dotColor); ?>"></div>
+                            <li class="relative flex items-start gap-3 <?php echo e($isLatestLog ? 'rounded-lg bg-blue-50 dark:bg-blue-500/10 px-2 py-1 ring-1 ring-blue-200 dark:ring-blue-500/30' : ''); ?>">
+                                <?php
+                                    $dotColorValue = trim(str_replace('background:', '', $dotColor)) ?: '#8b5cf6';
+                                ?>
+                                <div class="timeline-dot" <?php echo 'style="background-color:' . e($dotColorValue) . ';"'; ?>></div>
                                 <div class="-mt-1 min-w-0 flex-1">
                                     <div class="flex items-start justify-between gap-3">
-                                        <p class="text-sm leading-5">
-                                            <span class="font-bold text-slate-800 dark:text-white"><?php echo e($log->actor?->name ?? 'System'); ?></span>
-                                            <span class="text-slate-500 dark:text-slate-300"> <?php echo e($desc); ?></span>
+                                        <p class="text-xs leading-4">
+                                            <?php if($isLatestLog): ?>
+                                                <span class="mr-1 inline-flex items-center rounded-full bg-blue-500 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white">Latest</span>
+                                            <?php endif; ?>
+                                            <span class="font-bold text-slate-800 dark:text-slate-200"><?php echo e($log->actor?->name ?? 'System'); ?></span>
+                                            <span class="text-slate-600 dark:text-slate-400"> <?php echo e($desc); ?></span>
                                         </p>
-                                        <span class="whitespace-nowrap text-xs italic text-slate-500 dark:text-slate-500"><?php echo e($log->created_at?->diffForHumans()); ?></span>
+                                        <span class="whitespace-nowrap text-xs italic text-slate-400"><?php echo e($log->created_at?->diffForHumans()); ?></span>
                                     </div>
-                                    <p class="mt-1 text-xs text-slate-400 dark:text-slate-500">Activity Log Entry</p>
+                                    <p class="mt-0.5 text-[11px] text-slate-500">Activity Log Entry</p>
                                 </div>
                             </li>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                            <li class="py-5">
-                                <div class="flex flex-col items-center rounded-2xl border border-dashed border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-5 py-8 text-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-slate-400 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <li class="py-3">
+                                <div class="flex flex-col items-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-6 text-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17v-2m3 2v-4m3 4V9m2 12H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                     </svg>
-                                    <p class="mt-3 text-sm text-slate-500">No recent activity yet.</p>
-                                    <a href="<?php echo e(route('tasks.create')); ?>" class="mt-4 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-500">Get Started</a>
+                                    <p class="mt-2 text-xs text-slate-600">No recent activity yet.</p>
+                                    <a href="<?php echo e(route('tasks.create')); ?>" class="mt-3 rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-indigo-500">Get Started</a>
                                 </div>
                             </li>
                         <?php endif; ?>
                     </ul>
                 </div>
-                <div class="dashboard-panel rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-6 shadow-sm hover:shadow-md transition-all">
-                    <div class="mb-4 flex items-center justify-between gap-3">
-                        <h3 class="text-lg font-semibold text-slate-800 dark:text-white">Latest Notifications</h3>
-                        <button id="mark-all-notifications-read" type="button" class="rounded-lg border border-slate-200 dark:border-slate-600 px-3 py-1.5 text-xs font-medium text-slate-500 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-white">Mark all as read</button>
+                <div class="dashboard-panel relative flex h-[320px] flex-col overflow-hidden rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-md dark:shadow-none transition-all hover:shadow-lg">
+                    <div class="relative z-10 mb-3 flex items-center justify-between gap-2">
+                        <h3 class="text-base font-semibold text-slate-800 dark:text-slate-100">Latest Notifications</h3>
+                        <button id="mark-all-notifications-read" type="button" class="rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-2.5 py-1 text-[11px] font-medium text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-600">Mark all as read</button>
                     </div>
-                    <ul id="latest-notifications-list" class="divide-y divide-slate-100 dark:divide-slate-800/50">
-                        <?php $__empty_1 = true; $__currentLoopData = $latestNotifications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $notif): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                            <li class="flex items-start justify-between gap-3 py-3 text-sm" data-notification-id="<?php echo e($notif->id); ?>" data-notification-link="<?php echo e($notif->data['link'] ?? ''); ?>">
-                                <a href="<?php echo e($notif->data['link'] ?? route('dashboard')); ?>" class="flex-1 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline"><?php echo e($notif->data['message'] ?? $notif->data['body'] ?? '-'); ?></a>
-                                <button type="button" class="mark-notification-read rounded-md p-1 text-slate-400 dark:text-slate-500 transition hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-600 dark:hover:text-white" aria-label="Mark as read" title="Mark as read">
+                    <ul id="latest-notifications-list" class="relative z-10 flex-1 divide-y divide-slate-200 dark:divide-slate-700 overflow-y-auto pr-1">
+                        <?php $__empty_1 = true; $__currentLoopData = $latestNotifications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $notifIdx => $notif): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                            <?php $isLatestNotif = $notifIdx === 0; ?>
+                            <li class="flex items-start justify-between gap-2 py-2 text-xs rounded-lg px-2 <?php echo e($isLatestNotif ? 'bg-blue-50 dark:bg-blue-500/10 ring-1 ring-blue-300 dark:ring-blue-500/40 mb-1' : ''); ?>" data-notification-id="<?php echo e($notif->id); ?>" data-notification-link="<?php echo e($notif->data['link'] ?? ''); ?>">
+                                <div class="flex flex-1 items-start gap-1.5 min-w-0">
+                                    <?php if($isLatestNotif): ?>
+                                        <span class="mt-0.5 flex-shrink-0 rounded-full bg-blue-500 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white">Latest</span>
+                                    <?php endif; ?>
+                                    <a href="<?php echo e($notif->data['link'] ?? route('dashboard')); ?>" class="flex-1 <?php echo e($isLatestNotif ? 'font-semibold text-blue-700 dark:text-blue-300 hover:text-blue-800' : 'text-slate-700 dark:text-slate-300 hover:text-blue-600'); ?> hover:underline">
+                                        <?php echo e(Illuminate\Support\Str::limit($notif->data['message'] ?? $notif->data['body'] ?? '-', 72)); ?>
+
+                                    </a>
+                                </div>
+                                <button type="button" class="mark-notification-read rounded-md p-1 text-slate-400 transition hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-700" aria-label="Mark as read" title="Mark as read">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                     </svg>
                                 </button>
                             </li>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                            <li class="py-3 text-sm text-slate-500">No notifications</li>
+                            <li class="py-2 text-xs text-slate-600">No notifications</li>
                         <?php endif; ?>
                     </ul>
                 </div>
@@ -685,13 +772,58 @@ document.addEventListener('DOMContentLoaded', function () {
     const payloadEl = document.getElementById('dashboard-data');
     const payload = payloadEl ? JSON.parse(payloadEl.textContent || '{}') : {};
 
+    // Normalize weekly data to Monday-Sunday order
+    const normalizeWeeklyData = (labels, data) => {
+        if (!Array.isArray(labels) || !Array.isArray(data)) {
+            return { labels, data };
+        }
+
+        const dayMap = {
+            'Monday': 0, 'Mon': 0,
+            'Tuesday': 1, 'Tue': 1,
+            'Wednesday': 2, 'Wed': 2,
+            'Thursday': 3, 'Thu': 3,
+            'Friday': 4, 'Fri': 4,
+            'Saturday': 5, 'Sat': 5,
+            'Sunday': 6, 'Sun': 6
+        };
+
+        // Create array of {day, label, dataValue, index} objects
+        const dayObjects = labels.map((label, idx) => {
+            const dayKey = Object.keys(dayMap).find(k => label.includes(k));
+            const dayIndex = dayKey ? dayMap[dayKey] : -1;
+            return {
+                dayIndex: dayIndex,
+                label: label,
+                dataValue: data[idx],
+                originalIndex: idx
+            };
+        });
+
+        // Sort by day index (Monday=0 to Sunday=6)
+        dayObjects.sort((a, b) => {
+            if (a.dayIndex === -1) return 1;
+            if (b.dayIndex === -1) return -1;
+            return a.dayIndex - b.dayIndex;
+        });
+
+        // Extract sorted labels and data
+        const sortedLabels = dayObjects.map(obj => obj.label);
+        const sortedData = dayObjects.map(obj => obj.dataValue);
+
+        return { labels: sortedLabels, data: sortedData };
+    };
+
     let statusChart;
     let lineChart;
+
+    const isDarkModeChart = () => document.documentElement.classList.contains('dark');
 
     if (window.Chart) {
         const statusCtx = document.getElementById('taskStatusChart');
         const lineCtx = document.getElementById('tasksOverTimeChart');
 
+        // ---- TASK STATUS: Doughnut Chart ----
         if (statusCtx) {
             statusChart = new Chart(statusCtx, {
                 type: 'doughnut',
@@ -699,30 +831,42 @@ document.addEventListener('DOMContentLoaded', function () {
                     labels: payload.statusLabelsTransformed || ['Todo', 'In Progress', 'For Review', 'Done'],
                     datasets: [{
                         data: payload.chartData || payload.statusCounts || [],
-                        backgroundColor: ['#94a3b8', '#6366f1', '#f59e0b', '#10b981'],
-                        borderWidth: 2,
-                        hoverOffset: 10
+                        backgroundColor: ['#94A3B8', '#3B82F6', '#FF9100', '#10B981'],
+                        hoverBackgroundColor: ['#CBD5E1', '#93C5FD', '#FDBA74', '#6EE7B7'],
+                        borderWidth: 3,
+                        borderColor: isDarkModeChart() ? '#1e293b' : '#ffffff',
+                        hoverOffset: 8,
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    cutout: '70%',
+                    cutout: '68%',
                     plugins: {
                         legend: {
+                            display: true,
                             position: 'bottom',
                             labels: {
-                                padding: 20,
-                                usePointStyle: true
+                                color: isDarkModeChart() ? '#94a3b8' : '#64748b',
+                                font: { size: 11 },
+                                padding: 16,
+                                usePointStyle: true,
+                                pointStyle: 'circle',
                             }
                         },
                         tooltip: {
+                            backgroundColor: isDarkModeChart() ? '#1e293b' : '#fff',
+                            titleColor: isDarkModeChart() ? '#e2e8f0' : '#0f172a',
+                            bodyColor: isDarkModeChart() ? '#94a3b8' : '#64748b',
+                            borderColor: isDarkModeChart() ? '#334155' : '#e2e8f0',
+                            borderWidth: 1,
+                            padding: 10,
                             callbacks: {
                                 label: function(context) {
                                     const value = context.parsed || 0;
                                     const total = context.dataset.data.reduce((sum, item) => sum + item, 0) || 1;
                                     const pct = Math.round((value / total) * 100);
-                                    return `${context.label}: ${value} (${pct}%)`;
+                                    return ` ${value} tasks (${pct}%)`;
                                 }
                             }
                         }
@@ -731,32 +875,84 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
+        // ---- TASKS OVER TIME: Recharts-inspired premium area chart ----
         if (lineCtx) {
+            const normalizedData = normalizeWeeklyData(
+                payload.tasksPerDayLabelsFormatted || [],
+                payload.tasksPerDay || []
+            );
+            const overtimeDataMax = Math.max(0, ...(normalizedData.data || [0]));
+
+            // Blue/cyan gradient fade to mimic the provided AreaChart design.
+            const lineCtxCanvas = lineCtx.getContext('2d');
+            const gradientFill = lineCtxCanvas.createLinearGradient(0, 0, 0, lineCtx.offsetHeight || 200);
+            gradientFill.addColorStop(0.05, 'rgba(0, 229, 255, 0.50)');
+            gradientFill.addColorStop(0.95, 'rgba(41, 98, 255, 0.00)');
+
             lineChart = new Chart(lineCtx, {
                 type: 'line',
                 data: {
-                    labels: payload.tasksPerDayLabelsFormatted || [],
+                    labels: normalizedData.labels,
                     datasets: [{
                         label: 'Tasks Created',
-                        data: payload.tasksPerDay || [],
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.15)',
+                        data: normalizedData.data,
+                        borderColor: '#00E5FF',
+                        backgroundColor: gradientFill,
                         fill: true,
                         tension: 0.4,
-                        borderWidth: 3,
-                        pointRadius: 3
+                        borderWidth: 4,
+                        pointRadius: 0,
+                        pointHoverRadius: 6,
+                        pointBorderWidth: 2,
+                        pointBackgroundColor: '#2962FF',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#2962FF',
+                        pointHoverBorderColor: '#fff'
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
                     plugins: {
-                        legend: { display: false }
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: isDarkModeChart() ? '#1e293b' : '#fff',
+                            titleColor: isDarkModeChart() ? '#e2e8f0' : '#0f172a',
+                            bodyColor: isDarkModeChart() ? '#94a3b8' : '#64748b',
+                            borderColor: isDarkModeChart() ? '#334155' : '#e2e8f0',
+                            borderWidth: 1,
+                            padding: 10,
+                            callbacks: {
+                                label: ctx => ` ${ctx.parsed.y} tasks`
+                            }
+                        }
                     },
                     scales: {
                         y: {
                             beginAtZero: true,
-                            ticks: { precision: 0 }
+                            suggestedMax: overtimeDataMax > 0 ? overtimeDataMax + 2 : 5,
+                            ticks: {
+                                precision: 0,
+                                stepSize: 1,
+                                color: '#94A3B8',
+                                font: { size: 12 }
+                            },
+                            grid: {
+                                color: isDarkModeChart() ? 'rgba(148,163,184,0.30)' : 'rgba(226,232,240,0.60)',
+                                borderDash: [3, 3],
+                                drawBorder: false
+                            },
+                            border: { display: false }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#64748B',
+                                font: { size: 12, weight: '600' },
+                                padding: 10
+                            },
+                            grid: { display: false },
+                            border: { display: false }
                         }
                     }
                 }
@@ -796,16 +992,16 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (!items || items.length === 0) {
-            notificationsList.innerHTML = '<li class="py-2 text-gray-400">No notifications</li>';
+            notificationsList.innerHTML = '<li class="py-2 text-xs text-slate-600">No notifications</li>';
             updateGlobalNotificationBadge(0);
             return;
         }
 
         notificationsList.innerHTML = items
             .map(item => `
-                <li class="flex items-start justify-between gap-3 py-3 text-sm text-slate-600" data-notification-id="${item.id}" data-notification-link="${item.link ?? ''}">
+                <li class="flex items-start justify-between gap-2 py-2 text-xs" data-notification-id="${item.id}" data-notification-link="${item.link ?? ''}">
                     <a href="${item.link || payload.dashboardUrl || '#'}" class="flex-1 text-slate-700 hover:text-blue-600 hover:underline">${item.message ?? '-'}</a>
-                    <button type="button" class="mark-notification-read rounded-md p-1 text-blue-200/80 transition hover:bg-slate-100 hover:text-slate-600" aria-label="Mark as read" title="Mark as read">
+                    <button type="button" class="mark-notification-read rounded-md p-1 text-slate-400 transition hover:bg-white/10 hover:text-white" aria-label="Mark as read" title="Mark as read">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
@@ -952,8 +1148,15 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             if (lineChart && Array.isArray(metrics.tasksPerDay) && Array.isArray(metrics.tasksPerDayLabelsFormatted)) {
-                lineChart.data.labels = metrics.tasksPerDayLabelsFormatted;
-                lineChart.data.datasets[0].data = metrics.tasksPerDay;
+                // Normalize weekly data to Monday-Sunday order
+                const normalizedRefreshData = normalizeWeeklyData(
+                    metrics.tasksPerDayLabelsFormatted,
+                    metrics.tasksPerDay
+                );
+                const refreshOvertimeMax = Math.max(0, ...(normalizedRefreshData.data || [0]));
+                lineChart.data.labels = normalizedRefreshData.labels;
+                lineChart.data.datasets[0].data = normalizedRefreshData.data;
+                lineChart.options.scales.y.suggestedMax = refreshOvertimeMax > 0 ? refreshOvertimeMax + 1 : 2;
                 lineChart.update();
             }
 

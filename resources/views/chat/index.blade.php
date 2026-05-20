@@ -2,12 +2,18 @@
 
 @section('content')
 <div class="space-y-6">
-    {{-- Page Header --}}
-    <div class="mv-card inline-flex w-fit rounded-2xl border border-white/30 bg-white/95 px-4 py-2 shadow-xl dark:border-slate-700 dark:bg-slate-800">
-        <p class="text-2xl font-bold uppercase tracking-wide text-slate-700 md:text-3xl dark:text-slate-200">
+
+    {{-- Page Header + Group Selector --}}
+    <div class="mv-card inline-flex items-center gap-4 w-fit rounded-2xl border border-white/30 bg-white/95 px-4 py-2 shadow-xl dark:border-slate-700 dark:bg-slate-800">
+        <p class="text-2xl font-bold uppercase tracking-wide text-slate-700 md:text-3xl dark:text-slate-200 mb-0">
             <i data-lucide="message-circle" class="inline-block w-7 h-7 mr-1 align-middle"></i>
             Group Chat
         </p>
+        <select id="group-select" class="ml-4 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 shadow-sm dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200">
+            <option value="all">All Movaflex</option>
+            <option value="sales">Sales</option>
+            <option value="technical">Technical</option>
+        </select>
     </div>
 
     {{-- Chat Container --}}
@@ -71,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const chatForm = document.getElementById('chat-form');
     const chatInput = document.getElementById('chat-input');
     const sendBtn = document.getElementById('chat-send-btn');
-    const currentUserId = @json(auth()->id());
+    // const currentUserId = ... (removed blade expression)
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     let lastMessageId = 0;
@@ -161,10 +167,12 @@ document.addEventListener('DOMContentLoaded', function () {
         if (isOwn) {
             wrapper.innerHTML =
                 '<div class="max-w-[70%] min-w-[120px]">' +
-                    '<div class="' + bubbleClass + ' px-3.5 py-2 shadow-sm">' +
+                    '<div class="' + bubbleClass + ' px-3.5 py-2 shadow-sm relative">' +
                         '<div class="' + nameClass + '">You</div>' +
                         '<div class="text-sm leading-relaxed break-words">' + messageText + '</div>' +
                         '<div class="' + timeClass + ' text-right">' + formatTime(msg.created_at) + '</div>' +
+                        // Delete button
+                        '<button type="button" onclick="window.deleteMessage(' + msg.id + ')" title="Delete" class="absolute top-1 right-1 text-xs text-white bg-red-500 hover:bg-red-600 rounded px-2 py-0.5 shadow focus:outline-none">Delete</button>' +
                     '</div>' +
                 '</div>' +
                 '<div class="flex-shrink-0">' + avatarHtml + '</div>';
@@ -221,8 +229,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Fetch all messages
+
     function fetchMessages() {
-        fetch('/messages', {
+        const group = document.getElementById('group-select').value;
+        fetch('/messages?group=' + encodeURIComponent(group), {
             headers: {
                 'Accept': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
@@ -243,11 +253,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Send message
+
     chatForm.addEventListener('submit', function (e) {
         e.preventDefault();
 
         const message = chatInput.value.trim();
         if (!message) return;
+
+        const group = document.getElementById('group-select').value;
 
         sendBtn.disabled = true;
         chatInput.disabled = true;
@@ -260,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 'X-CSRF-TOKEN': csrfToken,
                 'X-Requested-With': 'XMLHttpRequest',
             },
-            body: JSON.stringify({ message: message }),
+            body: JSON.stringify({ message: message, group: group }),
         })
         .then(function (response) {
             if (!response.ok) throw new Error('Failed to send message');
@@ -282,11 +295,49 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+
     // Initial load
     fetchMessages();
 
+    // Refetch messages when group changes
+    document.getElementById('group-select').addEventListener('change', function () {
+        fetchMessages();
+    });
+
     // Poll for new messages every 3 seconds
     setInterval(fetchMessages, 3000);
+
+    // Delete message
+    window.deleteMessage = function(messageId) {
+        if (!confirm('Are you sure you want to delete this message?')) return;
+
+        fetch('/messages/' + messageId, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+        })
+        .then(function (response) {
+            if (!response.ok) throw new Error('Failed to delete message');
+            return response.json();
+        })
+        .then(function () {
+            const el = messagesContainer.querySelector('[data-message-id="' + messageId + '"]');
+            if (el) el.remove();
+
+            // Check if no messages left
+            if (messagesContainer.querySelectorAll('[data-message-id]').length === 0) {
+                chatEmpty.classList.remove('hidden');
+                chatEmpty.classList.add('flex');
+            }
+        })
+        .catch(function (error) {
+            console.error('Delete message error:', error);
+            alert('Hindi na-delete ang message. Subukan ulit.');
+        });
+    };
 
     // Re-initialize Lucide icons
     if (typeof lucide !== 'undefined') {

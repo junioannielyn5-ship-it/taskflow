@@ -1,7 +1,10 @@
 @import "tailwindcss";
 
+/* Sabihin kay Tailwind v4 na gamitin ang .dark class para sa dark: utilities */
+@variant dark (&:where(.dark, .dark *));
+
 /* Tailwind v4: Use class-based dark mode (for localStorage toggle) */
-@custom-variant dark (&:where(.dark, .dark *));
+
 
 /* Fix para hindi mag-flash ang Alpine.js */
 [x-cloak] {
@@ -42,41 +45,49 @@ html.dark body {
         display: flex;
         align-items: center;
         gap: 0.75rem;
-        padding: 0.625rem 1rem;
-        border-radius: 0.5rem;
-        color: #64748b;
+        padding: 0.75rem 1rem;
+        border-radius: 0.85rem;
+        color: #334155;
         font-size: 0.875rem;
-        font-weight: 500;
-        transition: color 0.15s, background-color 0.15s;
+        font-weight: 600;
+        border: 1px solid #cbd5e1;
+        background-color: #f3f4f6;
+        transition: all 0.24s ease;
     }
     .nav-item:hover {
         color: #0f172a;
-        background-color: #f1f5f9;
+        background-color: #e2e8f0;
+        border-color: #94a3b8;
+        transform: translateX(2px);
     }
     .dark .nav-item {
         color: #cbd5e1;
+        background-color: #1e293b;
+        border-color: #334155;
     }
     .dark .nav-item:hover {
         color: #f1f5f9;
-        background-color: rgba(30, 41, 59, 0.50);
+        background-color: #334155;
+        border-color: #475569;
     }
 
     .nav-item-active {
         display: flex;
         align-items: center;
         gap: 0.75rem;
-        padding: 0.625rem 1rem;
-        border-radius: 0.5rem;
-        background-color: #eef2ff;
-        color: #4f46e5;
-        border-left: 4px solid #4f46e5;
-        font-weight: 600;
-        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
+        padding: 0.75rem 1rem;
+        border-radius: 0.85rem;
+        background: linear-gradient(90deg, #dbeafe, #e2e8f0);
+        color: #0f172a;
+        font-weight: 700;
+        border: 1px solid #93c5fd;
+        box-shadow: inset 4px 0 0 0 #2563eb, 0 8px 18px rgba(37, 99, 235, 0.15);
     }
     .dark .nav-item-active {
-        background-color: rgba(79, 70, 229, 0.15);
-        color: #a5b4fc;
-        border-left-color: #818cf8;
+        background: linear-gradient(90deg, #1e3a5f, #1e293b);
+        color: #f1f5f9;
+        border-color: #3b82f6;
+        box-shadow: inset 4px 0 0 0 #3b82f6, 0 8px 18px rgba(59, 130, 246, 0.15);
     }
 
     /* --- 3. DASHBOARD TYPOGRAPHY --- */
@@ -440,235 +451,51 @@ html.dark body {
     }
 
     @media (max-width: 640px) {
-        .mv-chatbot-root { right: 10px; bottom: 10pxorwards;
-        }
-        .delay-1 { animation-delay: 0.05s; }
-        .delay-2 { animation-delay: 0.1s; }
-        .delay-3 { animation-delay: 0.15s; }
-        .delay-4 { animation-delay: 0.2s; }
-
-        @keyframes dashboardReveal {
-            to { opacity: 1; transform: translateY(0); }
-        }
-    }
-
-    /* --- 11. DARK MODE FORM FIELDS --- */
-    .dark .form-input,
-    .dark select.form-input,
-    .dark textarea.form-input {
-        background-color: #1e293b;
-        color: #fff;
-        border-color: #475569;
-    }
-    .dark .form-input::placeholder { color: #94a3b8; }
-    .dark .form-input:disabled     { background-color: #334155; color: #94a3b8; }
-    .dark .form-input:focus        { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.3); }
-
-    /* --- 12. TIMELINE (Activity Feed) --- */
-    .activity-timeline {
-        position: relative;
-    }
-    .activity-timeline::before {
-        content: '';
-        position: absolute;
-        top: 6px;
-        bottom: 6px;
-        left: 7px;
-        width: 1.5px;
-        background: #e2e8f0;
-        border-radius: 9999px;
-    }
-    .dark .activity-timeline::before {
-        background: rgba(71, 85, 105, 0.4);
-    }
-    .activity-timeline .timeline-dot {
-        width: 10px;
-        height: 10px;
-        min-width: 10px;
-        border-radius: 9999px;
-        position: relative;
-        z-index: 10;
-        margin-top: 5px;
-    }
-
-    /* --- 13. CHATBOT PANEL --- */
-    .mv-chatbot-root {
-        position: fixed;
-        right: 18px;
-        bottom: 18px;
-        z-index: 60;
-    }
-    .mv-chatbot-launcher {
-        position: relative;
-        width: 62px;
-        height: 62px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid #c4b5fd;
-        background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
-        color: #fff;
-        font-size: 12px;
-        font-weight: 700;
-        border-radius: 999px;
-        padding: 0;
-        box-shadow: 0 14px 24px rgba(79, 70, 229, 0.35);
-        cursor: pointer;
-    }
-    .mv-chatbot-launcher-dot {
-        position: absolute;
-        top: -2px;
-        right: -2px;
-        width: 10px;
-        height: 10px;
-        border-radius: 999px;
-        background: #ef4444;
-        border: 2px solid #fff;
-    }
-    .mv-chatbot-launcher-dot.is-hidden { display: none; }
-    .mv-chatbot-panel {
-        width: min(420px, calc(100vw - 24px));
-        height: min(620px, calc(100vh - 96px));
-        border-radius: 16px;
-        border: 1px solid #ddd6fe;
-        background: #f8f7ff;
-        box-shadow: 0 22px 44px rgba(15, 23, 42, 0.2);
-        display: none;
-        flex-direction: column;
-        overflow: hidden;
-        margin-bottom: 10px;
-    }
-    .mv-chatbot-panel.is-open { display: flex; }
-    .mv-chatbot-header {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 10px;
-        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-        color: #fff;
-        padding: 12px 14px;
-    }
-    .mv-chatbot-title    { font-size: 14px; font-weight: 800; line-height: 1.2; }
-    .mv-chatbot-subtitle { font-size: 11px; opacity: 0.92; margin-top: 2px; }
-    .mv-chatbot-language-wrap { display: inline-flex; gap: 6px; margin-top: 2px; }
-    .mv-chatbot-language {
-        border: 1px solid rgba(255, 255, 255, 0.45);
-        background: rgba(255, 255, 255, 0.12);
-        color: #fff;
-        border-radius: 999px;
-        font-size: 10px;
-        font-weight: 700;
-        padding: 3px 8px;
-        cursor: pointer;
-    }
-    .mv-chatbot-language.is-active { background: #fff; color: #4f46e5; border-color: #fff; }
-    .mv-chatbot-close {
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        color: #fff;
-        background: transparent;
-        border-radius: 8px;
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 1;
-        padding: 6px 8px;
-        cursor: pointer;
-    }
-    .mv-chatbot-quick-wrap {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        padding: 10px 12px;
-        border-bottom: 1px solid #ddd6fe;
-        background: #fff;
-    }
-    .mv-chatbot-quick {
-        border: 1px solid #c4b5fd;
-        background: #f5f3ff;
-        color: #5b21b6;
-        border-radius: 999px;
-        padding: 4px 10px;
-        font-size: 11px;
-        font-weight: 700;
-        cursor: pointer;
-    }
-    .mv-chatbot-messages {
-        flex: 1;
-        overflow-y: auto;
-        padding: 12px;
-        background: #f8f7ff;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-    }
-    .mv-chatbot-message {
-        border-radius: 12px;
-        padding: 10px;
-        font-size: 12px;
-        line-height: 1.45;
-        border: 1px solid #e2e8f0;
-    }
-    .mv-chatbot-message-user {
-        align-self: flex-end;
-        background: #ede9fe;
-        border-color: #c4b5fd;
-        color: #4c1d95;
-        max-width: 85%;
-        font-weight: 600;
-    }
-    .mv-chatbot-message-bot {
-        align-self: flex-start;
-        background: #ffffff;
-        border-color: #e2e8f0;
-        color: #1f2937;
-        max-width: 100%;
-    }
-    .mv-chatbot-message-title    { font-weight: 800; color: #1e1b4b; margin-bottom: 4px; }
-    .mv-chatbot-message-subtitle { font-weight: 700; color: #374151; margin-top: 8px; margin-bottom: 2px; }
-    .mv-chatbot-message-text     { color: #334155; }
-    .mv-chatbot-step-list { margin-left: 18px; list-style: decimal; display: grid; gap: 2px; }
-    .mv-chatbot-links     { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
-    .mv-chatbot-link-pill  {
-        border: 1px solid #c4b5fd;
-        border-radius: 999px;
-        background: #f5f3ff;
-        color: #5b21b6;
-        padding: 3px 9px;
-        font-size: 11px;
-        font-weight: 700;
-        text-decoration: none;
-    }
-    .mv-chatbot-form {
-        border-top: 1px solid #ddd6fe;
-        background: #fff;
-        padding: 10px;
-        display: flex;
-        gap: 8px;
-    }
-    .mv-chatbot-input {
-        flex: 1;
-        border: 1px solid #cbd5e1;
-        border-radius: 10px;
-        font-size: 12px;
-        padding: 9px 10px;
-        outline: none;
-    }
-    .mv-chatbot-input:focus {
-        border-color: #8b5cf6;
-        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
-    }
-    .mv-chatbot-send {
-        border: 1px solid #7c3aed;
-        background: #7c3aed;
-        color: #fff;
-        border-radius: 10px;
-        font-size: 12px;
-        font-weight: 700;
-        padding: 9px 12px;
-        cursor: pointer;
-    }
-
-    @media (max-width: 640px) {
         .mv-chatbot-root { right: 10px; bottom: 10px; }
         .mv-chatbot-panel { width: calc(100vw - 20px); height: min(70vh, 560px); }
+    }
+
+    /* --- 14. DASHBOARD DARK MODE OVERRIDES (high-specificity) --- */
+    /* Stat cards */
+    html.dark .dashboard-stats a {
+        background-color: #1e293b;
+        border-color: #334155;
+    }
+    html.dark .dashboard-stats a h3 {
+        color: #f1f5f9;
+    }
+    html.dark .dashboard-stats a .bg-slate-200 {
+        background-color: #334155;
+    }
+    /* Welcome banner */
+    html.dark .mv-content-inner > div:first-child {
+        background-color: #1e293b;
+        border-color: #334155;
+    }
+    html.dark .mv-content-inner > div:first-child h2 {
+        color: #f1f5f9;
+    }
+    html.dark .mv-content-inner > div:first-child p {
+        color: #94a3b8;
+    }
+    /* Chart cards and analytics panels */
+    html.dark .dashboard-analytics > div,
+    html.dark .dashboard-panel,
+    html.dark #latest-notifications-card {
+        background-color: #1e293b;
+        border-color: #334155;
+    }
+    html.dark .dashboard-analytics h3,
+    html.dark .dashboard-panel h3 {
+        color: #f1f5f9;
+    }
+    /* Navbar */
+    html.dark .mv-navbar {
+        background: linear-gradient(to right, #0f172a, #1e293b, #0f172a);
+        border-color: #334155;
+    }
+    /* Main content area */
+    html.dark .dashboard-main {
+        background-color: #0f172a;
     }
 }

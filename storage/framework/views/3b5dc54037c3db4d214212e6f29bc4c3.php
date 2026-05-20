@@ -1,7 +1,7 @@
 
 
 <?php $__env->startSection('content'); ?>
-<div class="space-y-6">
+<div class="space-y-6 bg-slate-100 dark:bg-slate-900 min-h-screen p-6">
 
     <?php if(session('success')): ?>
         <div class="mb-4 rounded border border-green-200 bg-green-50 px-4 py-3 text-green-700">
@@ -11,46 +11,99 @@
     <?php endif; ?>
 
     <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-bold text-slate-800 dark:text-white">Projects</h2>
+        <h2 class="text-lg font-bold text-slate-800 dark:text-slate-100">Projects</h2>
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create-project')): ?>
-            <a href="<?php echo e(route('projects.create')); ?>" class="rounded-lg bg-emerald-600 px-4 py-2 text-white font-semibold shadow hover:bg-emerald-700 transition">Create Project</a>
+            <a href="<?php echo e(route('projects.create')); ?>" class="rounded-xl bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 px-4 py-2 text-white font-semibold shadow-md dark:shadow-none transition hover:-translate-y-0.5">Create Project</a>
         <?php endif; ?>
     </div>
+
+    <div class="relative overflow-visible rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-md dark:shadow-none flex flex-wrap gap-4 mb-4">
+        <div class="relative inline-block" id="projects-project-picker">
+            <button
+                type="button"
+                id="projects-project-toggle-btn"
+                class="inline-flex items-center gap-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600"
+            >
+                Project
+                <span class="text-xs text-slate-500 dark:text-slate-400" id="projects-project-selected-label">All Projects</span>
+            </button>
+            <div id="projects-project-dropdown" class="absolute left-0 z-20 mt-2 hidden min-w-[260px] rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 p-2 shadow-xl">
+                <button type="button" class="projects-project-option-btn block w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" data-project-name="">All Projects</button>
+                <?php $__currentLoopData = ($projects ?? collect())->pluck('name')->filter()->unique()->sort()->values(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $projectName): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <button
+                        type="button"
+                        class="projects-project-option-btn block w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                        data-project-name="<?php echo e($projectName); ?>"
+                    >
+                        <?php echo e($projectName); ?>
+
+                    </button>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </div>
+        </div>
+
+        <div class="relative inline-block" id="projects-company-picker">
+            <button
+                type="button"
+                id="projects-company-toggle-btn"
+                class="inline-flex items-center gap-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600"
+            >
+                Company Name
+                <span class="text-xs text-slate-500 dark:text-slate-400" id="projects-company-selected-label">All Companies</span>
+            </button>
+            <div id="projects-company-dropdown" class="absolute left-0 z-20 mt-2 hidden min-w-[260px] rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 p-2 shadow-xl">
+                <button type="button" class="projects-company-option-btn block w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" data-company-name="">All Companies</button>
+                <?php $__currentLoopData = ($projects ?? collect())->pluck('company_name')->filter()->unique()->sort()->values(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $companyName): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <button
+                        type="button"
+                        class="projects-company-option-btn block w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                        data-company-name="<?php echo e($companyName); ?>"
+                    >
+                        <?php echo e($companyName); ?>
+
+                    </button>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </div>
+        </div>
+    </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
         <?php $__empty_1 = true; $__currentLoopData = $projects; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $project): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-            <div class="project-card flex flex-col h-full rounded-3xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm hover:shadow-md hover:border-blue-400 dark:hover:border-blue-500 transition-all duration-300">
+            <div class="project-card relative overflow-hidden flex flex-col h-full rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-md dark:shadow-none hover:shadow-lg transition-all duration-300"
+                data-project-name="<?php echo e(strtolower((string) $project->name)); ?>"
+                data-company-name="<?php echo e(strtolower((string) ($project->company_name ?? ''))); ?>">
 
-                <div class="mb-4">
+                <div class="relative z-10 mb-4">
                     <h4 class="text-xs uppercase font-semibold text-slate-500 dark:text-slate-400 tracking-wider">
                         <?php echo e($project->company_name ?: '-'); ?>
 
                     </h4>
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mt-1">
+                    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 mt-1">
                         <?php echo e($project->name); ?>
 
                     </h3>
                 </div>
 
-                <div class="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+                <div class="relative z-10 grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
 
                     <div class="col-span-2">
-                        <span class="font-semibold text-slate-700 dark:text-slate-300">Project Owner:</span>
-                        <span class="font-medium text-slate-900 dark:text-slate-100 ml-1"><?php echo e($project->project_owner ?: '-'); ?></span>
+                        <span class="font-semibold text-slate-600 dark:text-slate-300">Project Owner:</span>
+                        <span class="font-medium text-slate-800 dark:text-slate-100 ml-1"><?php echo e($project->project_owner ?: '-'); ?></span>
                     </div>
 
                     <div class="col-span-2">
-                        <span class="font-semibold text-slate-700 dark:text-slate-300">Description:</span>
+                        <span class="font-semibold text-slate-600 dark:text-slate-300">Description:</span>
                         <span class="font-medium text-slate-600 dark:text-slate-400 ml-1"><?php echo e(Str::limit($project->description, 80)); ?></span>
                     </div>
 
                     <div class="col-span-1">
-                        <span class="font-semibold text-slate-700 dark:text-slate-300">Status:</span>
+                        <span class="font-semibold text-slate-600 dark:text-slate-300">Status:</span>
                         <?php
                             $statusLabel = ucwords(str_replace('_', ' ', $project->status ?? 'pending_request'));
                             $statusClass = match($project->status) {
-                                'ongoing' => 'bg-blue-100 text-blue-700',
-                                'pending_request' => 'bg-amber-100 text-amber-700',
-                                default => 'bg-slate-100 text-slate-700',
+                                'ongoing' => 'bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-500/40',
+                                'pending_request' => 'bg-orange-100 dark:bg-orange-500/20 text-orange-700 dark:text-orange-300 border border-orange-300 dark:border-orange-500/35',
+                                default => 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-300 dark:border-slate-600',
                             };
                         ?>
                         <span class="px-3 py-1 text-xs font-bold rounded-full <?php echo e($statusClass); ?> ml-1">
@@ -60,14 +113,14 @@
                     </div>
 
                     <div class="col-span-1">
-                        <span class="font-semibold text-slate-700 dark:text-slate-300">Your Role:</span>
+                        <span class="font-semibold text-slate-600 dark:text-slate-300">Your Role:</span>
                         <?php
                             $roleLabel = $project->member_role ?? 'N/A';
                             $roleClass = match($roleLabel) {
-                                'admin' => 'bg-purple-100 text-purple-700',
-                                'lead' => 'bg-green-100 text-green-700',
-                                'member' => 'bg-blue-100 text-blue-700',
-                                default => 'bg-gray-100 text-gray-700',
+                                'admin' => 'bg-purple-100 dark:bg-purple-500/25 text-purple-700 dark:text-purple-300 border border-purple-300 dark:border-purple-500/40',
+                                'lead' => 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-500/35',
+                                'member' => 'bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-500/35',
+                                default => 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-300 dark:border-slate-600',
                             };
                         ?>
                         <span class="px-3 py-1 text-xs font-bold rounded-full <?php echo e($roleClass); ?> ml-1">
@@ -77,31 +130,128 @@
                     </div>
                 </div>
 
-                <div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-700 flex flex-wrap gap-2">
-                    <a href="<?php echo e(route('projects.show', $project)); ?>" class="rounded-md border border-cyan-200 px-3 py-1.5 text-xs font-semibold text-cyan-700 hover:bg-cyan-50 transition">View</a>
+                <div class="relative z-10 mt-auto pt-4 border-t border-slate-200 dark:border-slate-700 flex flex-wrap gap-2">
+                    <a href="<?php echo e(route('projects.show', $project)); ?>" class="rounded-md border border-blue-300 dark:border-blue-500/35 bg-blue-50 dark:bg-white/5 px-3 py-1.5 text-xs font-semibold text-blue-600 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-500/10 transition">View</a>
                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create-task')): ?>
-                        <a href="<?php echo e(route('tasks.create', ['project_id' => $project->id])); ?>" class="rounded-md border border-emerald-200 px-3 py-1.5 text-xs font-semibold text-emerald-700 hover:bg-emerald-50 transition">Create Task</a>
+                        <a href="<?php echo e(route('tasks.create', ['project_id' => $project->id])); ?>" class="rounded-md border border-emerald-300 dark:border-emerald-300/35 bg-emerald-50 dark:bg-white/5 px-3 py-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-500/10 transition">Create Task</a>
                     <?php endif; ?>
                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('update', $project)): ?>
-                        <a href="<?php echo e(route('projects.edit', $project)); ?>" class="rounded-md border border-yellow-200 px-3 py-1.5 text-xs font-semibold text-yellow-700 hover:bg-yellow-50 transition">Edit</a>
+                        <a href="<?php echo e(route('projects.edit', $project)); ?>" class="rounded-md border border-yellow-300 dark:border-yellow-300/35 bg-yellow-50 dark:bg-white/5 px-3 py-1.5 text-xs font-semibold text-yellow-700 dark:text-yellow-300 hover:bg-yellow-100 dark:hover:bg-yellow-500/10 transition">Edit</a>
                     <?php endif; ?>
                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('delete', $project)): ?>
                         <form action="<?php echo e(route('projects.destroy', $project)); ?>" method="POST" class="inline">
                             <?php echo csrf_field(); ?>
                             <?php echo method_field('DELETE'); ?>
-                            <button type="submit" onclick="return confirm('Are you sure you want to delete this project?')" class="rounded-md border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-700 hover:bg-red-50 transition">Delete</button>
+                            <button type="submit" onclick="return confirm('Are you sure you want to delete this project?')" class="rounded-md border border-red-300 dark:border-red-300/35 bg-red-50 dark:bg-white/5 px-3 py-1.5 text-xs font-semibold text-red-600 dark:text-rose-300 hover:bg-red-100 dark:hover:bg-rose-500/10 transition">Delete</button>
                         </form>
                     <?php endif; ?>
                 </div>
 
             </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-            <div class="col-span-full rounded-2xl border border-dashed border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-6 py-12 text-center">
+            <div class="col-span-full rounded-2xl border border-dashed border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-6 py-12 text-center">
                 <p class="text-sm text-slate-500 dark:text-slate-400">No projects found.</p>
             </div>
         <?php endif; ?>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const projectToggleBtn = document.getElementById('projects-project-toggle-btn');
+    const projectDropdown = document.getElementById('projects-project-dropdown');
+    const projectSelectedLabel = document.getElementById('projects-project-selected-label');
+    const projectOptionButtons = document.querySelectorAll('.projects-project-option-btn');
+
+    const companyToggleBtn = document.getElementById('projects-company-toggle-btn');
+    const companyDropdown = document.getElementById('projects-company-dropdown');
+    const companySelectedLabel = document.getElementById('projects-company-selected-label');
+    const companyOptionButtons = document.querySelectorAll('.projects-company-option-btn');
+
+    const projectCards = document.querySelectorAll('.project-card');
+
+    let selectedProject = '';
+    let selectedCompany = '';
+
+    const applyFilters = () => {
+        projectCards.forEach((card) => {
+            const projectName = String(card.dataset.projectName || '').toLowerCase();
+            const companyName = String(card.dataset.companyName || '').toLowerCase();
+
+            const projectMatch = !selectedProject || projectName === selectedProject;
+            const companyMatch = !selectedCompany || companyName === selectedCompany;
+
+            card.style.display = (projectMatch && companyMatch) ? '' : 'none';
+        });
+    };
+
+    const toggleDropdown = (dropdown) => {
+        if (!dropdown) return;
+        dropdown.classList.toggle('hidden');
+    };
+
+    if (projectToggleBtn && projectDropdown) {
+        projectToggleBtn.addEventListener('click', () => {
+            if (companyDropdown) {
+                companyDropdown.classList.add('hidden');
+            }
+            toggleDropdown(projectDropdown);
+        });
+    }
+
+    if (companyToggleBtn && companyDropdown) {
+        companyToggleBtn.addEventListener('click', () => {
+            if (projectDropdown) {
+                projectDropdown.classList.add('hidden');
+            }
+            toggleDropdown(companyDropdown);
+        });
+    }
+
+    projectOptionButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            selectedProject = String(button.dataset.projectName || '').toLowerCase();
+            if (projectSelectedLabel) {
+                projectSelectedLabel.textContent = button.dataset.projectName || 'All Projects';
+            }
+            if (projectDropdown) {
+                projectDropdown.classList.add('hidden');
+            }
+            applyFilters();
+        });
+    });
+
+    companyOptionButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            selectedCompany = String(button.dataset.companyName || '').toLowerCase();
+            if (companySelectedLabel) {
+                companySelectedLabel.textContent = button.dataset.companyName || 'All Companies';
+            }
+            if (companyDropdown) {
+                companyDropdown.classList.add('hidden');
+            }
+            applyFilters();
+        });
+    });
+
+    document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (
+            projectDropdown && projectToggleBtn
+            && !projectDropdown.contains(target) && !projectToggleBtn.contains(target)
+        ) {
+            projectDropdown.classList.add('hidden');
+        }
+
+        if (
+            companyDropdown && companyToggleBtn
+            && !companyDropdown.contains(target) && !companyToggleBtn.contains(target)
+        ) {
+            companyDropdown.classList.add('hidden');
+        }
+    });
+});
+</script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\Local.Administrator\Herd\taskmanagement\resources\views/projects/index.blade.php ENDPATH**/ ?>

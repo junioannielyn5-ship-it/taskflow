@@ -19,6 +19,7 @@ use App\Modules\Projects\Services\ProjectService;
 use App\Modules\Identity\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -49,11 +50,30 @@ class TaskController extends Controller
     {
         $projects = Project::all();
         $assignees = User::all();
+        $workflowService = app(WorkflowService::class);
+
+        $currentStatus = (string) $task->status;
+        $statusOptions = collect([$currentStatus, ...$workflowService->getValidTransitions($currentStatus)])
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
+
+        $statusLabels = [
+            TaskStatus::TODO->value => 'To Do',
+            TaskStatus::IN_PROGRESS->value => 'In Progress',
+            TaskStatus::BLOCKED->value => 'Blocked',
+            TaskStatus::FOR_REVIEW->value => 'For Review',
+            TaskStatus::DONE->value => 'Done',
+            TaskStatus::CANCELLED->value => 'Cancelled',
+        ];
 
         return view('tasks.edit', [
             'task' => $task,
             'projects' => $projects,
             'assignees' => $assignees,
+            'statusOptions' => $statusOptions,
+            'statusLabels' => $statusLabels,
         ]);
     }
     /**
@@ -92,6 +112,7 @@ class TaskController extends Controller
             'Reuben Guevara',
             'Jomer Delgado',
             'Ryan Fallan',
+            'Carlo Roldan',
             'Employee User',
             'Lawrence Solee',
             'Norman Reyes',
@@ -101,12 +122,19 @@ class TaskController extends Controller
             'Kacey Arigo',
             'Reagan Timblaco',
             'Yna Garrote',
+            'Yen Junio',
+            'yen junio',
         ])
         ->unique()
         ->values();
 
+        $assigneeWhitelistLower = $assigneeWhitelistNames
+            ->map(fn ($name) => mb_strtolower(trim($name)))
+            ->unique()
+            ->values();
+
         $allUsers = User::query()
-            ->whereIn('name', $assigneeWhitelistNames->all())
+            ->whereIn(DB::raw('LOWER(TRIM(name))'), $assigneeWhitelistLower->all())
             ->orderBy('name')
             ->get(['id', 'name'])
             ->map(fn ($u) => ['id' => $u->id, 'name' => $u->name])
@@ -165,8 +193,10 @@ class TaskController extends Controller
                 'Jomer Delgado',
                 'Ryan Fallan',
                 'Carlo Roldan',
+                'Yen Junio',
             ],
             'Admin and Support' => [
+                'Vera Andino',
                 'Philip Borromeo',
                 'Jen Borromeo',
                 'Pierre Borromeo',
@@ -264,7 +294,7 @@ class TaskController extends Controller
             });
         }
 
-        $assigneeWhitelistNames = [
+        $assigneeWhitelistNames = collect([
             'Edcel Ching',
             'Rupert Moreno',
             'Ronnel Gusi',
@@ -273,11 +303,19 @@ class TaskController extends Controller
             'Reuben Guevara',
             'Jomer Delgado',
             'Ryan Fallan',
+            'Carlo Roldan',
             'Employee User',
-        ];
+            'Yen Junio',
+            'yen junio',
+        ]);
+
+        $assigneeWhitelistLower = $assigneeWhitelistNames
+            ->map(fn ($name) => mb_strtolower(trim($name)))
+            ->unique()
+            ->values();
 
         $assignees = User::query()
-            ->whereIn('name', $assigneeWhitelistNames)
+            ->whereIn(DB::raw('LOWER(TRIM(name))'), $assigneeWhitelistLower->all())
             ->orderBy('name')
             ->get(['id', 'name']);
 
@@ -634,8 +672,16 @@ class TaskController extends Controller
             );
 
             if (!$transitioned) {
+                $message = 'Invalid status transition. Move task through the workflow stages first.';
+
+                if (!$request->expectsJson()) {
+                    return back()
+                        ->withErrors(['status' => $message])
+                        ->withInput();
+                }
+
                 return response()->json([
-                    'message' => 'Invalid status transition. Move task through the workflow stages first.',
+                    'message' => $message,
                 ], 422);
             }
 

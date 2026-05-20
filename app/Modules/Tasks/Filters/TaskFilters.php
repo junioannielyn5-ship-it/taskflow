@@ -57,9 +57,11 @@ class TaskFilters
         if (isset($filters['search']) && $filters['search']) {
             $search = $filters['search'];
             $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%")
+                $q->where('task_no', 'like', "%{$search}%")
+                  ->orWhere('title', 'like', "%{$search}%")
                   ->orWhere('description', 'like', "%{$search}%")
-                  ->orWhere('company', 'like', "%{$search}%");
+                  ->orWhere('company', 'like', "%{$search}%")
+                  ->orWhere('deliverables', 'like', "%{$search}%");
             });
         }
 

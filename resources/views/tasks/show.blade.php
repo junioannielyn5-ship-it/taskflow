@@ -100,7 +100,13 @@
                 @can('update', $task)
                     <form method="POST" action="{{ route('tasks.checklists.store', $task) }}" class="mb-4 flex flex-col gap-2 sm:flex-row">
                         @csrf
-                        <input type="text" name="title" required placeholder="Add checklist item" class="w-full rounded border border-slate-300 px-3 py-2 text-sm">
+                        <input
+                            type="text"
+                            name="title"
+                            required
+                            placeholder="Add checklist item"
+                            class="w-full rounded border-2 border-cyan-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 placeholder:text-slate-500 ring-1 ring-cyan-100 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-200"
+                        >
                         <button type="submit" class="rounded-lg bg-cyan-600 px-4 py-2 text-sm font-medium text-white hover:bg-cyan-700">Add</button>
                     </form>
                     @error('title')
@@ -239,16 +245,43 @@
                     $hasCompletionDocument = $task->attachments->isNotEmpty();
                     $canUpdateTaskStatus = auth()->user() && Gate::allows('update-task-status', $task);
                     $canCompleteTask = auth()->user() && Gate::allows('complete-task', $task);
-                    $canApproveNow = $task->status === 'for_review';
+                    $canApproveNow = $task->status === 'for_review' && $canCompleteTask;
+                    $approvalStatusLabel = match($task->status) {
+                        'done' => 'Approved',
+                        'for_review' => 'Pending Review',
+                        default => 'Not Submitted',
+                    };
+                    $approvalStatusClass = match($task->status) {
+                        'done' => 'bg-emerald-100 text-emerald-800 border border-emerald-200',
+                        'for_review' => 'bg-slate-100 text-slate-700 border border-slate-300',
+                        default => 'bg-slate-100 text-slate-600 border border-slate-300',
+                    };
+                    $approvalButtonLabel = match($task->status) {
+                        'done' => 'Approve As Done',
+                        'for_review' => 'Pending Review',
+                        default => 'Not Submitted',
+                    };
+                    $approvalButtonClass = match($task->status) {
+                        'done' => 'bg-emerald-600 hover:bg-emerald-700',
+                        'for_review' => 'bg-slate-400',
+                        default => 'bg-slate-400',
+                    };
                 @endphp
 
                 <div class="mb-4 rounded-xl border {{ $hasCompletionDocument ? 'border-emerald-200 bg-emerald-50' : 'border-amber-200 bg-amber-50' }} px-4 py-3 text-sm">
-                    <p class="font-semibold {{ $hasCompletionDocument ? 'text-emerald-800' : 'text-amber-800' }}">
-                        {{ $hasCompletionDocument ? 'Completion document uploaded' : 'No completion document yet' }}
-                    </p>
-                    <p class="mt-1 {{ $hasCompletionDocument ? 'text-emerald-700' : 'text-amber-700' }}">
-                        {{ $hasCompletionDocument ? 'Attachment(s) are available in Task Attachments.' : 'Upload at least one proof file before requesting review.' }}
-                    </p>
+                    <div class="mb-3 flex items-center justify-between gap-3">
+                        <div>
+                            <p class="font-semibold {{ $hasCompletionDocument ? 'text-emerald-800' : 'text-amber-800' }}">
+                                {{ $hasCompletionDocument ? 'Completion document uploaded' : 'No completion document yet' }}
+                            </p>
+                            <p class="mt-1 {{ $hasCompletionDocument ? 'text-emerald-700' : 'text-amber-700' }}">
+                                {{ $hasCompletionDocument ? 'Attachment(s) are available in Task Attachments.' : 'Upload at least one proof file before requesting review.' }}
+                            </p>
+                        </div>
+                        <span class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold {{ $approvalStatusClass }}">
+                            {{ $approvalStatusLabel }}
+                        </span>
+                    </div>
                 </div>
 
                 @if($canUpdateTaskStatus)
@@ -275,21 +308,27 @@
                             </button>
                         </form>
 
-                        @if($canCompleteTask)
+                        <button
+                            type="button"
+                            class="w-full rounded-lg px-3 py-2 text-sm font-medium text-white {{ $approvalButtonClass }}"
+                            disabled
+                        >
+                            {{ $approvalButtonLabel }}
+                        </button>
+
+                        @if($task->status === 'for_review' && $canApproveNow)
                             <form method="POST" action="{{ route('tasks.status.update', $task) }}">
                                 @csrf
                                 <input type="hidden" name="status" value="done">
                                 <button
                                     type="submit"
-                                    class="w-full rounded-lg px-3 py-2 text-sm font-medium text-white {{ $canApproveNow ? 'bg-emerald-600 hover:bg-emerald-700' : 'cursor-not-allowed bg-slate-400' }}"
-                                    @disabled(!$canApproveNow)
+                                    class="w-full rounded-lg bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-700"
                                 >
                                     Approve As Done
                                 </button>
                             </form>
-                            @if(!$canApproveNow)
-                                <p class="text-xs text-amber-700">Approve As Done is enabled only after Mark As For Review.</p>
-                            @endif
+                        @elseif($task->status === 'for_review')
+                            <p class="text-xs text-amber-700">Approve As Done is enabled only after Mark As For Review.</p>
                         @endif
                     </div>
                     @error('status')

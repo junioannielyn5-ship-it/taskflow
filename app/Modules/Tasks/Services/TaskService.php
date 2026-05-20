@@ -167,7 +167,7 @@ class TaskService
         $lower = strtolower(trim($person));
 
         $salesPeople = ['lawrence solee', 'norman reyes', 'philip borromeo', 'vera andino'];
-        $technicalPeople = ['edcel ching', 'rupert moreno', 'ronnel gusi', 'samuel tabuzo', 'jobert vallejos', 'reuben guevara', 'jomer delgado', 'ryan fallan', 'carlo roldan'];
+        $technicalPeople = ['edcel ching', 'rupert moreno', 'ronnel gusi', 'samuel tabuzo', 'jobert vallejos', 'reuben guevara', 'jomer delgado', 'ryan fallan', 'carlo roldan', 'yen junio'];
 
         if (in_array($lower, $salesPeople, true)) {
             return 'sales';

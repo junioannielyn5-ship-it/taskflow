@@ -8,7 +8,7 @@
     <script>
         // Dark mode: apply before render to prevent flash
         (function() {
-            if (localStorage.getItem('mv-theme') === 'dark' || (!('mv-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 document.documentElement.classList.add('dark');
             } else {
                 document.documentElement.classList.remove('dark');
@@ -19,6 +19,7 @@
     
     <script src="/js/lucide.min.js"></script>
     <script defer src="/js/alpine.min.js"></script>
+    <script src="/js/darkmode.js"></script>
     
 </head>
 <body class="mv-body m-0 p-0 min-h-screen text-slate-800 antialiased">
@@ -59,14 +60,16 @@
     ];
 @endphp
 
-<nav class="sticky top-0 z-50 w-full border-b border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
-    <div class="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-4 md:px-6">
+<nav class="sticky top-0 z-50 w-full border-b border-slate-300 dark:border-slate-700 bg-gradient-to-r from-slate-100 via-slate-50 to-gray-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 shadow-lg backdrop-blur-xl">
+    <div class="pointer-events-none absolute right-0 top-0 h-24 w-24 translate-x-1/3 -translate-y-1/3 rounded-full bg-blue-100/40 dark:bg-blue-500/20 blur-3xl"></div>
+    <div class="pointer-events-none absolute bottom-0 left-40 h-16 w-16 rounded-full bg-slate-200/35 dark:bg-violet-500/15 blur-2xl"></div>
+    <div class="relative z-10 mx-auto flex h-20 max-w-[1400px] items-center justify-between px-4 md:px-6">
 
         {{-- LEFT: Logo --}}
         <div class="flex shrink-0 items-center">
             <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
-                <img src="{{ asset('images/movaflex-logo-official.png') }}"
-                     class="h-15 w-auto dark:brightness-0 dark:invert"
+                 <img src="{{ asset('images/movaflex-logo-official.png') }}"
+                     class="h-20 w-auto"
                      alt="Movaflex">
                 
             </a>
@@ -76,9 +79,9 @@
         {{-- CENTER: Nav Links (desktop) --}}
         <div class="hidden lg:flex items-center gap-1">
             @php
-                $navBase   = "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors";
-                $navActive = "bg-indigo-50 text-indigo-700 dark:bg-indigo-500/15 dark:text-indigo-300";
-                $navIdle   = "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white";
+                $navBase   = "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors border border-transparent";
+                $navActive = "bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 border-blue-300 dark:border-blue-500/40";
+                $navIdle   = "text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white hover:border-slate-300 dark:hover:border-white/10";
             @endphp
 
             @foreach ($topNavItems as $item)
@@ -89,7 +92,7 @@
             @endforeach
 
             @if(auth()->user()->isAdmin())
-                <a href="{{ route('users.create') }}" class="{{ $navBase }} {{ request()->routeIs('users.*') ? $navActive : $navIdle }}">
+            <a href="{{ route('users.create') }}" class="{{ $navBase }} {{ request()->routeIs('users.*') ? $navActive : $navIdle }}">
                     <i data-lucide="user-plus" class="h-4 w-4"></i>
                     Create User
                 </a>
@@ -97,34 +100,35 @@
         </div>
 
         {{-- RIGHT: Actions + User (desktop) --}}
-        <div class="hidden lg:flex items-center gap-1.5" x-data="{ userMenu: false }">
+        <div class="relative z-20 hidden lg:flex items-center gap-1.5" x-data="{ userMenu: false }">
             {{-- Notifications --}}
-            <a href="{{ route('notifications.history') }}" class="relative rounded-full p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 transition-colors">
+            <a href="{{ route('notifications.history') }}" class="relative rounded-full p-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white transition-colors">
                 <i data-lucide="bell" class="h-5 w-5"></i>
                 <span class="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-rose-500"></span>
             </a>
 
             {{-- Email --}}
-            <a href="{{ route('email.shortcut') }}" class="rounded-full p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 transition-colors">
+            <a href="{{ route('email.shortcut') }}" class="rounded-full p-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white transition-colors">
                 <i data-lucide="mail" class="h-5 w-5"></i>
             </a>
 
             {{-- Chat --}}
-            <button @click="chatOpen = true" class="rounded-full p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 transition-colors" title="Group Chat">
+            <button @click="chatOpen = true" class="relative rounded-full p-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white transition-colors" title="Group Chat">
                 <i data-lucide="message-circle" class="h-5 w-5"></i>
+                <span id="chat-unread-dot" class="hidden absolute top-1 right-1 flex h-2 w-2 rounded-full bg-rose-500 ring-2 ring-[#0F172A]"></span>
             </button>
 
             {{-- Dark Mode --}}
-            <button onclick="toggleDarkMode()" class="rounded-full p-2 text-slate-500 hover:bg-slate-100 dark:text-amber-400 dark:hover:bg-slate-800 transition-colors" title="Toggle Dark Mode">
+            <button onclick="toggleDarkMode()" class="rounded-full p-2 text-slate-700 dark:text-amber-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors" title="Toggle Dark Mode">
                 <svg class="h-5 w-5 hidden dark:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" /></svg>
                 <svg class="h-5 w-5 block dark:hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" /></svg>
             </button>
 
-            <div class="mx-1 h-5 w-px bg-slate-200 dark:bg-slate-700"></div>
+            <div class="mx-1 h-5 w-px bg-slate-300 dark:bg-white/15"></div>
 
             {{-- User Dropdown --}}
             <div class="relative">
-                <button @click="userMenu = !userMenu" class="flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none">
+                <button id="desktop-user-menu-trigger" type="button" @click="userMenu = !userMenu" class="flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors focus:outline-none" aria-haspopup="menu" aria-expanded="false">
                     @if(auth()->user()->profile_photo_path)
                         <img src="{{ asset('storage/' . auth()->user()->profile_photo_path) }}" class="h-7 w-7 rounded-full object-cover" alt="Profile">
                     @else
@@ -132,20 +136,21 @@
                             {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}
                         </div>
                     @endif
-                    <span class="hidden text-sm font-medium text-slate-700 dark:text-slate-200 xl:inline">{{ Str::limit(auth()->user()->name, 14) }}</span>
-                    <svg class="h-4 w-4 text-slate-400" :class="userMenu && 'rotate-180'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    <span class="hidden text-sm font-medium text-slate-700 dark:text-slate-100 xl:inline">{{ Str::limit(auth()->user()->name, 14) }}</span>
+                    <svg class="h-4 w-4 text-slate-500 dark:text-slate-300" :class="userMenu && 'rotate-180'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                 </button>
 
-                <div x-show="userMenu" x-cloak @click.outside="userMenu = false"
+                 <div id="desktop-user-menu-panel" x-show="userMenu" x-cloak @click.outside="userMenu = false"
                      x-transition:enter="transition ease-out duration-100" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                      x-transition:leave="transition ease-in duration-75" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
-                     class="absolute right-0 mt-2 w-48 origin-top-right rounded-lg border border-slate-200 bg-white py-1 shadow-lg dark:border-slate-700 dark:bg-slate-900 z-50">
-                    <a href="{{ route('profile.edit') }}" class="flex items-center gap-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800">
-                        <i data-lucide="settings" class="h-4 w-4 text-slate-400"></i> Settings
+                     class="absolute right-0 mt-2 w-48 origin-top-right rounded-lg border border-slate-200 dark:border-white/15 bg-white dark:bg-[#0F172A]/95 py-1 shadow-xl backdrop-blur-xl z-50">
+                    <a href="{{ route('profile.edit') }}" class="flex items-center gap-2 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10">
+                        <i data-lucide="settings" class="h-4 w-4 text-slate-500 dark:text-slate-300"></i> Settings
                     </a>
-                    <hr class="my-1 border-slate-100 dark:border-slate-700">
-                    <a href="{{ route('logout.get') }}" class="flex items-center gap-2 px-3 py-2 text-sm text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20">
-                        <i data-lucide="log-out" class="h-4 w-4"></i> Logout
+                    <hr class="my-1 border-slate-200 dark:border-white/10">
+                    <a href="{{ route('logout.get') }}" class="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-rose-200 bg-rose-500/10 border-t border-rose-500/20 hover:bg-rose-500/20 hover:text-rose-100 transition-colors">
+                        <i data-lucide="log-out" class="h-4 w-4 text-rose-200"></i> Logout
+                        <span class="ml-auto rounded-full bg-rose-500/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-rose-100">Exit</span>
                     </a>
                 </div>
             </div>
@@ -153,7 +158,7 @@
 
         {{-- MOBILE: icons + hamburger (below lg) --}}
         <div class="flex lg:hidden items-center gap-1">
-            <button onclick="toggleDarkMode()" class="rounded-full p-2 text-slate-500 dark:text-amber-400 transition-colors" title="Toggle Dark Mode">
+            <button onclick="toggleDarkMode()" class="rounded-full p-2 text-slate-700 dark:text-amber-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors" title="Toggle Dark Mode">
                 <svg class="h-5 w-5 hidden dark:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
                 </svg>
@@ -161,18 +166,18 @@
                     <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
                 </svg>
             </button>
-            <a href="{{ route('notifications.history') }}" class="group relative rounded-full p-2 text-slate-500 dark:text-slate-400">
+            <a href="{{ route('notifications.history') }}" class="group relative rounded-full p-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10">
                 <i data-lucide="bell" class="h-5 w-5"></i>
-                <span class="absolute right-1 top-1 flex h-2 w-2 rounded-full bg-rose-500 ring-2 ring-white dark:ring-slate-900"></span>
+                <span class="absolute right-1 top-1 flex h-2 w-2 rounded-full bg-rose-500 ring-2 ring-[#0F172A]"></span>
             </a>
-            <button @click="chatOpen = true" class="relative rounded-full p-2 text-slate-500 dark:text-slate-400" title="Group Chat">
+            <button @click="chatOpen = true" class="relative rounded-full p-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10" title="Group Chat">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
                 <span id="chat-unread-dot-mobile" class="hidden absolute top-0.5 right-0.5 flex h-2.5 w-2.5">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500"></span>
                 </span>
             </button>
-            <button @click="mobileMenuOpen = !mobileMenuOpen" class="rounded-lg p-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700 transition-colors ml-1" aria-label="Toggle menu">
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="rounded-lg p-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors ml-1" aria-label="Toggle menu">
                 <svg x-show="!mobileMenuOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
                 <svg x-show="mobileMenuOpen" x-cloak class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
@@ -185,13 +190,13 @@
     <div x-show="mobileMenuOpen" x-cloak
          x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
          x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2"
-         class="lg:hidden border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg"
+         class="lg:hidden border-t border-slate-200 dark:border-white/10 bg-white dark:bg-[#0F172A]/95 shadow-xl backdrop-blur-xl"
          @click.away="mobileMenuOpen = false">
         <div class="px-4 py-3 space-y-1">
             @php
                 $mobileBase = "flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all";
-                $mobileActive = "bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300";
-                $mobileInactive = "text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700";
+                $mobileActive = "bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-500/40";
+                $mobileInactive = "text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10";
             @endphp
 
             @foreach ($topNavItems as $item)
@@ -206,7 +211,7 @@
             </a>
             @endif
 
-            <hr class="border-slate-100 dark:border-slate-700 my-2">
+            <hr class="border-slate-200 dark:border-white/10 my-2">
 
             <a href="{{ route('email.shortcut') }}" class="{{ $mobileBase }} {{ $mobileInactive }}">
                 <i data-lucide="mail" class="h-5 w-5"></i> Email
@@ -216,8 +221,9 @@
                 <i data-lucide="settings" class="h-5 w-5"></i> Account Settings
             </a>
 
-            <a href="{{ route('logout.get') }}" class="{{ $mobileBase }} text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20">
-                <i data-lucide="log-out" class="h-5 w-5"></i> Logout
+            <a href="{{ route('logout.get') }}" class="{{ $mobileBase }} bg-rose-500/10 text-rose-200 border border-rose-500/20 shadow-sm hover:bg-rose-500/20 hover:text-rose-100">
+                <i data-lucide="log-out" class="h-5 w-5 text-rose-200"></i> Logout
+                <span class="ml-auto rounded-full bg-rose-500/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-rose-100">Exit</span>
             </a>
         </div>
     </div>
@@ -255,20 +261,28 @@
      x-transition:leave-start="translate-x-0"
      x-transition:leave-end="translate-x-full">
 
-    {{-- Panel Header --}}
-    <div class="px-5 py-4 flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 shrink-0">
-        <div class="flex items-center gap-3">
-            <div class="h-10 w-10 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-400">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+
+    {{-- Viber-style Panel Header with Group Buttons --}}
+    <div class="px-5 py-4 flex flex-col gap-2 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 shrink-0">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="h-10 w-10 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-400">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-800 dark:text-white leading-tight">Movaflex Team</h3>
+                    <span class="text-xs text-emerald-500 font-medium">● All Staff Online</span>
+                </div>
             </div>
-            <div>
-                <h3 class="font-bold text-slate-800 dark:text-white leading-tight">Movaflex Team</h3>
-                <span class="text-xs text-emerald-500 font-medium">● All Staff Online</span>
-            </div>
+            <button @click="chatOpen = false" class="p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-slate-700 rounded-full transition-colors focus:outline-none">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
         </div>
-        <button @click="chatOpen = false" class="p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-slate-700 rounded-full transition-colors focus:outline-none">
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-        </button>
+        <div class="flex justify-between gap-2 mt-2">
+            <button type="button" class="chat-group-btn flex-1 rounded-lg py-2 font-semibold text-sm transition bg-blue-600 text-white hover:bg-blue-700 focus:bg-blue-800" data-group="all">All Movaflex</button>
+            <button type="button" class="chat-group-btn flex-1 rounded-lg py-2 font-semibold text-sm transition bg-violet-600 text-white hover:bg-violet-700 focus:bg-violet-800" data-group="sales">Sales</button>
+            <button type="button" class="chat-group-btn flex-1 rounded-lg py-2 font-semibold text-sm transition bg-emerald-600 text-white hover:bg-emerald-700 focus:bg-emerald-800" data-group="technical">Technical</button>
+        </div>
     </div>
 
     {{-- Chat Messages Area --}}
@@ -323,12 +337,20 @@
         var html = document.documentElement;
         html.classList.toggle('dark');
         if (html.classList.contains('dark')) {
-            localStorage.setItem('mv-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
         } else {
-            localStorage.setItem('mv-theme', 'light');
+            localStorage.setItem('theme', 'light');
         }
     }
     </script>
+
+
+
+    @auth
+    <script>
+        window.currentUserId = Number('{{ auth()->id() }}');
+    </script>
+    @endauth
     @stack('scripts')
 
     {{-- ==================== GROUP CHAT FETCH API ==================== --}}
@@ -341,7 +363,10 @@
         var form = document.getElementById('chat-panel-form');
         var input = document.getElementById('chat-panel-input');
         var sendBtn = document.getElementById('chat-panel-send-btn');
-        var unreadDot = document.getElementById('chat-unread-dot');
+        var unreadDots = [
+            document.getElementById('chat-unread-dot'),
+            document.getElementById('chat-unread-dot-mobile')
+        ].filter(Boolean);
         var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         var currentUserId = window.currentUserId || null;
         var lastMessageId = 0;
@@ -400,9 +425,23 @@
 
             var messageText = escapeHtml(msg.message).replace(/\n/g, '<br>');
 
-            wrapper.innerHTML = nameRow +
-                '<div class="' + bubbleClass + '">' + messageText + '</div>' +
-                '<span class="text-[10px] text-slate-400 mt-1 ' + (isOwn ? 'mr-1' : 'ml-1') + '">' + formatTime(msg.created_at) + '</span>';
+            if (isOwn) {
+                wrapper.innerHTML =
+                    '<div class="flex items-center gap-1 flex-row-reverse">' +
+                        '<div class="' + bubbleClass + '">' + messageText + '</div>' +
+                        '<button type="button" onclick="window.deletePanelMessage(' + msg.id + ')" title="Delete" class="ml-1 p-1 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center focus:outline-none" style="height:24px;width:24px;">' +
+                            '<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 20 20" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 8v6m4-6v6m5-10v2M4 6V4a2 2 0 012-2h4a2 2 0 012 2v2m2 0H4m2 0h8" /></svg>' +
+                        '</button>' +
+                    '</div>' +
+                    '<span class="text-[10px] text-slate-400 mt-1 mr-1">' + formatTime(msg.created_at) + '</span>';
+            } else {
+                wrapper.innerHTML =
+                    nameRow +
+                    '<div class="group flex items-center gap-1">' +
+                        '<div class="' + bubbleClass + '">' + messageText + '</div>' +
+                    '</div>' +
+                    '<span class="text-[10px] text-slate-400 mt-1 ml-1">' + formatTime(msg.created_at) + '</span>';
+            }
 
             return wrapper;
         }
@@ -441,8 +480,9 @@
             scrollToBottom();
         }
 
+        var currentGroup = 'all';
         function fetchMessages() {
-            fetch('/messages', {
+            fetch('/messages?group=' + encodeURIComponent(currentGroup), {
                 headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
             })
             .then(function(r) {
@@ -456,7 +496,10 @@
                 renderMessages(messages);
                 // Show unread dot if new messages arrived while panel is closed
                 if (messages.length > 0 && messages[messages.length - 1].id > hadMessages && hadMessages > 0 && !isChatOpen()) {
-                    if (unreadDot) { unreadDot.classList.remove('hidden'); unreadDot.classList.add('flex'); }
+                    unreadDots.forEach(function(dot) {
+                        dot.classList.remove('hidden');
+                        dot.classList.add('flex');
+                    });
                 }
             })
             .catch(function(err) {
@@ -481,7 +524,7 @@
                     'X-CSRF-TOKEN': csrfToken,
                     'X-Requested-With': 'XMLHttpRequest'
                 },
-                body: JSON.stringify({ message: message })
+                body: JSON.stringify({ message: message, group: currentGroup })
             })
             .then(function(r) { if (!r.ok) throw new Error('send failed'); return r.json(); })
             .then(function(msg) {
@@ -498,6 +541,22 @@
                 input.focus();
             });
         });
+        // Group button switching
+        document.querySelectorAll('.chat-group-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.chat-group-btn').forEach(function(b) {
+                    b.classList.remove('ring', 'ring-2', 'ring-blue-400', 'ring-violet-400', 'ring-emerald-400');
+                });
+                currentGroup = btn.getAttribute('data-group');
+                // Highlight active
+                if(currentGroup === 'all') btn.classList.add('ring', 'ring-2', 'ring-blue-400');
+                if(currentGroup === 'sales') btn.classList.add('ring', 'ring-2', 'ring-violet-400');
+                if(currentGroup === 'technical') btn.classList.add('ring', 'ring-2', 'ring-emerald-400');
+                fetchMessages();
+            });
+        });
+        // Set default highlight
+        document.querySelector('.chat-group-btn[data-group="all"]').classList.add('ring', 'ring-2', 'ring-blue-400');
 
         // Send on Enter
         input.addEventListener('keydown', function(e) {
@@ -510,11 +569,43 @@
         // Clear unread dot when opening panel
         document.addEventListener('click', function(e) {
             var btn = e.target.closest('[title="Group Chat"]');
-            if (btn && unreadDot) {
-                unreadDot.classList.add('hidden');
-                unreadDot.classList.remove('flex');
+            if (btn) {
+                unreadDots.forEach(function(dot) {
+                    dot.classList.add('hidden');
+                    dot.classList.remove('flex');
+                });
             }
         });
+
+        // Delete message
+        window.deletePanelMessage = function(messageId) {
+            if (!confirm('Delete this message?')) return;
+
+            fetch('/messages/' + messageId, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(function(r) {
+                if (!r.ok) throw new Error('delete failed');
+                return r.json();
+            })
+            .then(function() {
+                var el = messagesBox.querySelector('[data-message-id="' + messageId + '"]');
+                if (el) el.remove();
+                if (messagesBox.querySelectorAll('[data-message-id]').length === 0) {
+                    emptyEl.classList.remove('hidden');
+                    emptyEl.classList.add('flex');
+                }
+            })
+            .catch(function(err) {
+                console.error('Chat delete error:', err);
+                alert('Hindi na-delete ang message. Subukan ulit.');
+            });
+        };
 
         // Initial load + polling
         fetchMessages();
@@ -524,8 +615,4 @@
     @endauth
 
 </body>
-</body>
-<script>
-    window.currentUserId = {!! json_encode(auth()->id()) !!};
-</script>
 </html>

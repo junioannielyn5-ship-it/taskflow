@@ -32,10 +32,22 @@ class TaskProcessCatalog
                 ['name' => 'Delivery', 'sla_days' => 3, 'allow_validity_lead_time' => false],
                 ['name' => 'Installation', 'sla_days' => 5, 'allow_validity_lead_time' => false],
                 ['name' => 'Commissioning', 'sla_days' => 7, 'allow_validity_lead_time' => false],
+                ['name' => 'Sales Order', 'sla_days' => 2, 'allow_validity_lead_time' => false],
+                ['name' => 'PO to Supplier', 'sla_days' => 3, 'allow_validity_lead_time' => false],
+                ['name' => 'Payment to Supplier', 'sla_days' => 3, 'allow_validity_lead_time' => false],
+                ['name' => 'Delivery - Partial', 'sla_days' => 3, 'allow_validity_lead_time' => false],
+                ['name' => 'Delivery - Complete', 'sla_days' => 3, 'allow_validity_lead_time' => false],
+                ['name' => 'Sales Invoice', 'sla_days' => 2, 'allow_validity_lead_time' => false],
+                ['name' => 'Payment - Downpayment', 'sla_days' => 3, 'allow_validity_lead_time' => false],
+                ['name' => 'Payment - Progress Billing', 'sla_days' => 5, 'allow_validity_lead_time' => false],
+                ['name' => 'Payment - Full Payment', 'sla_days' => 5, 'allow_validity_lead_time' => false],
+                ['name' => 'Order Confirmation', 'sla_days' => 2, 'allow_validity_lead_time' => false],
             ],
             'After-Sales' => [
                 ['name' => 'For COC', 'sla_days' => 3, 'allow_validity_lead_time' => false],
                 ['name' => 'For COA', 'sla_days' => 3, 'allow_validity_lead_time' => false],
+                ['name' => 'COC', 'sla_days' => 3, 'allow_validity_lead_time' => false],
+                ['name' => 'Service / Technical Support', 'sla_days' => 3, 'allow_validity_lead_time' => false],
             ],
         ];
     }

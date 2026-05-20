@@ -4,10 +4,16 @@ namespace App\Modules\Workflow\Services;
 
 use App\Modules\Identity\Models\User;
 use App\Modules\Shared\Enums\TaskStatus;
+use App\Modules\Tasks\Events\TaskStatusChanged;
+use App\Modules\Tasks\Events\TaskUpdated;
 use App\Modules\Tasks\Models\Task;
+use App\Models\AuditLog;
 use App\Modules\Workflow\Models\TaskActivityLog;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Request;
 
 class WorkflowService
 {
@@ -23,9 +29,6 @@ class WorkflowService
         TaskStatus::DONE->value => [],
     ];
 
-    /**
-     * Roles that can complete (move to done) a task.
-     */
     /**
      * Check if a status transition is allowed.
      */
@@ -71,17 +74,76 @@ class WorkflowService
      */
     public function updateStatus(Task $task, string $newStatus, User $actor, ?string $reason = null): bool
     {
-        if (!$this->canUserTransition($actor, $task, $newStatus)) {
+        $normalizedReason = is_string($reason) ? trim($reason) : null;
+
+        if ($newStatus === TaskStatus::BLOCKED->value && $normalizedReason === '') {
             return false;
         }
 
-        $oldStatus = $task->status;
-        $task->status = $newStatus;
-        $task->blocked_reason = $newStatus === TaskStatus::BLOCKED->value ? $reason : null;
-        $task->done_at = $newStatus === TaskStatus::DONE->value ? now() : null;
-        $task->save();
+        $updated = false;
+        $expectedFromStatus = $task->status;
 
-        return true;
+        $statusChanges = [];
+
+        DB::transaction(function () use ($task, $newStatus, $actor, $normalizedReason, $expectedFromStatus, &$updated, &$statusChanges) {
+            $taskQuery = Task::query()->whereKey($task->id);
+
+            if (DB::connection()->getDriverName() !== 'sqlite') {
+                $taskQuery->lockForUpdate();
+            }
+
+            $lockedTask = $taskQuery->first();
+
+            if (!$lockedTask) {
+                return;
+            }
+
+            // Prevent stale updates when another request has already changed the status.
+            if ($lockedTask->status !== $expectedFromStatus) {
+                return;
+            }
+
+            if (!$this->canUserTransition($actor, $lockedTask, $newStatus)) {
+                return;
+            }
+
+            $lockedTask->status = $newStatus;
+            $lockedTask->blocked_reason = $newStatus === TaskStatus::BLOCKED->value ? $normalizedReason : null;
+            $lockedTask->done_at = $newStatus === TaskStatus::DONE->value ? now() : null;
+
+            $statusChanges = array_filter([
+                'status' => $lockedTask->status,
+                'blocked_reason' => $lockedTask->blocked_reason,
+                'done_at' => $lockedTask->done_at,
+            ], fn ($value) => $value !== null || $value === '' || $value === 0);
+
+            Task::withoutEvents(function () use ($lockedTask) {
+                $lockedTask->save();
+            });
+
+            $task->setRawAttributes($lockedTask->getAttributes(), true);
+            $task->syncOriginal();
+
+            $updated = true;
+        });
+
+        if ($updated) {
+            AuditLog::create([
+                'user_id' => Auth::id(),
+                'action' => 'Updated',
+                'model_type' => Task::class,
+                'model_id' => $task->id,
+                'model_label' => $task->getAuditLabel(),
+                'old_values' => ['status' => $expectedFromStatus],
+                'new_values' => ['status' => $newStatus],
+                'ip_address' => Request::ip(),
+            ]);
+
+            TaskStatusChanged::dispatch($task, $expectedFromStatus, $newStatus);
+            TaskUpdated::dispatch($task, ['status' => $newStatus]);
+        }
+
+        return $updated;
     }
 
     /**
@@ -99,8 +161,8 @@ class WorkflowService
             'task_id' => $task->id,
             'actor_id' => $actor->id,
             'action_type' => $actionType,
-            'old_value' => $oldValue ? (string)$oldValue : null,
-            'new_value' => $newValue ? (string)$newValue : null,
+            'old_value' => $oldValue !== null ? (string) $oldValue : null,
+            'new_value' => $newValue !== null ? (string) $newValue : null,
             'metadata' => $metadata ?: null,
         ]);
     }

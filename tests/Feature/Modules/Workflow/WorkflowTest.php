@@ -217,6 +217,28 @@ describe('Workflow Module', function () {
             expect($log->actor_id)->toEqual($ctx->lead->id);
         });
 
+        test('activity_log_preserves_falsy_string_values', function () {
+            $ctx = workflowContext();
+            $task = Task::factory()->create([
+                'project_id' => $ctx->project->id,
+                'status' => 'todo',
+                'created_by' => $ctx->lead->id,
+            ]);
+
+            $ctx->workflowService->recordActivityLog(
+                task: $task,
+                actor: $ctx->lead,
+                actionType: 'priority_change',
+                oldValue: '0',
+                newValue: false,
+            );
+
+            $log = TaskActivityLog::where('task_id', $task->id)->latest()->first();
+
+            expect($log->old_value)->toEqual('0');
+            expect($log->new_value)->toEqual('');
+        });
+
         test('activity_log_has_correct_description', function () {
             $ctx = workflowContext();
             $task = Task::factory()->create([
