@@ -161,11 +161,29 @@
             </div>
 
             {{-- Pagination --}}
-            @if($auditLogs->hasPages())
-                <div class="px-6 py-4 border-t border-slate-200/50 dark:border-slate-700/50">
-                    {{ $auditLogs->links() }}
-                </div>
-            @endif
+            <div class="px-6 py-4 border-t border-slate-200/50 dark:border-slate-700/50 flex flex-col items-center justify-between gap-3 sm:flex-row bg-slate-50/50 dark:bg-slate-900/50 rounded-b-2xl backdrop-blur-xl">
+                <form method="GET" action="{{ url()->current() }}" class="flex items-center gap-1.5 text-xs text-slate-555 dark:text-slate-400">
+                    @foreach(request()->except('per_page', 'page') as $key => $value)
+                        @if(is_array($value))
+                            @foreach($value as $k => $v)
+                                <input type="hidden" name="{{ $key }}[]" value="{{ $v }}">
+                            @endforeach
+                        @else
+                            <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                        @endif
+                    @endforeach
+                    <span>Show</span>
+                    <input type="number" name="per_page" value="{{ $auditLogs->perPage() }}" min="1" max="100" 
+                           class="w-12 rounded-lg border border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-900/50 py-1 px-1.5 text-center text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-150"
+                           onchange="this.form.submit()">
+                    <span>entries</span>
+                </form>
+                @if($auditLogs->hasPages())
+                    <div>
+                        {{ $auditLogs->links() }}
+                    </div>
+                @endif
+            </div>
         @endif
     </div>
 </div>

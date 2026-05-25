@@ -1,34 +1,34 @@
 <?php $__env->startSection('content'); ?>
 <div class="mx-auto max-w-7xl">
-    <div class="mb-6 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+    <div class="mb-4 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
         <div>
-            <h1 class="text-2xl font-bold text-slate-800 dark:text-white">Inventory Items Master</h1>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Manage your inventory, import from Excel, or export data.</p>
+            <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Inventory Items <span class="text-blue-600 dark:text-blue-400">Master</span></h1>
+            <p class="text-xs text-slate-550 dark:text-slate-400 mt-0.5">Manage your inventory, import from Excel, or export data.</p>
         </div>
-        <div class="flex gap-2">
-            <button type="button" onclick="document.getElementById('import-modal').classList.remove('hidden')" class="inline-flex items-center gap-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700">
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+        <div class="flex gap-1.5">
+            <button type="button" onclick="document.getElementById('import-modal').classList.remove('hidden')" class="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 py-1.5 px-3 text-xs font-bold text-slate-700 dark:text-slate-300 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200">
+                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
                 Import
             </button>
-            <a href="<?php echo e(route('inventory.export')); ?>" class="inline-flex items-center gap-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700">
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            <a href="<?php echo e(route('inventory.export')); ?>" class="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 py-1.5 px-3 text-xs font-bold text-slate-700 dark:text-slate-300 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200">
+                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 Export
             </a>
-            <button type="button" onclick="openAddModal()" class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-blue-700">
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            <button type="button" onclick="openAddModal()" class="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-blue-700 transition-all duration-200 hover:-translate-y-0.5">
+                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                 Add Item
             </button>
         </div>
     </div>
 
     <?php if(session('success')): ?>
-        <div class="mb-4 rounded-lg bg-emerald-50 p-4 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400">
+        <div class="mb-4 rounded-lg bg-emerald-50 p-4 text-sm text-emerald-600 border border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800/30">
             <?php echo e(session('success')); ?>
 
         </div>
     <?php endif; ?>
     <?php if($errors->any()): ?>
-        <div class="mb-4 rounded-lg bg-red-50 p-4 text-red-800 dark:bg-red-900/30 dark:text-red-400">
+        <div class="mb-4 rounded-lg bg-rose-50 p-4 text-sm text-rose-600 border border-rose-200 dark:bg-rose-900/30 dark:text-rose-400 dark:border-rose-800/30">
             <ul class="list-disc pl-5">
                 <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <li><?php echo e($error); ?></li>
@@ -37,58 +37,60 @@
         </div>
     <?php endif; ?>
 
-    <div class="rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 overflow-hidden">
-        <div class="border-b border-slate-200 dark:border-slate-700 p-4">
-            <form action="<?php echo e(route('inventory.index')); ?>" method="GET" class="flex gap-2 max-w-md">
+    <div class="rounded-xl border border-slate-200/40 bg-white/90 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
+        <div class="border-b border-slate-200/40 p-3 dark:border-slate-800">
+            <form action="<?php echo e(route('inventory.index')); ?>" method="GET" class="flex max-w-md items-center gap-2">
                 <div class="relative flex-1">
                     <svg class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    <input type="text" name="search" value="<?php echo e(request('search')); ?>" placeholder="Search Item Code or Description..." class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 pl-9 pr-4 py-2 text-sm text-slate-900 dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none">
+                    <input type="text" name="search" value="<?php echo e(request('search')); ?>" placeholder="Search Item Code or Description..." class="w-full rounded-lg border border-slate-300 bg-slate-50/70 py-1.5 pl-8 pr-3 text-xs focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-900/50 dark:text-white">
                 </div>
-                <button type="submit" class="rounded-xl bg-slate-100 dark:bg-slate-700 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-600">Search</button>
+                <button type="submit" class="rounded-lg bg-slate-100 px-3.5 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">Search</button>
                 <?php if(request('search')): ?>
-                    <a href="<?php echo e(route('inventory.index')); ?>" class="rounded-xl px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">Clear</a>
+                    <a href="<?php echo e(route('inventory.index')); ?>" class="px-3.5 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-all duration-200">Clear</a>
                 <?php endif; ?>
             </form>
         </div>
         
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm text-slate-600 dark:text-slate-300">
-                <thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:bg-slate-700/50 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">
+            <table class="w-full text-left text-xs text-slate-600 dark:text-slate-300">
+                <thead class="border-b border-slate-200/40 bg-slate-50/70 text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-400">
                     <tr>
-                        <th class="px-6 py-4">Name</th>
-                        <th class="px-6 py-4">Category</th>
-                        <th class="px-6 py-4">Unit</th>
-                        <th class="px-6 py-4">Qty</th>
-                        <th class="px-6 py-4">Acquired</th>
-                        <th class="px-6 py-4">Distributed</th>
-                        <th class="px-6 py-4">Remaining</th>
-                        <th class="px-6 py-4">Supplier</th>
-                        <th class="px-6 py-4">Brand</th>
-                        <th class="px-6 py-4">Remarks</th>
-                        <th class="px-6 py-4 text-right">Actions</th>
+                        <th class="px-3 py-2">Name</th>
+                        <th class="px-3 py-2">Category</th>
+                        <th class="px-3 py-2">Unit</th>
+                        <th class="px-3 py-2">Qty</th>
+                        <th class="px-3 py-2">Acquired</th>
+                        <th class="px-3 py-2">Distributed</th>
+                        <th class="px-3 py-2">Remaining</th>
+                        <th class="px-3 py-2">Supplier</th>
+                        <th class="px-3 py-2">Brand</th>
+                        <th class="px-3 py-2">Remarks</th>
+                        <th class="px-3 py-2 text-right">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
+                <tbody class="divide-y divide-slate-200 dark:divide-slate-850">
                     <?php $__empty_1 = true; $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50">
-                            <td class="px-6 py-4 font-medium text-slate-900 dark:text-white"><?php echo e($item->name); ?></td>
-                            <td class="px-6 py-4"><?php echo e($item->category); ?></td>
-                            <td class="px-6 py-4"><?php echo e($item->unit); ?></td>
-                            <td class="px-6 py-4 font-medium"><?php echo e($item->quantity); ?></td>
-                            <td class="px-6 py-4"><?php echo e($item->quantity_acquired); ?></td>
-                            <td class="px-6 py-4"><?php echo e($item->quantity_distributed); ?></td>
-                            <td class="px-6 py-4 font-medium <?php echo e($item->quantity_remaining <= 0 ? 'text-red-500' : 'text-emerald-600 dark:text-emerald-400'); ?>"><?php echo e($item->quantity_remaining); ?></td>
-                            <td class="px-6 py-4"><?php echo e($item->supplier); ?></td>
-                            <td class="px-6 py-4"><?php echo e($item->brand); ?></td>
-                            <td class="px-6 py-4 text-slate-500 dark:text-slate-400"><?php echo e($item->remarks ?? '-'); ?></td>
-                            <td class="px-6 py-4 text-right">
-                                <button type="button" onclick="openEditModal(<?php echo e($item->toJson()); ?>)" class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 mr-3">Edit</button>
-                                <button type="button" onclick="openDeleteModal(<?php echo e($item->id); ?>, '<?php echo e(addslashes($item->name)); ?>')" class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300">Delete</button>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-850/50 transition-colors">
+                            <td class="whitespace-nowrap px-3 py-2.5 font-semibold text-slate-900 dark:text-white text-xs"><?php echo e($item->name); ?></td>
+                            <td class="px-3 py-2.5 text-xs"><?php echo e($item->category); ?></td>
+                            <td class="px-3 py-2.5 text-xs"><?php echo e($item->unit); ?></td>
+                            <td class="px-3 py-2.5 text-xs font-medium"><?php echo e($item->quantity); ?></td>
+                            <td class="px-3 py-2.5 text-xs"><?php echo e($item->quantity_acquired); ?></td>
+                            <td class="px-3 py-2.5 text-xs"><?php echo e($item->quantity_distributed); ?></td>
+                            <td class="px-3 py-2.5 text-xs font-medium <?php echo e($item->quantity_remaining <= 0 ? 'text-red-500' : 'text-emerald-600 dark:text-emerald-400'); ?>"><?php echo e($item->quantity_remaining); ?></td>
+                            <td class="px-3 py-2.5 text-xs"><?php echo e($item->supplier); ?></td>
+                            <td class="px-3 py-2.5 text-xs"><?php echo e($item->brand); ?></td>
+                            <td class="px-3 py-2.5 text-xs text-slate-500 dark:text-slate-400"><?php echo e($item->remarks ?? '-'); ?></td>
+                            <td class="whitespace-nowrap px-3 py-2.5 text-right text-xs">
+                                <div class="inline-flex gap-1">
+                                    <button type="button" onclick="openEditModal(<?php echo e($item->toJson()); ?>)" class="inline-flex items-center gap-1 rounded border border-blue-100 dark:border-blue-900/50 bg-blue-50/50 dark:bg-blue-950/40 px-2 py-1 text-[10px] font-bold text-blue-600 dark:text-blue-400 hover:bg-blue-100/80 dark:hover:bg-blue-900/50 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">Edit</button>
+                                    <button type="button" onclick="openDeleteModal(<?php echo e($item->id); ?>, '<?php echo e(addslashes($item->name)); ?>')" class="inline-flex items-center gap-1 rounded border border-red-100 dark:border-red-900/50 bg-red-50/50 dark:bg-red-950/40 px-2 py-1 text-[10px] font-bold text-red-650 dark:text-red-400 hover:bg-red-100/80 dark:hover:bg-red-900/50 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">Delete</button>
+                                </div>
                             </td>
                         </tr>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                         <tr>
-                            <td colspan="5" class="px-6 py-8 text-center text-slate-500">
+                            <td colspan="11" class="px-3 py-6 text-center text-xs text-slate-500">
                                 No items found.
                             </td>
                         </tr>
@@ -96,12 +98,30 @@
                 </tbody>
             </table>
         </div>
-        <?php if($items->hasPages()): ?>
-            <div class="border-t border-slate-200 dark:border-slate-700 p-4">
-                <?php echo e($items->links()); ?>
+        <div class="border-t border-slate-200 dark:border-slate-850 p-3 sm:p-4 flex flex-col items-center justify-between gap-3 sm:flex-row bg-slate-50/50 dark:bg-slate-900/50 rounded-b-xl backdrop-blur-md">
+            <form method="GET" action="<?php echo e(url()->current()); ?>" class="flex items-center gap-1.5 text-xs text-slate-550 dark:text-slate-400">
+                <?php $__currentLoopData = request()->except('per_page', 'page'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php if(is_array($value)): ?>
+                        <?php $__currentLoopData = $value; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $v): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <input type="hidden" name="<?php echo e($key); ?>[]" value="<?php echo e($v); ?>">
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    <?php else: ?>
+                        <input type="hidden" name="<?php echo e($key); ?>" value="<?php echo e($value); ?>">
+                    <?php endif; ?>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <span>Show</span>
+                <input type="number" name="per_page" value="<?php echo e($items->perPage()); ?>" min="1" max="100" 
+                       class="w-12 rounded-lg border border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-900/50 py-1 px-1.5 text-center text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-150"
+                       onchange="this.form.submit()">
+                <span>entries</span>
+            </form>
+            <?php if($items->hasPages()): ?>
+                <div>
+                    <?php echo e($items->links()); ?>
 
-            </div>
-        <?php endif; ?>
+                </div>
+            <?php endif; ?>
+        </div>
     </div>
 </div>
 

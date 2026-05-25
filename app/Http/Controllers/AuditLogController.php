@@ -99,7 +99,8 @@ class AuditLogController extends Controller
             });
         }
 
-        $auditLogs = $query->paginate(10)->withQueryString();
+        $perPage = max(1, min(100, (int) $request->integer('per_page', 10)));
+        $auditLogs = $query->paginate($perPage)->withQueryString();
 
         // Unique users for filter dropdown
         $users = \App\Modules\Identity\Models\User::orderBy('name')

@@ -464,9 +464,10 @@ class TaskController extends Controller
             });
         }
 
+        $perPageDone = max(1, min(100, (int) request()->integer('per_page_done', 10)));
         $doneTasks = TaskFilters::apply($doneTasksQuery, $doneTaskFilters)
             ->orderByDesc('updated_at')
-            ->paginate(10, ['*'], 'done_page')
+            ->paginate($perPageDone, ['*'], 'done_page')
             ->withQueryString();
 
         // Add member_role to each done task's project

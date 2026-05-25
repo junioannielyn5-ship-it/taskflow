@@ -25,7 +25,8 @@ class ClientController extends Controller
             });
         }
 
-        $clients = $query->latest()->paginate(15);
+        $perPage = max(1, min(100, (int) $request->integer('per_page', 15)));
+        $clients = $query->latest()->paginate($perPage)->withQueryString();
         
         return view('client.index', compact('clients'));
     }

@@ -1,13 +1,13 @@
 <?php $__env->startSection('content'); ?>
 <div class="mx-auto max-w-7xl">
-    <div class="mb-6 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+    <div class="mb-4 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
         <div>
-            <h1 class="text-2xl font-bold text-slate-800 dark:text-white">User Management</h1>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Manage system users, roles, and access.</p>
+            <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">User <span class="text-blue-600 dark:text-blue-400">Management</span></h1>
+            <p class="text-xs text-slate-550 dark:text-slate-400 mt-0.5">Manage system users, roles, and access.</p>
         </div>
-        <div class="flex gap-2">
-            <button type="button" onclick="openAddUserModal()" class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-blue-700">
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+        <div class="flex gap-1.5">
+            <button type="button" onclick="openAddUserModal()" class="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-blue-700 transition-all duration-200 hover:-translate-y-0.5">
+                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                 Create New User
             </button>
         </div>
@@ -29,60 +29,82 @@
         </div>
     <?php endif; ?>
 
-    <div class="rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800">
+    <div class="rounded-xl border border-slate-200/40 bg-white/90 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm text-slate-600 dark:text-slate-300">
-                <thead class="border-b border-slate-200 bg-slate-50 text-xs font-semibold uppercase text-slate-500 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-400">
+            <table class="w-full text-left text-xs text-slate-600 dark:text-slate-300">
+                <thead class="border-b border-slate-200/40 bg-slate-50/70 text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-400">
                     <tr>
-                        <th class="px-6 py-4">Name</th>
-                        <th class="px-6 py-4">Email</th>
-                        <th class="px-6 py-4">Phone No.</th>
-                        <th class="px-6 py-4">Role</th>
-                        <th class="px-6 py-4 text-right">Actions</th>
+                        <th class="px-3 py-2">Name</th>
+                        <th class="px-3 py-2">Email</th>
+                        <th class="px-3 py-2">Phone No.</th>
+                        <th class="px-3 py-2">Role</th>
+                        <th class="px-3 py-2 text-right">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                <tbody class="divide-y divide-slate-200 dark:divide-slate-850">
                     <?php $__empty_1 = true; $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                            <td class="px-6 py-4">
-                                <div class="flex items-center gap-3">
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-850/50 transition-colors">
+                            <td class="whitespace-nowrap px-3 py-2.5 font-semibold text-slate-900 dark:text-white text-xs">
+                                <div class="flex items-center gap-2">
                                     <?php if($user->profile_photo_path): ?>
-                                        <img src="<?php echo e(Storage::url($user->profile_photo_path)); ?>" alt="Profile" class="h-10 w-10 rounded-full object-cover border border-slate-200">
+                                        <img src="<?php echo e(Storage::url($user->profile_photo_path)); ?>" alt="Profile" class="h-7 w-7 rounded-full object-cover border border-slate-200 dark:border-slate-700">
                                     <?php else: ?>
-                                        <div class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-blue-700 font-bold dark:bg-blue-900/30 dark:text-blue-400">
+                                        <div class="flex h-7 w-7 items-center justify-center rounded-full bg-blue-100 text-blue-700 text-xs font-bold dark:bg-blue-900/30 dark:text-blue-400">
                                             <?php echo e(substr($user->name, 0, 1)); ?>
 
                                         </div>
                                     <?php endif; ?>
                                     <div>
-                                        <div class="font-semibold text-slate-900 dark:text-white"><?php echo e($user->name); ?></div>
+                                        <div class="font-semibold text-slate-900 dark:text-white text-xs"><?php echo e($user->name); ?></div>
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4"><?php echo e($user->email); ?></td>
-                            <td class="px-6 py-4"><?php echo e($user->phone_no ?? 'N/A'); ?></td>
-                            <td class="px-6 py-4">
-                                <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-800 dark:bg-slate-700 dark:text-slate-300">
+                            <td class="px-3 py-2.5 text-xs"><?php echo e($user->email); ?></td>
+                            <td class="px-3 py-2.5 text-xs"><?php echo e($user->phone_no ?? 'N/A'); ?></td>
+                            <td class="px-3 py-2.5 text-xs">
+                                <span class="inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-800 dark:bg-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800">
                                     <?php echo e(ucfirst(str_replace('_', ' ', $user->role))); ?>
 
                                 </span>
                             </td>
-                            <td class="px-6 py-4 text-right">
-                                <button type="button" onclick="openEditUserModal(<?php echo e($user); ?>)" class="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-blue-600 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/30">
-                                    Edit
-                                </button>
-                                <button type="button" onclick="openDeleteUserModal(<?php echo e($user->id); ?>, '<?php echo e(addslashes($user->name)); ?>')" class="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-rose-600 hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-900/30">
-                                    Deactivate
-                                </button>
+                            <td class="whitespace-nowrap px-3 py-2.5 text-right text-xs">
+                                <div class="inline-flex gap-1">
+                                    <button type="button" onclick="openEditUserModal(<?php echo e($user); ?>)" class="inline-flex items-center gap-1 rounded border border-blue-100 dark:border-blue-900/50 bg-blue-50/50 dark:bg-blue-950/40 px-2 py-1 text-[10px] font-bold text-blue-600 dark:text-blue-400 hover:bg-blue-100/80 dark:hover:bg-blue-900/50 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">Edit</button>
+                                    <button type="button" onclick="openDeleteUserModal(<?php echo e($user->id); ?>, '<?php echo e(addslashes($user->name)); ?>')" class="inline-flex items-center gap-1 rounded border border-red-100 dark:border-red-900/50 bg-red-50/50 dark:bg-red-950/40 px-2 py-1 text-[10px] font-bold text-red-650 dark:text-red-400 hover:bg-red-100/80 dark:hover:bg-red-900/50 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">Deactivate</button>
+                                </div>
                             </td>
                         </tr>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                         <tr>
-                            <td colspan="5" class="px-6 py-8 text-center text-slate-500">No users found.</td>
+                            <td colspan="5" class="px-3 py-6 text-center text-xs text-slate-500">No users found.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
             </table>
+        </div>
+        <div class="border-t border-slate-200 dark:border-slate-850 p-3 sm:p-4 flex flex-col items-center justify-between gap-3 sm:flex-row bg-slate-50/50 dark:bg-slate-900/50 rounded-b-xl backdrop-blur-md">
+            <form method="GET" action="<?php echo e(url()->current()); ?>" class="flex items-center gap-1.5 text-xs text-slate-550 dark:text-slate-400">
+                <?php $__currentLoopData = request()->except('per_page', 'page'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php if(is_array($value)): ?>
+                        <?php $__currentLoopData = $value; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $v): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <input type="hidden" name="<?php echo e($key); ?>[]" value="<?php echo e($v); ?>">
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    <?php else: ?>
+                        <input type="hidden" name="<?php echo e($key); ?>" value="<?php echo e($value); ?>">
+                    <?php endif; ?>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <span>Show</span>
+                <input type="number" name="per_page" value="<?php echo e($users->perPage()); ?>" min="1" max="100" 
+                       class="w-12 rounded-lg border border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-900/50 py-1 px-1.5 text-center text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-150"
+                       onchange="this.form.submit()">
+                <span>entries</span>
+            </form>
+            <?php if($users->hasPages()): ?>
+                <div>
+                    <?php echo e($users->links()); ?>
+
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

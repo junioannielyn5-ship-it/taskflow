@@ -9,13 +9,15 @@ use Illuminate\Support\Facades\Auth;
 
 class MeetingController
 {
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = max(1, min(100, (int) $request->integer('per_page', 20)));
         $meetings = Meeting::query()
             ->with('creator')
             ->orderBy('meeting_date')
             ->orderBy('start_time')
-            ->get();
+            ->paginate($perPage)
+            ->withQueryString();
 
         return view('meetings.index', compact('meetings'));
     }

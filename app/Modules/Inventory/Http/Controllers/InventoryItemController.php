@@ -25,7 +25,8 @@ class InventoryItemController extends Controller
             });
         }
 
-        $items = $query->latest()->paginate(20)->withQueryString();
+        $perPage = max(1, min(100, (int) $request->integer('per_page', 20)));
+        $items = $query->latest()->paginate($perPage)->withQueryString();
 
         return view('inventory.index', compact('items'));
     }

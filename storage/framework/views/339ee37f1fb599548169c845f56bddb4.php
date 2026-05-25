@@ -166,12 +166,30 @@
             </div>
 
             
-            <?php if($auditLogs->hasPages()): ?>
-                <div class="px-6 py-4 border-t border-slate-200/50 dark:border-slate-700/50">
-                    <?php echo e($auditLogs->links()); ?>
+            <div class="px-6 py-4 border-t border-slate-200/50 dark:border-slate-700/50 flex flex-col items-center justify-between gap-3 sm:flex-row bg-slate-50/50 dark:bg-slate-900/50 rounded-b-2xl backdrop-blur-xl">
+                <form method="GET" action="<?php echo e(url()->current()); ?>" class="flex items-center gap-1.5 text-xs text-slate-555 dark:text-slate-400">
+                    <?php $__currentLoopData = request()->except('per_page', 'page'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <?php if(is_array($value)): ?>
+                            <?php $__currentLoopData = $value; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $v): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <input type="hidden" name="<?php echo e($key); ?>[]" value="<?php echo e($v); ?>">
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        <?php else: ?>
+                            <input type="hidden" name="<?php echo e($key); ?>" value="<?php echo e($value); ?>">
+                        <?php endif; ?>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    <span>Show</span>
+                    <input type="number" name="per_page" value="<?php echo e($auditLogs->perPage()); ?>" min="1" max="100" 
+                           class="w-12 rounded-lg border border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-900/50 py-1 px-1.5 text-center text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-150"
+                           onchange="this.form.submit()">
+                    <span>entries</span>
+                </form>
+                <?php if($auditLogs->hasPages()): ?>
+                    <div>
+                        <?php echo e($auditLogs->links()); ?>
 
-                </div>
-            <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
         <?php endif; ?>
     </div>
 </div>

@@ -13,7 +13,8 @@ class NotificationController
         /** @var User $user */
         $user = Auth::user();
 
-        $notifications = $user->notifications()->latest()->paginate(20);
+        $perPage = max(1, min(100, (int) $request->integer('per_page', 20)));
+        $notifications = $user->notifications()->latest()->paginate($perPage)->withQueryString();
 
         return view('notifications.index', [
             'notifications' => $notifications,

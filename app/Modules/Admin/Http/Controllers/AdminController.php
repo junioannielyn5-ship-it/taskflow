@@ -50,10 +50,11 @@ class AdminController
         return response()->json(['data' => $stats]);
     }
 
-    public function manageUsers()
+    public function manageUsers(Request $request)
     {
         $this->authorizeAdmin();
-        $users = User::orderBy('name')->get();
+        $perPage = max(1, min(100, (int) $request->integer('per_page', 20)));
+        $users = User::orderBy('name')->paginate($perPage)->withQueryString();
         return view('users.index', compact('users'));
     }
 

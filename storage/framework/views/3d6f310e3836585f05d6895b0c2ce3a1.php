@@ -1,21 +1,21 @@
 <?php $__env->startSection('content'); ?>
 <div class="mx-auto max-w-7xl">
-    <div class="mb-6 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+    <div class="mb-4 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
         <div>
-            <h1 class="text-2xl font-bold text-slate-800 dark:text-white">Client List Master</h1>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Manage your clients, import from Excel, or export data.</p>
+            <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Client List <span class="text-blue-600 dark:text-blue-400">Master</span></h1>
+            <p class="text-xs text-slate-550 dark:text-slate-400 mt-0.5">Manage your clients, import from Excel, or export data.</p>
         </div>
-        <div class="flex gap-2">
-            <button type="button" onclick="document.getElementById('import-modal').classList.remove('hidden')" class="inline-flex items-center gap-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700">
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+        <div class="flex gap-1.5">
+            <button type="button" onclick="document.getElementById('import-modal').classList.remove('hidden')" class="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 py-1.5 px-3 text-xs font-bold text-slate-700 dark:text-slate-300 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200">
+                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
                 Import
             </button>
-            <a href="<?php echo e(route('client.export')); ?>" class="inline-flex items-center gap-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700">
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            <a href="<?php echo e(route('client.export')); ?>" class="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 py-1.5 px-3 text-xs font-bold text-slate-700 dark:text-slate-300 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200">
+                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 Export
             </a>
-            <button type="button" onclick="openAddModal()" class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-blue-700">
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            <button type="button" onclick="openAddModal()" class="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-blue-700 transition-all duration-200 hover:-translate-y-0.5">
+                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                 Add Client
             </button>
         </div>
@@ -43,101 +43,120 @@
         </div>
     <?php endif; ?>
 
-    <div class="rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800">
-        <div class="border-b border-slate-200 p-4 dark:border-slate-700">
+    <div class="rounded-xl border border-slate-200/40 bg-white/90 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
+        <div class="border-b border-slate-200/40 p-3 dark:border-slate-800">
             <form method="GET" action="<?php echo e(route('client.index')); ?>" class="flex max-w-md items-center gap-2">
                 <div class="relative flex-1">
                     <i data-lucide="search" class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"></i>
-                    <input type="text" name="search" value="<?php echo e(request('search')); ?>" placeholder="Search by company, contact person, status..." class="w-full rounded-xl border border-slate-200 bg-slate-50 py-2 pl-9 pr-4 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
+                    <input type="text" name="search" value="<?php echo e(request('search')); ?>" placeholder="Search by company, contact person, status..." class="w-full rounded-lg border border-slate-300 bg-slate-50/70 py-1.5 pl-8 pr-3 text-xs focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-900/50 dark:text-white">
                 </div>
-                <button type="submit" class="rounded-xl bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600">Search</button>
+                <button type="submit" class="rounded-lg bg-slate-100 px-3.5 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">Search</button>
             </form>
         </div>
 
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm text-slate-600 dark:text-slate-300">
-                <thead class="border-b border-slate-200 bg-slate-50 text-xs font-semibold uppercase text-slate-500 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-400">
+            <table class="w-full text-left text-xs text-slate-600 dark:text-slate-300">
+                <thead class="border-b border-slate-200/40 bg-slate-50/70 text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-400">
                     <tr>
-                        <th class="px-6 py-4">Company</th>
-                        <th class="px-6 py-4">Status / Remarks</th>
-                        <th class="px-6 py-4">Category</th>
-                        <th class="px-6 py-4">Pricing</th>
-                        <th class="px-6 py-4">Items & Inclusions</th>
-                        <th class="px-6 py-4">Contact Person</th>
-                        <th class="px-6 py-4">Pos/Dept</th>
-                        <th class="px-6 py-4">Contact No.</th>
-                        <th class="px-6 py-4">Email</th>
-                        <th class="px-6 py-4">Location</th>
-                        <th class="px-6 py-4">Quotation (Link)</th>
-                        <th class="px-6 py-4 text-right">Actions</th>
+                        <th class="px-3 py-2">Company</th>
+                        <th class="px-3 py-2">Status / Remarks</th>
+                        <th class="px-3 py-2">Category</th>
+                        <th class="px-3 py-2">Pricing</th>
+                        <th class="px-3 py-2">Items & Inclusions</th>
+                        <th class="px-3 py-2">Contact Person</th>
+                        <th class="px-3 py-2">Pos/Dept</th>
+                        <th class="px-3 py-2">Contact No.</th>
+                        <th class="px-3 py-2">Email</th>
+                        <th class="px-3 py-2">Location</th>
+                        <th class="px-3 py-2">Quotation (Link)</th>
+                        <th class="px-3 py-2 text-right">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                <tbody class="divide-y divide-slate-200 dark:divide-slate-850">
                     <?php $__empty_1 = true; $__currentLoopData = $clients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                            <td class="whitespace-nowrap px-6 py-4 font-semibold text-slate-900 dark:text-white"><?php echo e($item->company); ?></td>
-                            <td class="px-6 py-4 min-w-[200px]">
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-850/50 transition-colors">
+                            <td class="whitespace-nowrap px-3 py-2.5 font-semibold text-slate-900 dark:text-white text-xs"><?php echo e($item->company); ?></td>
+                            <td class="px-3 py-2.5 text-xs min-w-[200px]">
                                 <div class="flex flex-col gap-1">
                                     <div>
                                         <?php
                                             $cColors = [
-                                                'to contact' => 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300',
-                                                'contacted - waiting reply' => 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400',
-                                                'quotation received' => 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
-                                                'paid & settled' => 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400',
-                                                'delivered' => 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400',
-                                                'cancelled' => 'bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-400',
+                                                'to contact' => 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800',
+                                                'contacted - waiting reply' => 'bg-amber-100 text-amber-800 dark:bg-amber-900/35 dark:text-amber-400 border border-amber-200 dark:border-amber-800',
+                                                'quotation received' => 'bg-blue-100 text-blue-800 dark:bg-blue-900/35 dark:text-blue-400 border border-blue-200 dark:border-blue-800',
+                                                'paid & settled' => 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/35 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800',
+                                                'delivered' => 'bg-purple-100 text-purple-800 dark:bg-purple-900/35 dark:text-purple-400 border border-purple-200 dark:border-purple-800',
+                                                'cancelled' => 'bg-rose-100 text-rose-800 dark:bg-rose-900/35 dark:text-rose-400 border border-rose-200 dark:border-rose-800',
                                             ];
-                                            $colorClass = $cColors[$item->status] ?? 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300';
+                                            $colorClass = $cColors[$item->status] ?? 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800';
                                         ?>
-                                        <select onchange="updateInlineStatus(this, <?php echo e($item->id); ?>, 'client')" class="text-xs font-medium rounded-full px-2.5 py-1 appearance-none border-0 cursor-pointer focus:ring-2 focus:ring-blue-500 <?php echo e($colorClass); ?>">
-                                            <option value="" <?php echo e(!$item->status ? 'selected' : ''); ?> class="bg-white text-slate-900 dark:bg-slate-800 dark:text-white">-- Select --</option>
-                                            <option value="to contact" <?php echo e($item->status == 'to contact' ? 'selected' : ''); ?> class="bg-white text-slate-900 dark:bg-slate-800 dark:text-white">To Contact</option>
-                                            <option value="contacted - waiting reply" <?php echo e($item->status == 'contacted - waiting reply' ? 'selected' : ''); ?> class="bg-white text-slate-900 dark:bg-slate-800 dark:text-white">Waiting Reply</option>
-                                            <option value="quotation received" <?php echo e($item->status == 'quotation received' ? 'selected' : ''); ?> class="bg-white text-slate-900 dark:bg-slate-800 dark:text-white">Quotation Received</option>
-                                            <option value="paid & settled" <?php echo e($item->status == 'paid & settled' ? 'selected' : ''); ?> class="bg-white text-slate-900 dark:bg-slate-800 dark:text-white">Paid & Settled</option>
-                                            <option value="delivered" <?php echo e($item->status == 'delivered' ? 'selected' : ''); ?> class="bg-white text-slate-900 dark:bg-slate-800 dark:text-white">Delivered</option>
-                                            <option value="cancelled" <?php echo e($item->status == 'cancelled' ? 'selected' : ''); ?> class="bg-white text-slate-900 dark:bg-slate-800 dark:text-white">Cancelled</option>
+                                        <select onchange="updateInlineStatus(this, <?php echo e($item->id); ?>, 'client')" class="text-[10px] font-bold rounded-full px-2 py-0.5 appearance-none border-0 cursor-pointer focus:ring-1 focus:ring-blue-500 <?php echo e($colorClass); ?>">
+                                            <option value="" <?php echo e(!$item->status ? 'selected' : ''); ?> class="bg-white text-slate-900 dark:bg-slate-905 dark:text-white">-- Select --</option>
+                                            <option value="to contact" <?php echo e($item->status == 'to contact' ? 'selected' : ''); ?> class="bg-white text-slate-900 dark:bg-slate-905 dark:text-white">To Contact</option>
+                                            <option value="contacted - waiting reply" <?php echo e($item->status == 'contacted - waiting reply' ? 'selected' : ''); ?> class="bg-white text-slate-900 dark:bg-slate-905 dark:text-white">Waiting Reply</option>
+                                            <option value="quotation received" <?php echo e($item->status == 'quotation received' ? 'selected' : ''); ?> class="bg-white text-slate-900 dark:bg-slate-905 dark:text-white">Quotation Received</option>
+                                            <option value="paid & settled" <?php echo e($item->status == 'paid & settled' ? 'selected' : ''); ?> class="bg-white text-slate-900 dark:bg-slate-905 dark:text-white">Paid & Settled</option>
+                                            <option value="delivered" <?php echo e($item->status == 'delivered' ? 'selected' : ''); ?> class="bg-white text-slate-900 dark:bg-slate-905 dark:text-white">Delivered</option>
+                                            <option value="cancelled" <?php echo e($item->status == 'cancelled' ? 'selected' : ''); ?> class="bg-white text-slate-900 dark:bg-slate-905 dark:text-white">Cancelled</option>
                                         </select>
                                     </div>
                                     <?php if($item->remarks): ?>
-                                        <span class="text-xs text-slate-500 dark:text-slate-400 truncate max-w-[180px]" title="<?php echo e($item->remarks); ?>"><?php echo e($item->remarks); ?></span>
+                                        <span class="text-[10px] text-slate-500 dark:text-slate-400 truncate max-w-[180px]" title="<?php echo e($item->remarks); ?>"><?php echo e($item->remarks); ?></span>
                                     <?php endif; ?>
                                 </div>
                             </td>
-                            <td class="px-6 py-4"><?php echo e($item->category); ?></td>
-                            <td class="px-6 py-4"><?php echo e($item->pricing); ?></td>
-                            <td class="px-6 py-4 max-w-[150px] truncate" title="<?php echo e($item->items_inclusions); ?>"><?php echo e($item->items_inclusions); ?></td>
-                            <td class="px-6 py-4"><?php echo e($item->contact_person); ?></td>
-                            <td class="px-6 py-4"><?php echo e($item->position_dept); ?></td>
-                            <td class="px-6 py-4"><?php echo e($item->contact_no); ?></td>
-                            <td class="px-6 py-4"><?php echo e($item->email); ?></td>
-                            <td class="px-6 py-4"><?php echo e($item->location); ?></td>
-                            <td class="px-6 py-4">
+                            <td class="px-3 py-2.5 text-xs"><?php echo e($item->category); ?></td>
+                            <td class="px-3 py-2.5 text-xs"><?php echo e($item->pricing); ?></td>
+                            <td class="px-3 py-2.5 text-xs max-w-[150px] truncate" title="<?php echo e($item->items_inclusions); ?>"><?php echo e($item->items_inclusions); ?></td>
+                            <td class="px-3 py-2.5 text-xs"><?php echo e($item->contact_person); ?></td>
+                            <td class="px-3 py-2.5 text-xs"><?php echo e($item->position_dept); ?></td>
+                            <td class="px-3 py-2.5 text-xs"><?php echo e($item->contact_no); ?></td>
+                            <td class="px-3 py-2.5 text-xs"><?php echo e($item->email); ?></td>
+                            <td class="px-3 py-2.5 text-xs"><?php echo e($item->location); ?></td>
+                            <td class="px-3 py-2.5 text-xs">
                                 <?php if($item->quotation): ?>
-                                    <a href="<?php echo e($item->quotation); ?>" target="_blank" class="text-blue-600 hover:underline">View Link</a>
+                                    <a href="<?php echo e($item->quotation); ?>" target="_blank" class="text-blue-600 hover:underline font-semibold">View Link</a>
                                 <?php endif; ?>
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4 text-right">
-                                <button type="button" onclick="openEditModal(<?php echo e($item); ?>)" class="text-blue-600 hover:text-blue-800 dark:hover:text-blue-400 font-medium">Edit</button>
-                                <br>
-                                <button type="button" onclick="openDeleteModal(<?php echo e($item->id); ?>, '<?php echo e(addslashes($item->company)); ?>')" class="text-rose-600 hover:text-rose-800 dark:hover:text-rose-400 font-medium mt-1">Delete</button>
+                            <td class="whitespace-nowrap px-3 py-2.5 text-right text-xs">
+                                <div class="inline-flex gap-1">
+                                    <button type="button" onclick="openEditModal(<?php echo e($item); ?>)" class="inline-flex items-center gap-1 rounded border border-blue-100 dark:border-blue-900/50 bg-blue-50/50 dark:bg-blue-950/40 px-2 py-1 text-[10px] font-bold text-blue-600 dark:text-blue-400 hover:bg-blue-100/80 dark:hover:bg-blue-900/50 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">Edit</button>
+                                    <button type="button" onclick="openDeleteModal(<?php echo e($item->id); ?>, '<?php echo e(addslashes($item->company)); ?>')" class="inline-flex items-center gap-1 rounded border border-red-100 dark:border-red-900/50 bg-red-50/50 dark:bg-red-950/40 px-2 py-1 text-[10px] font-bold text-red-650 dark:text-red-400 hover:bg-red-100/80 dark:hover:bg-red-900/50 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">Delete</button>
+                                </div>
                             </td>
                         </tr>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                         <tr>
-                            <td colspan="12" class="px-6 py-8 text-center text-slate-500">No clients found.</td>
+                            <td colspan="12" class="px-3 py-6 text-center text-xs text-slate-500">No clients found.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
             </table>
         </div>
-        <?php if($clients->hasPages()): ?>
-            <div class="border-t border-slate-200 dark:border-slate-700 p-4">
-                <?php echo e($clients->links()); ?>
+        <div class="border-t border-slate-200 dark:border-slate-850 p-3 sm:p-4 flex flex-col items-center justify-between gap-3 sm:flex-row bg-slate-50/50 dark:bg-slate-900/50 rounded-b-xl backdrop-blur-md">
+            <form method="GET" action="<?php echo e(url()->current()); ?>" class="flex items-center gap-1.5 text-xs text-slate-550 dark:text-slate-400">
+                <?php $__currentLoopData = request()->except('per_page', 'page'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php if(is_array($value)): ?>
+                        <?php $__currentLoopData = $value; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => $v): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <input type="hidden" name="<?php echo e($key); ?>[]" value="<?php echo e($v); ?>">
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    <?php else: ?>
+                        <input type="hidden" name="<?php echo e($key); ?>" value="<?php echo e($value); ?>">
+                    <?php endif; ?>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <span>Show</span>
+                <input type="number" name="per_page" value="<?php echo e($clients->perPage()); ?>" min="1" max="100" 
+                       class="w-12 rounded-lg border border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-900/50 py-1 px-1.5 text-center text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-150"
+                       onchange="this.form.submit()">
+                <span>entries</span>
+            </form>
+            <?php if($clients->hasPages()): ?>
+                <div>
+                    <?php echo e($clients->links()); ?>
 
-            </div>
-        <?php endif; ?>
+                </div>
+            <?php endif; ?>
+        </div>
     </div>
 </div>
 

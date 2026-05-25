@@ -6,54 +6,54 @@
 <?php
     $logoPath = \App\Modules\Admin\Models\SystemSetting::valueOf('branding_logo_path', null);
 ?>
-<div class="relative space-y-4 sm:space-y-6 min-h-screen p-3 sm:p-4 lg:p-6">
+<div class="relative space-y-4 min-h-screen p-3 sm:p-4 lg:p-6">
     <!-- Dynamic Background Effects -->
-    <div class="pointer-events-none absolute right-0 top-0 h-[300px] w-[300px] sm:h-[600px] sm:w-[600px] -translate-y-1/3 translate-x-1/3 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 blur-[100px] dark:from-blue-600/20 dark:to-purple-600/20"></div>
-    <div class="pointer-events-none absolute bottom-0 left-0 h-[250px] w-[250px] sm:h-[500px] sm:w-[500px] -translate-x-1/3 translate-y-1/3 rounded-full bg-gradient-to-tr from-emerald-500/20 to-cyan-500/20 blur-[100px] dark:from-emerald-600/20 dark:to-cyan-600/20"></div>
+    <div class="pointer-events-none absolute right-0 top-0 h-[300px] w-[300px] sm:h-[600px] sm:w-[600px] -translate-y-1/3 translate-x-1/3 rounded-full bg-gradient-to-br from-blue-500/10 to-purple-500/10 blur-[80px] dark:from-blue-600/10 dark:to-purple-600/10"></div>
+    <div class="pointer-events-none absolute bottom-0 left-0 h-[250px] w-[250px] sm:h-[500px] sm:w-[500px] -translate-x-1/3 translate-y-1/3 rounded-full bg-gradient-to-tr from-emerald-500/10 to-cyan-500/10 blur-[80px] dark:from-emerald-600/10 dark:to-cyan-600/10"></div>
 
     
-    <div class="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-8 z-10">
+    <div class="relative flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6 z-10">
         <div>
-            <div class="mb-2 inline-flex items-center rounded-full border border-blue-200/50 bg-blue-50/50 px-3 py-1 text-xs font-semibold tracking-wide text-blue-700 shadow-sm backdrop-blur-md dark:border-blue-700/50 dark:bg-blue-900/50 dark:text-blue-300">
-                <span class="mr-1.5 flex h-2 w-2 rounded-full bg-blue-500"></span>
+            <div class="mb-1 inline-flex items-center rounded-full border border-slate-200/50 bg-white/70 px-2.5 py-0.5 text-[10px] font-semibold tracking-wide text-blue-700 shadow-sm backdrop-blur-md dark:border-slate-700 dark:bg-slate-900/70 dark:text-blue-300">
+                <span class="mr-1.5 flex h-1.5 w-1.5 rounded-full bg-blue-500"></span>
                 <?php echo e($greeting); ?>, <?php echo e(auth()->user()->name); ?>
 
             </div>
-            <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                Workspace <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-indigo-400">Dashboard</span>
+            <h1 class="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+                Workspace <span class="text-blue-600 dark:text-blue-400">Dashboard</span>
             </h1>
         </div>
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create-project')): ?>
-            <a href="<?php echo e(route('projects.create')); ?>" class="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 text-sm font-bold text-white shadow-md shadow-blue-500/20 transition-all hover:scale-105 hover:from-blue-500 hover:to-indigo-500 hover:shadow-lg hover:shadow-blue-500/40">
-                <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+            <a href="<?php echo e(route('projects.create')); ?>" class="inline-flex items-center justify-center rounded-lg bg-blue-600 hover:bg-blue-700 px-3.5 py-1.5 text-xs font-bold text-white shadow-sm transition-all hover:-translate-y-0.5 duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mr-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
                 New Project
             </a>
         <?php endif; ?>
     </div>
 
     
-    <div class="relative overflow-visible rounded-2xl sm:rounded-3xl border border-white/40 bg-white/40 px-4 sm:px-8 py-5 sm:py-8 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/40 mb-6 sm:mb-8 z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-6">
-        <div class="max-w-3xl space-y-3 sm:space-y-4">
-            <h2 class="text-xl sm:text-2xl md:text-3xl font-black tracking-wide text-slate-800 dark:text-slate-100">
-                Welcome to <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-indigo-400">TaskFlow Workspace</span>
+    <div class="relative overflow-hidden rounded-2xl border border-slate-200/50 bg-white p-4 sm:p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900 mb-6 z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="max-w-3xl space-y-2">
+            <h2 class="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-100">
+                Welcome to <span class="text-blue-600 dark:text-blue-400">TaskFlow Workspace</span>
             </h2>
-            <p class="border-l-4 border-blue-500 pl-4 text-sm md:text-base font-medium italic leading-relaxed text-slate-600 dark:text-slate-300">
+            <p class="border-l-3 border-blue-500 pl-3 text-xs sm:text-sm font-medium italic leading-relaxed text-slate-500 dark:text-slate-400">
                 "<?php echo e($systemAnnouncement); ?>"
             </p>
         </div>
         
-        <div class="flex w-full shrink-0 flex-wrap sm:flex-row gap-2 sm:gap-3 md:w-auto">
-            <a href="<?php echo e(route('tasks.list')); ?>" class="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-md transition-all hover:bg-blue-700 hover:scale-105 hover:shadow-lg">
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+        <div class="flex w-full shrink-0 flex-wrap sm:flex-row gap-2 md:w-auto">
+            <a href="<?php echo e(route('tasks.list')); ?>" class="inline-flex items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-sm transition-all hover:bg-blue-700 hover:-translate-y-0.5 duration-200">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                 My Tasks
             </a>
-            <a href="<?php echo e(route('tasks.kanban')); ?>" class="inline-flex items-center justify-center gap-2 rounded-xl border-0 ring-1 ring-inset ring-slate-300/50 bg-white/70 px-5 py-3 text-sm font-bold text-slate-900 shadow-sm backdrop-blur-sm transition-all hover:bg-white hover:scale-105 dark:bg-slate-900/50 dark:text-white dark:ring-slate-700/50 dark:hover:bg-slate-800">
-                <svg class="h-5 w-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path></svg>
+            <a href="<?php echo e(route('tasks.kanban')); ?>" class="inline-flex items-center justify-center gap-1.5 rounded-lg border border-slate-200/60 bg-white/70 px-3.5 py-1.5 text-xs font-bold text-slate-900 shadow-sm backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90 dark:bg-slate-900/70 dark:text-white dark:border-slate-700 dark:hover:bg-slate-900/90">
+                <svg class="h-4 w-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path></svg>
                 Kanban
             </a>
             <?php if(auth()->user()?->hasAnyRole(['admin', 'manager'])): ?>
-            <a href="<?php echo e(route('admin.config.index')); ?>#broadcast-email" class="inline-flex items-center justify-center gap-2 rounded-xl border-0 ring-1 ring-inset ring-slate-300/50 bg-white/70 px-5 py-3 text-sm font-bold text-slate-900 shadow-sm backdrop-blur-sm transition-all hover:bg-white hover:scale-105 dark:bg-slate-900/50 dark:text-white dark:ring-slate-700/50 dark:hover:bg-slate-800">
-                <svg class="h-5 w-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
+            <a href="<?php echo e(route('admin.config.index')); ?>#broadcast-email" class="inline-flex items-center justify-center gap-1.5 rounded-lg border border-slate-200/60 bg-white/70 px-3.5 py-1.5 text-xs font-bold text-slate-900 shadow-sm backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90 dark:bg-slate-900/70 dark:text-white dark:border-slate-700 dark:hover:bg-slate-900/90">
+                <svg class="h-4 w-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
                 Broadcast
             </a>
             <?php endif; ?>
@@ -61,63 +61,63 @@
     </div>
 
     
-    <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6 relative z-10">
+    <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 relative z-10">
         
-        <a href="/projects" class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+        <a href="/projects" class="relative overflow-hidden rounded-xl border border-slate-200/40 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 hover:-translate-y-0.5 transition-all duration-200 group">
             <div class="relative z-10">
-                <div class="flex justify-between items-start mb-4">
-                    <p class="text-blue-600 dark:text-blue-400 text-xs font-extrabold uppercase tracking-widest">Active Projects</p>
-                    <div class="p-2 bg-blue-100/80 dark:bg-blue-500/20 rounded-xl text-blue-600 dark:text-blue-400 shadow-inner">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <div class="flex justify-between items-center mb-3">
+                    <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Active Projects</p>
+                    <div class="p-1.5 bg-blue-50 dark:bg-blue-950/40 rounded-lg text-blue-600 dark:text-blue-400 shadow-inner">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     </div>
                 </div>
-                <h3 class="text-slate-900 dark:text-white text-5xl font-black mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"><?php echo e($totalProjects); ?></h3>
-                <div class="mt-4 h-2 w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full overflow-hidden shadow-inner">
+                <h3 class="text-slate-900 dark:text-white text-3xl font-extrabold mb-1 tracking-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"><?php echo e($totalProjects); ?></h3>
+                <div class="mt-3.5 h-1.5 w-full bg-slate-200/40 dark:bg-slate-800/40 rounded-full overflow-hidden shadow-inner">
                     <div class="h-full w-[60%] bg-gradient-to-r from-blue-400 to-blue-600 rounded-full"></div>
                 </div>
             </div>
         </a>
 
-        <a href="<?php echo e(route('tasks.list')); ?>" class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+        <a href="<?php echo e(route('tasks.list')); ?>" class="relative overflow-hidden rounded-xl border border-slate-200/40 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 hover:-translate-y-0.5 transition-all duration-200 group">
             <div class="relative z-10">
-                <div class="flex justify-between items-start mb-4">
-                    <p class="text-purple-600 dark:text-purple-400 text-xs font-extrabold uppercase tracking-widest">My Tasks</p>
-                    <div class="p-2 bg-purple-100/80 dark:bg-purple-500/20 rounded-xl text-purple-600 dark:text-purple-400 shadow-inner">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                <div class="flex justify-between items-center mb-3">
+                    <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">My Tasks</p>
+                    <div class="p-1.5 bg-purple-50 dark:bg-purple-950/40 rounded-lg text-purple-600 dark:text-purple-400 shadow-inner">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
                     </div>
                 </div>
-                <h3 class="text-slate-900 dark:text-white text-5xl font-black mb-1 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors"><?php echo e($totalTasks); ?></h3>
-                <div class="mt-4 h-2 w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full overflow-hidden shadow-inner">
+                <h3 class="text-slate-900 dark:text-white text-3xl font-extrabold mb-1 tracking-tight group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors"><?php echo e($totalTasks); ?></h3>
+                <div class="mt-3.5 h-1.5 w-full bg-slate-200/40 dark:bg-slate-800/40 rounded-full overflow-hidden shadow-inner">
                     <div class="h-full w-[80%] bg-gradient-to-r from-purple-400 to-purple-600 rounded-full"></div>
                 </div>
             </div>
         </a>
 
-        <a href="<?php echo e(route('tasks.list', ['status' => 'for_review'])); ?>" class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+        <a href="<?php echo e(route('tasks.list', ['status' => 'for_review'])); ?>" class="relative overflow-hidden rounded-xl border border-slate-200/40 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 hover:-translate-y-0.5 transition-all duration-200 group">
             <div class="relative z-10">
-                <div class="flex justify-between items-start mb-4">
-                    <p class="text-amber-600 dark:text-amber-400 text-xs font-extrabold uppercase tracking-widest">Pending Review</p>
-                    <div class="p-2 bg-amber-100/80 dark:bg-amber-500/20 rounded-xl text-amber-600 dark:text-amber-400 shadow-inner">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                <div class="flex justify-between items-center mb-3">
+                    <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Pending Review</p>
+                    <div class="p-1.5 bg-amber-50 dark:bg-amber-950/40 rounded-lg text-amber-600 dark:text-amber-400 shadow-inner">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                     </div>
                 </div>
-                <h3 class="text-slate-900 dark:text-white text-5xl font-black mb-1 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors"><?php echo e($pendingReview); ?></h3>
-                <div class="mt-4 h-2 w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full overflow-hidden shadow-inner">
+                <h3 class="text-slate-900 dark:text-white text-3xl font-extrabold mb-1 tracking-tight group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors"><?php echo e($pendingReview); ?></h3>
+                <div class="mt-3.5 h-1.5 w-full bg-slate-200/40 dark:bg-slate-800/40 rounded-full overflow-hidden shadow-inner">
                     <div class="h-full w-[30%] bg-gradient-to-r from-amber-400 to-orange-500 rounded-full"></div>
                 </div>
             </div>
         </a>
 
-        <a href="<?php echo e(route('tasks.list')); ?>" class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+        <a href="<?php echo e(route('tasks.list')); ?>" class="relative overflow-hidden rounded-xl border border-slate-200/40 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 hover:-translate-y-0.5 transition-all duration-200 group">
             <div class="relative z-10">
-                <div class="flex justify-between items-start mb-4">
-                    <p class="text-rose-600 dark:text-rose-400 text-xs font-extrabold uppercase tracking-widest">Overdue</p>
-                    <div class="p-2 bg-rose-100/80 dark:bg-rose-500/20 rounded-xl text-rose-600 dark:text-rose-400 shadow-inner">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div class="flex justify-between items-center mb-3">
+                    <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Overdue</p>
+                    <div class="p-1.5 bg-rose-50 dark:bg-rose-950/40 rounded-lg text-rose-600 dark:text-rose-400 shadow-inner">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
                 </div>
-                <h3 class="text-slate-900 dark:text-white text-5xl font-black mb-1 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors"><?php echo e($overdue); ?></h3>
-                <div class="mt-4 h-2 w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full overflow-hidden shadow-inner">
+                <h3 class="text-slate-900 dark:text-white text-3xl font-extrabold mb-1 tracking-tight group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors"><?php echo e($overdue); ?></h3>
+                <div class="mt-3.5 h-1.5 w-full bg-slate-200/40 dark:bg-slate-800/40 rounded-full overflow-hidden shadow-inner">
                     <div class="h-full w-[100%] bg-gradient-to-r from-rose-500 to-red-600 rounded-full"></div>
                 </div>
             </div>
@@ -125,46 +125,46 @@
     </div>
 
             <div class="dashboard-analytics grid grid-cols-1 gap-4 xl:grid-cols-2 relative z-10 mb-6">
-                <div id="latest-notifications-card" class="relative overflow-hidden rounded-2xl sm:rounded-3xl border border-white/40 bg-white/60 p-4 sm:p-6 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50 transition-all scroll-mt-24">
-                    <div class="mb-4 flex items-center justify-between gap-3">
-                        <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100">Task Status Overview</h3>
-                        <div class="flex items-center gap-2">
-                            <a href="<?php echo e(route('dashboard.export.status-overview.csv')); ?>" class="rounded-lg border border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-700/50 px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-600 shadow-sm transition-all">CSV</a>
-                            <a href="<?php echo e(route('dashboard.export.status-overview.pdf')); ?>" class="rounded-lg border border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-700/50 px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-600 shadow-sm transition-all">PDF</a>
+                <div id="latest-notifications-card" class="relative overflow-hidden rounded-2xl border border-slate-200/40 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 transition-all scroll-mt-24">
+                    <div class="mb-3 flex items-center justify-between gap-3">
+                        <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100">Task Status Overview</h3>
+                        <div class="flex items-center gap-1.5">
+                            <a href="<?php echo e(route('dashboard.export.status-overview.csv')); ?>" class="rounded-lg border border-slate-200/50 bg-white/70 backdrop-blur-md px-2.5 py-1 text-[11px] font-bold text-slate-700 dark:text-slate-300 hover:bg-white/95 dark:hover:bg-slate-800/90 dark:border-slate-800 hover:-translate-y-0.5 transition-all duration-200 shadow-sm">CSV</a>
+                            <a href="<?php echo e(route('dashboard.export.status-overview.pdf')); ?>" class="rounded-lg border border-slate-200/50 bg-white/70 backdrop-blur-md px-2.5 py-1 text-[11px] font-bold text-slate-700 dark:text-slate-300 hover:bg-white/95 dark:hover:bg-slate-800/90 dark:border-slate-800 hover:-translate-y-0.5 transition-all duration-200 shadow-sm">PDF</a>
                         </div>
                     </div>
-                    <p class="mb-3 text-sm font-medium text-slate-600 dark:text-slate-400">Done: <span id="done-percentage" class="font-extrabold text-emerald-600"><?php echo e($donePercentage); ?>%</span> · In Progress: <span id="in-progress-percentage" class="font-extrabold text-blue-600"><?php echo e($inProgressPercentage); ?>%</span></p>
+                    <p class="mb-2 text-xs font-medium text-slate-600 dark:text-slate-400">Done: <span id="done-percentage" class="font-extrabold text-emerald-600"><?php echo e($donePercentage); ?>%</span> · In Progress: <span id="in-progress-percentage" class="font-extrabold text-blue-600"><?php echo e($inProgressPercentage); ?>%</span></p>
                     <div class="relative h-64 w-full">
                         <canvas id="taskStatusChart"></canvas>
                     </div>
                 </div>
-                <div class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50 transition-all">
-                    <h3 class="mb-4 text-lg font-bold text-slate-800 dark:text-slate-100">Tasks Over Time</h3>
+                <div class="relative overflow-hidden rounded-2xl border border-slate-200/40 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 transition-all">
+                    <h3 class="mb-3 text-sm font-bold text-slate-800 dark:text-slate-100">Tasks Over Time</h3>
                     <div class="relative h-64 w-full">
                         <canvas id="tasksOverTimeChart"></canvas>
                     </div>
                 </div>
             </div>
 
-            <div class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50 transition-all z-10 mb-6" id="mv-progress-panel">
+            <div class="relative overflow-hidden rounded-2xl border border-slate-200/40 bg-white/90 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 transition-all z-10 mb-6" id="mv-progress-panel">
 
                 
-                <div class="relative z-10 mb-4 flex items-center gap-2">
-                    <h3 class="mr-auto text-lg font-semibold text-slate-800 dark:text-slate-100">Project Progress</h3>
+                <div class="relative z-10 mb-3 flex items-center gap-2">
+                    <h3 class="mr-auto text-sm font-bold text-slate-800 dark:text-slate-100">Project Progress</h3>
                     <button id="mv-tab-sales"
                         onclick="mvSwitchTab('sales')"
-                        class="mv-tab-btn rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wide transition">
+                        class="mv-tab-btn rounded-lg px-3 py-1 text-[10px] font-bold uppercase tracking-wider transition">
                         Sales
                     </button>
                     <button id="mv-tab-technical"
                         onclick="mvSwitchTab('technical')"
-                        class="mv-tab-btn rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wide transition">
+                        class="mv-tab-btn rounded-lg px-3 py-1 text-[10px] font-bold uppercase tracking-wider transition">
                         Technical
                     </button>
                 </div>
 
                 <?php if(collect($projectProgress ?? [])->isEmpty()): ?>
-                    <p class="text-sm text-slate-500 dark:text-slate-400">No project progress available yet.</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">No project progress available yet.</p>
                 <?php else: ?>
                     
                     <div id="mv-tab-content-sales" class="mv-tab-content relative z-10 space-y-2">
@@ -175,64 +175,64 @@
                                 ['name' => 'Brand Campaign 2026', 'tasks' => 5, 'done' => 3, 'total' => 5, 'percent' => 60],
                                 ['name' => 'Client Onboarding Pipeline', 'tasks' => 4, 'done' => 1, 'total' => 4, 'percent' => 25],
                             ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ex): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="rounded-xl border-2 border-emerald-300 dark:border-emerald-500/50 overflow-hidden bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/25 dark:to-green-900/15 shadow-[0_0_10px_rgba(16,185,129,0.18)] pointer-events-none">
-                                <div class="flex w-full items-center justify-between px-4 py-3">
+                            <div class="rounded-xl border border-slate-200/40 overflow-hidden bg-slate-50/70 dark:border-slate-800 dark:bg-slate-950/70 pointer-events-none hover:-translate-y-0.5 transition-all duration-200 shadow-sm">
+                                <div class="flex w-full items-center justify-between px-3.5 py-2.5">
                                     <div class="flex items-center gap-2 min-w-0">
-                                        <span class="h-2.5 w-2.5 flex-shrink-0 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.7)]"></span>
-                                        <span class="truncate text-sm font-bold text-emerald-800 dark:text-emerald-200"><?php echo e($ex['name']); ?></span>
+                                        <span class="h-2 w-2 flex-shrink-0 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.7)]"></span>
+                                        <span class="truncate text-xs font-bold text-emerald-800 dark:text-emerald-200"><?php echo e($ex['name']); ?></span>
                                     </div>
-                                    <div class="ml-3 flex flex-shrink-0 items-center gap-3">
-                                        <span class="rounded-full bg-emerald-200 dark:bg-emerald-500/30 px-2 py-0.5 text-[11px] font-bold text-emerald-800 dark:text-emerald-300 shadow-sm">
+                                    <div class="ml-3 flex flex-shrink-0 items-center gap-2.5">
+                                        <span class="rounded-full bg-emerald-100 dark:bg-emerald-500/20 px-2 py-0.5 text-[10px] font-bold text-emerald-800 dark:text-emerald-300 shadow-sm">
                                             <?php echo e($ex['tasks']); ?> tasks
                                         </span>
-                                        <span class="tabular-nums text-xs font-semibold text-emerald-700 dark:text-emerald-400"><?php echo e($ex['done']); ?>/<?php echo e($ex['total']); ?></span>
-                                        <div class="relative h-2 w-24 overflow-hidden rounded-full bg-emerald-100 dark:bg-emerald-900/40">
-                                            <div class="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-emerald-400 to-emerald-600 shadow-[0_0_6px_rgba(16,185,129,0.5)] progress-bar" data-width="<?php echo e($ex['percent']); ?>"></div>
+                                        <span class="tabular-nums text-[10px] font-semibold text-emerald-700 dark:text-emerald-400"><?php echo e($ex['done']); ?>/<?php echo e($ex['total']); ?></span>
+                                        <div class="relative h-1.5 w-20 overflow-hidden rounded-full bg-emerald-100 dark:bg-emerald-900/40">
+                                            <div class="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-emerald-400 to-emerald-600 shadow-[0_0_5px_rgba(16,185,129,0.4)] progress-bar" data-width="<?php echo e($ex['percent']); ?>"></div>
                                         </div>
-                                        <span class="w-8 text-right text-sm font-extrabold text-emerald-600 dark:text-emerald-400"><?php echo e($ex['percent']); ?>%</span>
+                                        <span class="w-8 text-right text-[11px] font-extrabold text-emerald-600 dark:text-emerald-400"><?php echo e($ex['percent']); ?>%</span>
                                     </div>
                                 </div>
                             </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <p class="text-center text-[11px] italic text-emerald-400 dark:text-emerald-600 mt-1">— Example data (no real Sales tasks yet) —</p>
+                            <p class="text-center text-[10px] italic text-emerald-500/60 dark:text-emerald-500/40 mt-1">— Example data (no real Sales tasks yet) —</p>
                         <?php else: ?>
                             <?php $__currentLoopData = $projectProgress; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pi => $project): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <?php if(count($project['sales']['tasks']) > 0): ?>
-                                <div class="mv-accordion rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+                                <div class="mv-accordion rounded-xl border border-slate-200/40 bg-white/70 dark:border-slate-800 dark:bg-slate-900/70 overflow-hidden hover:-translate-y-0.5 transition-all duration-200">
                                     
                                     <button
-                                        class="mv-accordion-trigger flex w-full items-center justify-between px-4 py-3 text-left hover:bg-slate-50 dark:hover:bg-slate-800/50 transition"
+                                        class="mv-accordion-trigger flex w-full items-center justify-between px-3.5 py-2.5 text-left hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors"
                                         onclick="mvToggleAccordion(this)">
                                         <div class="flex items-center gap-2 min-w-0">
-                                            <span class="h-2 w-2 flex-shrink-0 rounded-full bg-emerald-500"></span>
-                                            <span class="truncate text-sm font-semibold text-slate-800 dark:text-white"><?php echo e($project['name']); ?></span>
+                                            <span class="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-emerald-500"></span>
+                                            <span class="truncate text-xs font-semibold text-slate-800 dark:text-white"><?php echo e($project['name']); ?></span>
                                         </div>
-                                        <div class="ml-3 flex flex-shrink-0 items-center gap-3">
-                                            <span class="rounded-full bg-emerald-100 dark:bg-emerald-500/20 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 dark:text-emerald-400">
+                                        <div class="ml-3 flex flex-shrink-0 items-center gap-2.5">
+                                            <span class="rounded-full bg-emerald-100 dark:bg-emerald-500/20 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 dark:text-emerald-400">
                                                 <?php echo e(count($project['sales']['tasks'])); ?> task<?php echo e(count($project['sales']['tasks']) !== 1 ? 's' : ''); ?>
 
                                             </span>
-                                            <span class="tabular-nums text-xs text-slate-500">
+                                            <span class="tabular-nums text-[10px] text-slate-500">
                                                 <?php echo e($project['sales']['done']); ?>/<?php echo e($project['sales']['total']); ?>
 
                                             </span>
-                                            <div class="relative h-1.5 w-20 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
+                                            <div class="relative h-1.5 w-16 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
                                                 <?php
                                                     $salesPercent = isset($project['sales']['percent']) ? ((float) $project['sales']['percent']) : 0;
                                                 ?>
                                                 <div class="absolute inset-y-0 left-0 rounded-full bg-emerald-500 transition-all progress-bar"
                                                     data-width="<?php echo e($salesPercent); ?>"></div>
                                             </div>
-                                            <span class="w-8 text-right text-xs font-semibold text-emerald-600 dark:text-emerald-400"><?php echo e($project['sales']['percent']); ?>%</span>
-                                            <svg class="mv-chevron h-4 w-4 flex-shrink-0 text-slate-400 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                                            <span class="w-8 text-right text-[10px] font-semibold text-emerald-600 dark:text-emerald-400"><?php echo e($project['sales']['percent']); ?>%</span>
+                                            <svg class="mv-chevron h-3.5 w-3.5 flex-shrink-0 text-slate-400 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                                         </div>
                                     </button>
                                     
-                                    <div class="mv-accordion-body hidden border-t border-slate-100 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/30 px-4 py-4">
-                                        <div class="mv-task-flow space-y-4">
-                                            <div class="relative overflow-x-auto pb-2">
-                                                <div class="relative min-w-[680px] px-2 pt-1">
-                                                    <div class="flex min-w-[680px] items-start justify-between gap-1">
+                                    <div class="mv-accordion-body hidden border-t border-slate-100/60 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/20 px-3 py-3">
+                                        <div class="mv-task-flow space-y-3">
+                                            <div class="relative overflow-x-auto pb-1.5">
+                                                <div class="relative min-w-[580px] px-1 pt-1">
+                                                    <div class="flex min-w-[580px] items-start justify-between gap-1">
                                                         <?php $__currentLoopData = $project['sales']['tasks']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ti => $task): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                             <?php
                                                                 $statusLabel = ucwords(str_replace('_', ' ', $task['status']));
@@ -246,15 +246,15 @@
                                                             ?>
                                                             <button type="button" class="mv-task-node relative flex flex-col items-center px-1 text-center <?php echo e($ti === 0 ? 'is-selected' : ''); ?>" data-target="sales-<?php echo e($project['id']); ?>-task-<?php echo e($task['id']); ?>" onclick="mvSelectTask(this)">
                                                                 <span class="mv-node <?php echo e($nodeState); ?>"></span>
-                                                                <span class="mt-2 text-xs font-semibold text-slate-700 dark:text-slate-300"><?php echo e($task['task_no'] ?: ('Task ' . ($ti + 1))); ?></span>
-                                                                <span class="text-xs uppercase tracking-wide text-slate-500"><?php echo e($statusLabel); ?></span>
+                                                                <span class="mt-1.5 text-[10px] font-bold text-slate-700 dark:text-slate-300"><?php echo e($task['task_no'] ?: ('Task ' . ($ti + 1))); ?></span>
+                                                                <span class="text-[9px] uppercase tracking-wide text-slate-500 font-semibold"><?php echo e($statusLabel); ?></span>
                                                             </button>
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="space-y-2">
+                                            <div class="space-y-1.5">
                                                 <?php $__currentLoopData = $project['sales']['tasks']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ti => $task): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <?php
                                                         $statusBadgeClass = match($task['status']) {
@@ -265,14 +265,14 @@
                                                             default => 'bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300',
                                                         };
                                                     ?>
-                                                    <div id="sales-<?php echo e($project['id']); ?>-task-<?php echo e($task['id']); ?>" class="mv-task-detail rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 p-3 <?php echo e($ti === 0 ? '' : 'hidden'); ?>">
+                                                    <div id="sales-<?php echo e($project['id']); ?>-task-<?php echo e($task['id']); ?>" class="mv-task-detail rounded-lg border border-slate-200/40 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 p-3 <?php echo e($ti === 0 ? '' : 'hidden'); ?>">
                                                         <div class="flex items-center gap-2">
-                                                            <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400"><?php echo e($task['task_no'] ?: ('Task ' . ($ti + 1))); ?></span>
-                                                            <span class="truncate text-sm font-medium text-slate-700 dark:text-slate-200"><?php echo e($task['title']); ?></span>
-                                                            <span class="ml-auto rounded-full px-2 py-0.5 text-[11px] font-semibold <?php echo e($statusBadgeClass); ?>"><?php echo e(ucwords(str_replace('_', ' ', $task['status']))); ?></span>
+                                                            <span class="text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400"><?php echo e($task['task_no'] ?: ('Task ' . ($ti + 1))); ?></span>
+                                                            <span class="truncate text-xs font-semibold text-slate-700 dark:text-slate-200"><?php echo e($task['title']); ?></span>
+                                                            <span class="ml-auto rounded-full px-2 py-0.5 text-[9px] font-bold <?php echo e($statusBadgeClass); ?>"><?php echo e(ucwords(str_replace('_', ' ', $task['status']))); ?></span>
                                                         </div>
                                                         <?php if($task['due_date']): ?>
-                                                            <p class="mt-1 text-xs text-slate-400">Due: <?php echo e($task['due_date']); ?></p>
+                                                            <p class="mt-0.5 text-[10px] text-slate-400 font-medium">Due: <?php echo e($task['due_date']); ?></p>
                                                         <?php endif; ?>
                                                     </div>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -289,43 +289,43 @@
                     <div id="mv-tab-content-technical" class="mv-tab-content relative z-10 hidden space-y-2">
                         <?php $techHasAny = collect($projectProgress)->contains(fn($p) => count($p['technical']['tasks']) > 0); ?>
                         <?php if(!$techHasAny): ?>
-                            <p class="text-sm text-slate-300">No Technical tasks found.</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">No Technical tasks found.</p>
                         <?php else: ?>
                             <?php $__currentLoopData = $projectProgress; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pi => $project): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <?php if(count($project['technical']['tasks']) > 0): ?>
-                                <div class="mv-accordion rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+                                <div class="mv-accordion rounded-xl border border-slate-200/40 bg-white/70 dark:border-slate-800 dark:bg-slate-900/70 overflow-hidden hover:-translate-y-0.5 transition-all duration-200">
                                     <button
-                                        class="mv-accordion-trigger flex w-full items-center justify-between px-4 py-3 text-left hover:bg-slate-50 dark:hover:bg-slate-800/50 transition"
+                                        class="mv-accordion-trigger flex w-full items-center justify-between px-3.5 py-2.5 text-left hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors"
                                         onclick="mvToggleAccordion(this)">
                                         <div class="flex items-center gap-2 min-w-0">
-                                            <span class="h-2 w-2 flex-shrink-0 rounded-full bg-blue-500"></span>
-                                            <span class="truncate text-sm font-semibold text-slate-800 dark:text-white"><?php echo e($project['name']); ?></span>
+                                            <span class="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-500"></span>
+                                            <span class="truncate text-xs font-semibold text-slate-800 dark:text-white"><?php echo e($project['name']); ?></span>
                                         </div>
-                                        <div class="ml-3 flex flex-shrink-0 items-center gap-3">
-                                            <span class="rounded-full bg-blue-100 dark:bg-blue-500/20 px-2 py-0.5 text-[11px] font-semibold text-blue-700 dark:text-blue-400">
+                                        <div class="ml-3 flex flex-shrink-0 items-center gap-2.5">
+                                            <span class="rounded-full bg-blue-100 dark:bg-blue-500/20 px-2 py-0.5 text-[10px] font-semibold text-blue-700 dark:text-blue-400">
                                                 <?php echo e(count($project['technical']['tasks'])); ?> task<?php echo e(count($project['technical']['tasks']) !== 1 ? 's' : ''); ?>
 
                                             </span>
-                                            <span class="tabular-nums text-xs text-slate-500">
+                                            <span class="tabular-nums text-[10px] text-slate-500">
                                                 <?php echo e($project['technical']['done']); ?>/<?php echo e($project['technical']['total']); ?>
 
                                             </span>
-                                            <div class="relative h-1.5 w-20 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
+                                            <div class="relative h-1.5 w-16 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
                                                 <?php
                                                     $techPercent = isset($project['technical']['percent']) ? ((float) $project['technical']['percent']) : 0;
                                                 ?>
                                                 <div class="absolute inset-y-0 left-0 rounded-full bg-blue-500 transition-all progress-bar"
                                                     data-width="<?php echo e($techPercent); ?>"></div>
                                             </div>
-                                            <span class="w-8 text-right text-xs font-semibold text-blue-600 dark:text-blue-400"><?php echo e($project['technical']['percent']); ?>%</span>
-                                            <svg class="mv-chevron h-4 w-4 flex-shrink-0 text-slate-400 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                                            <span class="w-8 text-right text-[10px] font-semibold text-blue-600 dark:text-blue-400"><?php echo e($project['technical']['percent']); ?>%</span>
+                                            <svg class="mv-chevron h-3.5 w-3.5 flex-shrink-0 text-slate-400 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                                         </div>
                                     </button>
-                                    <div class="mv-accordion-body hidden border-t border-slate-100 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/30 px-4 py-4">
-                                        <div class="mv-task-flow space-y-4">
-                                            <div class="relative overflow-x-auto pb-2">
-                                                <div class="relative min-w-[680px] px-2 pt-1">
-                                                    <div class="flex min-w-[680px] items-start justify-between gap-1">
+                                    <div class="mv-accordion-body hidden border-t border-slate-100/60 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/20 px-3 py-3">
+                                        <div class="mv-task-flow space-y-3">
+                                            <div class="relative overflow-x-auto pb-1.5">
+                                                <div class="relative min-w-[580px] px-1 pt-1">
+                                                    <div class="flex min-w-[580px] items-start justify-between gap-1">
                                                         <?php $__currentLoopData = $project['technical']['tasks']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ti => $task): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                             <?php
                                                                 $statusLabel = ucwords(str_replace('_', ' ', $task['status']));
@@ -339,15 +339,15 @@
                                                             ?>
                                                             <button type="button" class="mv-task-node relative flex flex-col items-center px-1 text-center <?php echo e($ti === 0 ? 'is-selected' : ''); ?>" data-target="technical-<?php echo e($project['id']); ?>-task-<?php echo e($task['id']); ?>" onclick="mvSelectTask(this)">
                                                                 <span class="mv-node <?php echo e($nodeState); ?>"></span>
-                                                                <span class="mt-2 text-xs font-semibold text-slate-700 dark:text-slate-300"><?php echo e($task['task_no'] ?: ('Task ' . ($ti + 1))); ?></span>
-                                                                <span class="text-xs uppercase tracking-wide text-slate-500"><?php echo e($statusLabel); ?></span>
+                                                                <span class="mt-1.5 text-[10px] font-bold text-slate-700 dark:text-slate-300"><?php echo e($task['task_no'] ?: ('Task ' . ($ti + 1))); ?></span>
+                                                                <span class="text-[9px] uppercase tracking-wide text-slate-500 font-semibold"><?php echo e($statusLabel); ?></span>
                                                             </button>
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="space-y-2">
+                                            <div class="space-y-1.5">
                                                 <?php $__currentLoopData = $project['technical']['tasks']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ti => $task): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <?php
                                                         $statusBadgeClass = match($task['status']) {
@@ -358,14 +358,14 @@
                                                             default => 'bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300',
                                                         };
                                                     ?>
-                                                    <div id="technical-<?php echo e($project['id']); ?>-task-<?php echo e($task['id']); ?>" class="mv-task-detail rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 p-3 <?php echo e($ti === 0 ? '' : 'hidden'); ?>">
+                                                    <div id="technical-<?php echo e($project['id']); ?>-task-<?php echo e($task['id']); ?>" class="mv-task-detail rounded-lg border border-slate-200/40 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 p-3 <?php echo e($ti === 0 ? '' : 'hidden'); ?>">
                                                         <div class="flex items-center gap-2">
-                                                            <span class="text-xs font-bold text-blue-600 dark:text-blue-400"><?php echo e($task['task_no'] ?: ('Task ' . ($ti + 1))); ?></span>
-                                                            <span class="truncate text-sm font-medium text-slate-700 dark:text-slate-200"><?php echo e($task['title']); ?></span>
-                                                            <span class="ml-auto rounded-full px-2 py-0.5 text-[11px] font-semibold <?php echo e($statusBadgeClass); ?>"><?php echo e(ucwords(str_replace('_', ' ', $task['status']))); ?></span>
+                                                            <span class="text-[10px] font-extrabold text-blue-600 dark:text-blue-400"><?php echo e($task['task_no'] ?: ('Task ' . ($ti + 1))); ?></span>
+                                                            <span class="truncate text-xs font-semibold text-slate-700 dark:text-slate-200"><?php echo e($task['title']); ?></span>
+                                                            <span class="ml-auto rounded-full px-2 py-0.5 text-[9px] font-bold <?php echo e($statusBadgeClass); ?>"><?php echo e(ucwords(str_replace('_', ' ', $task['status']))); ?></span>
                                                         </div>
                                                         <?php if($task['due_date']): ?>
-                                                            <p class="mt-1 text-xs text-slate-400">Due: <?php echo e($task['due_date']); ?></p>
+                                                            <p class="mt-0.5 text-[10px] text-slate-400 font-medium">Due: <?php echo e($task['due_date']); ?></p>
                                                         <?php endif; ?>
                                                     </div>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -381,32 +381,38 @@
             </div>
 
             <style>
-                .mv-tab-btn { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); color: #475569; border: 1px solid rgba(255, 255, 255, 0.5); transition: all 0.2s; }
-                .mv-tab-btn.mv-tab-active-sales { background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(52, 211, 153, 0.2)); color: #065f46; border: 1px solid rgba(16, 185, 129, 0.4); font-weight: 800; box-shadow: 0 0 14px rgba(16, 185, 129, 0.3); transform: scale(1.06); }
-                .mv-tab-btn.mv-tab-active-technical { background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(96, 165, 250, 0.2)); color: #1e40af; border: 1px solid rgba(59, 130, 246, 0.4); font-weight: 800; box-shadow: 0 0 14px rgba(59, 130, 246, 0.3); transform: scale(1.06); }
-                html.dark .mv-tab-btn { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(8px); color: #94a3b8; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.2s; }
-                html.dark .mv-tab-btn.mv-tab-active-sales { background: linear-gradient(135deg, rgba(16, 185, 129, 0.30), rgba(16, 185, 129, 0.18)); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.5); font-weight: 800; box-shadow: 0 0 18px rgba(16, 185, 129, 0.4); transform: scale(1.06); }
-                html.dark .mv-tab-btn.mv-tab-active-technical { background: linear-gradient(135deg, rgba(59, 130, 246, 0.30), rgba(59, 130, 246, 0.18)); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.5); font-weight: 800; box-shadow: 0 0 18px rgba(59, 130, 246, 0.4); transform: scale(1.06); }
+                .mv-tab-btn { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); color: #475569; border: 1px solid rgba(226, 232, 240, 0.6); transition: all 0.2s; }
+                .mv-tab-btn.mv-tab-active-sales { background: #10b981; color: #ffffff; border: 1px solid #10b981; font-weight: 800; transform: translateY(-0.5px); box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2); }
+                .mv-tab-btn.mv-tab-active-technical { background: #3b82f6; color: #ffffff; border: 1px solid #3b82f6; font-weight: 800; transform: translateY(-0.5px); box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2); }
+                html.dark .mv-tab-btn { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(12px); color: #94a3b8; border: 1px solid rgba(51, 65, 85, 0.6); }
+                html.dark .mv-tab-btn.mv-tab-active-sales { background: #10b981; color: #ffffff; border-color: #10b981; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3); }
+                html.dark .mv-tab-btn.mv-tab-active-technical { background: #3b82f6; color: #ffffff; border-color: #3b82f6; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3); }
                 .mv-chevron.open { transform: rotate(180deg); }
+                .mv-task-node {
+                    transition: all 0.2s ease;
+                }
+                .mv-task-node:hover {
+                    transform: translateY(-1px);
+                }
                 .mv-task-node:not(:first-child)::before {
                     content: '';
                     position: absolute;
                     right: 50%;
-                    top: 9px;
+                    top: 7px;
                     width: 100%;
                     height: 2px;
                     background: #334155;
                     z-index: 0;
                 }
                 .mv-task-node.is-selected .mv-node {
-                    transform: scale(1.08);
-                    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.25);
+                    transform: scale(1.05);
+                    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
                 }
                 .mv-node {
                     position: relative;
                     z-index: 1;
-                    width: 18px;
-                    height: 18px;
+                    width: 14px;
+                    height: 14px;
                     border-radius: 999px;
                     border: 2px solid transparent;
                     background: #1e293b;
@@ -466,37 +472,37 @@
                 document.addEventListener('DOMContentLoaded', function () { mvSwitchTab('sales'); });
             </script>
 
-            <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                <div class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50 transition-all">
-                    <div class="relative z-10 mb-3 flex items-center justify-between">
-                        <h3 class="text-base font-semibold text-slate-800 dark:text-slate-100">Urgent Tasks</h3>
-                        <a href="<?php echo e(route('tasks.list', ['priority' => 'urgent'])); ?>" class="text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:underline">View All</a>
+            <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                <div class="relative overflow-hidden rounded-2xl border border-slate-200/40 bg-white/90 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 transition-all">
+                    <div class="relative z-10 mb-2.5 flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100">Urgent Tasks</h3>
+                        <a href="<?php echo e(route('tasks.list', ['priority' => 'urgent'])); ?>" class="text-[11px] font-bold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:underline">View All</a>
                     </div>
                     <?php if($urgentTasks->isEmpty()): ?>
-                        <div class="relative z-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 dark:border-slate-600 bg-white/40 dark:bg-slate-800/40 px-4 py-6 text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div class="relative z-10 flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-200/60 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 p-4 text-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                             </svg>
-                            <p class="mt-2 text-xs text-slate-600 dark:text-slate-400">No urgent tasks</p>
+                            <p class="mt-1.5 text-xs text-slate-600 dark:text-slate-400">No urgent tasks</p>
                         </div>
                     <?php else: ?>
-                        <div class="relative z-10 overflow-x-auto rounded-2xl border border-slate-200/50 dark:border-slate-700/50 bg-white/50 dark:bg-slate-900/50 max-h-80 overflow-y-auto">
+                        <div class="relative z-10 overflow-x-auto rounded-xl border border-slate-200/40 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 max-h-60 overflow-y-auto">
                             <table class="min-w-full text-xs">
-                                <thead class="sticky top-0 bg-white/60 dark:bg-slate-800/60 backdrop-blur-md">
-                                    <tr class="border-b border-slate-200 dark:border-slate-700">
-                                        <th class="px-2 py-2 text-left font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">Title</th>
-                                        <th class="px-2 py-2 text-left font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">Project</th>
-                                        <th class="px-2 py-2 text-left font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">Due</th>
+                                <thead class="sticky top-0 bg-slate-100 dark:bg-slate-800">
+                                    <tr class="border-b border-slate-200/40 dark:border-slate-800">
+                                        <th class="px-3 py-1.5 text-left font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 text-[10px]">Title</th>
+                                        <th class="px-3 py-1.5 text-left font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 text-[10px]">Project</th>
+                                        <th class="px-3 py-1.5 text-left font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 text-[10px]">Due</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $__currentLoopData = ($urgentTasks ?? collect())->take(8); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $task): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <tr class="border-b border-slate-100 dark:border-slate-700/50 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800">
-                                            <td class="px-2 py-1.5 font-medium text-slate-800 dark:text-slate-200 truncate">
+                                        <tr class="border-b border-slate-100/50 dark:border-slate-800 transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-100/30 dark:hover:bg-slate-800/30">
+                                            <td class="px-3 py-1.5 font-medium text-slate-800 dark:text-slate-200 truncate">
                                                 <a href="<?php echo e(route('tasks.show', $task)); ?>" class="text-blue-600 hover:text-blue-800 hover:underline" title="<?php echo e($task->title); ?>"><?php echo e(Illuminate\Support\Str::limit($task->title, 20)); ?></a>
                                             </td>
-                                            <td class="px-2 py-1.5 text-slate-500 dark:text-slate-400 text-xs truncate"><?php echo e(Illuminate\Support\Str::limit($task->project->name ?? '-', 12)); ?></td>
-                                            <td class="px-2 py-1.5 <?php echo e($task->isOverdue() ? 'font-semibold text-rose-600' : 'text-slate-600 dark:text-slate-400'); ?> text-xs whitespace-nowrap"><?php echo e($task->due_date ? $task->due_date->format('m-d') : '-'); ?></td>
+                                            <td class="px-3 py-1.5 text-slate-500 dark:text-slate-400 text-[11px] truncate"><?php echo e(Illuminate\Support\Str::limit($task->project->name ?? '-', 12)); ?></td>
+                                            <td class="px-3 py-1.5 <?php echo e($task->isOverdue() ? 'font-semibold text-rose-600' : 'text-slate-600 dark:text-slate-400'); ?> text-[11px] whitespace-nowrap"><?php echo e($task->due_date ? $task->due_date->format('m-d') : '-'); ?></td>
                                         </tr>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </tbody>
@@ -505,51 +511,49 @@
                     <?php endif; ?>
                 </div>
 
-                <div class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50 transition-all">
-                    <div class="relative z-10 mb-3 flex items-center justify-between">
-                        <h3 class="text-base font-semibold text-slate-800 dark:text-slate-100">Upcoming Meetings</h3>
-                        <a href="<?php echo e(route('meetings.index')); ?>" class="text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:underline">View All</a>
+                <div class="relative overflow-hidden rounded-2xl border border-slate-200/40 bg-white/90 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 transition-all">
+                    <div class="relative z-10 mb-2.5 flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100">Upcoming Meetings</h3>
+                        <a href="<?php echo e(route('meetings.index')); ?>" class="text-[11px] font-bold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:underline">View All</a>
                     </div>
                     <?php if($upcomingMeetings->isEmpty()): ?>
-                        <div class="relative z-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 dark:border-slate-600 bg-white/40 dark:bg-slate-800/40 px-4 py-6 text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div class="relative z-10 flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-200/60 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 p-4 text-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
-                            <p class="mt-2 text-xs text-slate-600 dark:text-slate-400">No meetings scheduled</p>
+                            <p class="mt-1.5 text-xs text-slate-600 dark:text-slate-400">No meetings scheduled</p>
                         </div>
                     <?php else: ?>
-                        <div class="relative z-10 space-y-2 max-h-80 overflow-y-auto">
+                        <div class="relative z-10 space-y-2 max-h-60 overflow-y-auto">
                             <?php $__currentLoopData = $upcomingMeetings; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $meeting): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <div class="rounded-lg border border-slate-200/50 dark:border-slate-700/50 bg-white/40 dark:bg-slate-800/40 p-2.5 hover:bg-white/60 dark:hover:bg-slate-700/60 transition-colors">
+                                <div class="rounded-xl border border-slate-200/40 bg-slate-50/50 dark:border-slate-800 dark:bg-slate-950/50 p-3 hover:-translate-y-0.5 hover:bg-slate-100/40 dark:hover:bg-slate-900/40 transition-all duration-200 shadow-sm">
                                     <div class="flex items-start justify-between gap-2">
                                         <div class="min-w-0 flex-1">
                                             <a href="<?php echo e(route('meetings.index')); ?>" class="block text-xs font-semibold text-blue-600 hover:text-blue-800 truncate" title="<?php echo e($meeting->title); ?>">
                                                 <?php echo e(Illuminate\Support\Str::limit($meeting->title, 24)); ?>
 
                                             </a>
-                                            <p class="mt-0.5 text-xs text-slate-500 dark:text-slate-400"><?php echo e($meeting->meeting_date?->format('M d, Y')); ?></p>
+                                            <p class="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400 font-medium"><?php echo e($meeting->meeting_date?->format('M d, Y')); ?></p>
                                             <?php if($meeting->start_time): ?>
-                                                <p class="text-xs text-slate-500 dark:text-slate-400"><?php echo e($meeting->start_time); ?><?php if($meeting->end_time): ?> - <?php echo e($meeting->end_time); ?><?php endif; ?></p>
+                                                <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium"><?php echo e($meeting->start_time); ?><?php if($meeting->end_time): ?> - <?php echo e($meeting->end_time); ?><?php endif; ?></p>
                                             <?php endif; ?>
                                         </div>
                                     </div>
                                     <?php if($meeting->location): ?>
-                                        <p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400 truncate">📍 <?php echo e(Illuminate\Support\Str::limit($meeting->location, 20)); ?></p>
+                                        <p class="mt-1 text-[11px] text-slate-500 dark:text-slate-400 truncate">📍 <?php echo e(Illuminate\Support\Str::limit($meeting->location, 20)); ?></p>
                                     <?php endif; ?>
                                 </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
                     <?php endif; ?>
                 </div>
-            </div>
-
-            <div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
-                <div class="dashboard-panel relative flex h-[320px] flex-col overflow-hidden rounded-3xl dashboard-glass-panel border-none p-4 shadow-md dark:shadow-none transition-all hover:shadow-lg">
-                    <div class="relative z-10 mb-3 flex items-center justify-between">
-                        <h3 class="text-base font-semibold text-slate-800 dark:text-slate-100">Recent Activity</h3>
-                        <a href="<?php echo e(route('tasks.list')); ?>" class="text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:underline">View All</a>
+            </div>              <div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
+                <div class="relative flex h-[280px] flex-col overflow-hidden rounded-2xl border border-slate-200/40 bg-white/90 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 transition-all">
+                    <div class="relative z-10 mb-2.5 flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100">Recent Activity</h3>
+                        <a href="<?php echo e(route('tasks.list')); ?>" class="text-[11px] font-bold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:underline">View All</a>
                     </div>
-                    <ul class="activity-timeline relative z-10 flex-1 space-y-3 overflow-y-auto pr-1" style="padding-left: 2px;">
+                    <ul class="activity-timeline relative z-10 flex-1 space-y-2 overflow-y-auto pr-1" style="padding-left: 2px;">
                         <?php $__empty_1 = true; $__currentLoopData = ($recentActivities ?? $recentActivity); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $logIdx => $log): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                             <?php
                                 $desc = (string) $log->getDescription();
@@ -566,69 +570,70 @@
                                             : 'background:#8b5cf6'));
                                 $isLatestLog = $logIdx === 0;
                             ?>
-                            <li class="relative flex items-start gap-3 <?php echo e($isLatestLog ? 'rounded-lg bg-blue-50 dark:bg-blue-500/10 px-2 py-1 ring-1 ring-blue-200 dark:ring-blue-500/30' : ''); ?>">
+                            <li class="relative flex items-start gap-2.5 <?php echo e($isLatestLog ? 'rounded-lg bg-blue-50/50 dark:bg-blue-500/5 px-2 py-1 ring-1 ring-blue-200/50 dark:ring-blue-500/20' : ''); ?>">
                                 <?php
                                     $dotColorValue = trim(str_replace('background:', '', $dotColor)) ?: '#8b5cf6';
                                 ?>
                                 <div class="timeline-dot" <?php echo 'style="background-color:' . e($dotColorValue) . ';"'; ?>></div>
                                 <div class="-mt-1 min-w-0 flex-1">
                                     <div class="flex items-start justify-between gap-3">
-                                        <p class="text-xs leading-4">
+                                        <p class="text-[11px] leading-relaxed">
                                             <?php if($isLatestLog): ?>
-                                                <span class="mr-1 inline-flex items-center rounded-full bg-blue-500 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white">Latest</span>
+                                                <span class="mr-1 inline-flex items-center rounded-full bg-blue-500 px-1 py-0.5 text-[8px] font-bold uppercase tracking-wide text-white">Latest</span>
                                             <?php endif; ?>
-                                            <span class="font-bold text-slate-800 dark:text-slate-200"><?php echo e($log->actor?->name ?? 'System'); ?></span>
+                                            <span class="font-extrabold text-slate-800 dark:text-slate-200"><?php echo e($log->actor?->name ?? 'System'); ?></span>
                                             <span class="text-slate-600 dark:text-slate-400"> <?php echo e($desc); ?></span>
                                         </p>
-                                        <span class="whitespace-nowrap text-xs italic text-slate-400"><?php echo e($log->created_at?->diffForHumans()); ?></span>
+                                        <span class="whitespace-nowrap text-[10px] italic text-slate-400 font-medium"><?php echo e($log->created_at?->diffForHumans()); ?></span>
                                     </div>
-                                    <p class="mt-0.5 text-[11px] text-slate-500">Activity Log Entry</p>
+                                    <p class="mt-0.5 text-[10px] text-slate-400 font-medium">Activity Log Entry</p>
                                 </div>
                             </li>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                             <li class="py-3">
-                                <div class="flex flex-col items-center rounded-2xl border border-dashed border-slate-300 dark:border-slate-600 bg-white/40 dark:bg-slate-800/40 px-4 py-6 text-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <div class="flex flex-col items-center rounded-xl border border-dashed border-slate-200/60 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 p-4 text-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17v-2m3 2v-4m3 4V9m2 12H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                     </svg>
-                                    <p class="mt-2 text-xs text-slate-600">No recent activity yet.</p>
-                                    <a href="<?php echo e(route('tasks.create')); ?>" class="mt-3 rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-indigo-500">Get Started</a>
+                                    <p class="mt-1.5 text-xs text-slate-600 dark:text-slate-400">No recent activity yet.</p>
+                                    <a href="<?php echo e(route('tasks.create')); ?>" class="mt-2.5 rounded-lg bg-indigo-600 px-3 py-1 text-[11px] font-bold text-white shadow-sm hover:bg-indigo-700 transition duration-200">Get Started</a>
                                 </div>
                             </li>
                         <?php endif; ?>
                     </ul>
                 </div>
-                <div class="dashboard-panel relative flex h-[320px] flex-col overflow-hidden rounded-3xl dashboard-glass-panel border-none p-4 shadow-md dark:shadow-none transition-all hover:shadow-lg">
-                    <div class="relative z-10 mb-3 flex items-center justify-between gap-2">
-                        <h3 class="text-base font-semibold text-slate-800 dark:text-slate-100">Latest Notifications</h3>
-                        <button id="mark-all-notifications-read" type="button" class="rounded-lg border border-slate-300 dark:border-slate-600 bg-white/40 dark:bg-slate-800/40 px-2.5 py-1 text-[11px] font-medium text-slate-700 dark:text-slate-300 transition hover:bg-white/60 dark:hover:bg-slate-700/60">Mark all as read</button>
+                <div class="relative flex h-[280px] flex-col overflow-hidden rounded-2xl border border-slate-200/40 bg-white/90 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 transition-all">
+                    <div class="relative z-10 mb-2.5 flex items-center justify-between gap-2">
+                        <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100">Latest Notifications</h3>
+                        <button id="mark-all-notifications-read" type="button" class="rounded-lg border border-slate-200/50 bg-white/70 backdrop-blur-md px-2 py-0.5 text-[10px] font-bold text-slate-700 dark:text-slate-300 hover:bg-white/95 dark:hover:bg-slate-800/90 dark:border-slate-800 hover:-translate-y-0.5 transition-all duration-200 shadow-sm">Mark all as read</button>
                     </div>
-                    <ul id="latest-notifications-list" class="relative z-10 flex-1 divide-y divide-slate-200 dark:divide-slate-700 overflow-y-auto pr-1">
+                    <ul id="latest-notifications-list" class="relative z-10 flex-1 divide-y divide-slate-200/50 dark:divide-slate-700/50 overflow-y-auto pr-1">
                         <?php $__empty_1 = true; $__currentLoopData = $latestNotifications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $notifIdx => $notif): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                             <?php $isLatestNotif = $notifIdx === 0; ?>
-                            <li class="flex items-start justify-between gap-2 py-2 text-xs rounded-lg px-2 <?php echo e($isLatestNotif ? 'bg-blue-50 dark:bg-blue-500/10 ring-1 ring-blue-300 dark:ring-blue-500/40 mb-1' : ''); ?>" data-notification-id="<?php echo e($notif->id); ?>" data-notification-link="<?php echo e($notif->data['link'] ?? ''); ?>">
+                            <li class="flex items-start justify-between gap-2 py-1.5 text-[11px] rounded-lg px-1.5 <?php echo e($isLatestNotif ? 'bg-blue-50/50 dark:bg-blue-500/5 ring-1 ring-blue-300/40 dark:ring-blue-500/20 mb-1' : ''); ?>" data-notification-id="<?php echo e($notif->id); ?>" data-notification-link="<?php echo e($notif->data['link'] ?? ''); ?>">
                                 <div class="flex flex-1 items-start gap-1.5 min-w-0">
                                     <?php if($isLatestNotif): ?>
-                                        <span class="mt-0.5 flex-shrink-0 rounded-full bg-blue-500 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white">Latest</span>
+                                        <span class="mt-0.5 flex-shrink-0 rounded-full bg-blue-500 px-1 py-0.5 text-[8px] font-bold uppercase tracking-wide text-white">Latest</span>
                                     <?php endif; ?>
                                     <a href="<?php echo e($notif->data['link'] ?? route('dashboard')); ?>" class="flex-1 <?php echo e($isLatestNotif ? 'font-semibold text-blue-700 dark:text-blue-300 hover:text-blue-800' : 'text-slate-700 dark:text-slate-300 hover:text-blue-600'); ?> hover:underline">
                                         <?php echo e(Illuminate\Support\Str::limit($notif->data['message'] ?? $notif->data['body'] ?? '-', 72)); ?>
 
                                     </a>
                                 </div>
-                                <button type="button" class="mark-notification-read rounded-md p-1 text-slate-400 transition hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-700" aria-label="Mark as read" title="Mark as read">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <button type="button" class="mark-notification-read rounded-md p-0.5 text-slate-400 transition hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-700" aria-label="Mark as read" title="Mark as read">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                     </svg>
                                 </button>
                             </li>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                            <li class="py-2 text-xs text-slate-600">No notifications</li>
+                            <li class="py-2 text-[11px] text-slate-500 dark:text-slate-400 font-medium">No notifications</li>
                         <?php endif; ?>
                     </ul>
                 </div>
             </div>
             </div>
+</div>
 </div>
 </div>
 <?php
