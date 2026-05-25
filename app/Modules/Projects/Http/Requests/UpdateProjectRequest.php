@@ -25,7 +25,7 @@ class UpdateProjectRequest extends FormRequest
         return [
             'name' => 'sometimes|required|string|max:255',
             'company_name' => 'nullable|string|max:255',
-            'project_owner' => 'sometimes|in:LS,NR',
+            'project_owner' => 'sometimes|in:LS,NR,PB,VA,EC',
             'description' => 'nullable|string|max:1000',
             'status' => 'sometimes|in:pending_request,ongoing',
         ];
@@ -42,7 +42,7 @@ class UpdateProjectRequest extends FormRequest
             'name.max' => 'Project name cannot exceed 255 characters',
             'company_name.string' => 'Company name must be a string',
             'company_name.max' => 'Company name cannot exceed 255 characters',
-            'project_owner.in' => 'Project owner must be LS or NR',
+            'project_owner.in' => 'Project owner must be one of the registered codes: LS, NR, PB, VA, or EC',
             'description.string' => 'Description must be a string',
             'description.max' => 'Description cannot exceed 1000 characters',
             'status.in' => 'Status must be either Pending Request or Ongoing',

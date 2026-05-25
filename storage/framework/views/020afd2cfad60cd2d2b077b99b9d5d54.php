@@ -1,13 +1,13 @@
 <?php $__env->startSection('content'); ?>
-<div class="space-y-6">
-    <div class="relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
-        <div class="pointer-events-none absolute -right-16 -top-16 h-52 w-52 rounded-full bg-cyan-200/35 blur-3xl"></div>
+<div class="space-y-4">
+    <div class="relative overflow-hidden rounded-xl border border-slate-200/40 bg-white/90 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90">
+        <div class="pointer-events-none absolute -right-16 -top-16 h-52 w-52 rounded-full bg-blue-200/25 dark:bg-blue-950/20 blur-3xl"></div>
         <div class="flex flex-wrap items-center justify-between gap-3">
             <div>
-                <h1 class="text-2xl font-bold text-slate-800 dark:text-slate-100"><?php echo e($task->title); ?></h1>
-                <p class="text-sm text-slate-500 dark:text-slate-400">Project: <?php echo e($task->project?->name ?? 'N/A'); ?></p>
+                <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white"><?php echo e($task->title); ?></h1>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Project: <span class="font-semibold text-slate-700 dark:text-slate-300"><?php echo e($task->project?->name ?? 'N/A'); ?></span></p>
             </div>
-            <a href="<?php echo e(route('tasks.list')); ?>" class="rounded-lg border border-slate-300 dark:border-slate-600 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 dark:bg-slate-700/50">Back to Tasks</a>
+            <a href="<?php echo e(route('tasks.list')); ?>" class="inline-flex items-center justify-center rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 hover:-translate-y-0.5">Back to Tasks</a>
         </div>
     </div>
 
@@ -25,97 +25,97 @@
         </div>
     <?php endif; ?>
 
-    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <div class="space-y-6 lg:col-span-2">
-            <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
-                <h2 class="mb-4 text-lg font-semibold text-slate-800 dark:text-slate-100">Task Details</h2>
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-2 text-sm">
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <div class="space-y-4 lg:col-span-2">
+            <div class="rounded-xl border border-slate-200/40 bg-white/90 p-4 dark:border-slate-800 dark:bg-slate-900/90 shadow-sm">
+                <h2 class="mb-3 text-sm font-bold text-slate-800 dark:text-slate-100">Task Details</h2>
+                <div class="grid grid-cols-1 gap-x-4 gap-y-3 md:grid-cols-2">
                     <div>
-                        <p class="text-slate-500 dark:text-slate-400">Status</p>
-                        <p class="font-medium text-slate-800 dark:text-slate-100"><?php echo e(ucwords(str_replace('_', ' ', $task->status))); ?></p>
+                        <p class="text-[10px] font-bold uppercase tracking-wide text-slate-450 dark:text-slate-500">Status</p>
+                        <p class="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-0.5"><?php echo e(ucwords(str_replace('_', ' ', $task->status))); ?></p>
                     </div>
                     <div>
-                        <p class="text-slate-500 dark:text-slate-400">Priority</p>
-                        <p class="font-medium text-slate-800 dark:text-slate-100"><?php echo e(ucfirst($task->priority)); ?></p>
+                        <p class="text-[10px] font-bold uppercase tracking-wide text-slate-450 dark:text-slate-500">Priority</p>
+                        <p class="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-0.5"><?php echo e(ucfirst($task->priority)); ?></p>
                     </div>
                     <div>
-                        <p class="text-slate-500 dark:text-slate-400">Due</p>
-                        <p class="font-medium text-slate-800 dark:text-slate-100"><?php echo e($task->due_date ? $task->due_date->format('m-d-Y') : '-'); ?></p>
+                        <p class="text-[10px] font-bold uppercase tracking-wide text-slate-450 dark:text-slate-500">Due</p>
+                        <p class="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-0.5"><?php echo e($task->due_date ? $task->due_date->format('m-d-Y') : '-'); ?></p>
                     </div>
                     <div>
-                        <p class="text-slate-500 dark:text-slate-400">Date Received</p>
-                        <p class="font-medium text-slate-800 dark:text-slate-100"><?php echo e($task->date_received ? $task->date_received->format('M d, Y') : '-'); ?></p>
+                        <p class="text-[10px] font-bold uppercase tracking-wide text-slate-450 dark:text-slate-500">Date Received</p>
+                        <p class="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-0.5"><?php echo e($task->date_received ? $task->date_received->format('M d, Y') : '-'); ?></p>
                     </div>
                     <div>
-                        <p class="text-slate-500 dark:text-slate-400">Date Started</p>
-                        <p class="font-medium text-slate-800 dark:text-slate-100"><?php echo e($task->date_started ? $task->date_started->format('M d, Y') : '-'); ?></p>
+                        <p class="text-[10px] font-bold uppercase tracking-wide text-slate-450 dark:text-slate-500">Date Started</p>
+                        <p class="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-0.5"><?php echo e($task->date_started ? $task->date_started->format('M d, Y') : '-'); ?></p>
                     </div>
                     <div>
-                        <p class="text-slate-500 dark:text-slate-400">Task Process</p>
-                        <p class="font-medium text-slate-800 dark:text-slate-100"><?php echo e($task->task_process ?: '-'); ?></p>
+                        <p class="text-[10px] font-bold uppercase tracking-wide text-slate-450 dark:text-slate-500">Task Process</p>
+                        <p class="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-0.5"><?php echo e($task->task_process ?: '-'); ?></p>
                     </div>
                     <div>
-                        <p class="text-slate-500 dark:text-slate-400">Company/Client</p>
-                        <p class="font-medium text-slate-800 dark:text-slate-100"><?php echo e($task->company ?: '-'); ?></p>
+                        <p class="text-[10px] font-bold uppercase tracking-wide text-slate-450 dark:text-slate-500">Company/Client</p>
+                        <p class="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-0.5"><?php echo e($task->company ?: '-'); ?></p>
                     </div>
                     <div>
-                        <p class="text-slate-500 dark:text-slate-400">Person-in-charge</p>
-                        <p class="font-medium text-slate-800 dark:text-slate-100"><?php echo e($task->team_in_charge ?: '-'); ?></p>
+                        <p class="text-[10px] font-bold uppercase tracking-wide text-slate-450 dark:text-slate-500">Person-in-charge</p>
+                        <p class="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-0.5"><?php echo e($task->team_in_charge ?: '-'); ?></p>
                     </div>
                     <div>
-                        <p class="text-slate-500 dark:text-slate-400">Blocked By</p>
-                        <p class="font-medium text-slate-800 dark:text-slate-100">
+                        <p class="text-[10px] font-bold uppercase tracking-wide text-slate-450 dark:text-slate-500">Blocked By</p>
+                        <p class="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-0.5">
                             <?php if($task->blockedByTask): ?>
-                                <a href="<?php echo e(route('tasks.show', $task->blockedByTask)); ?>" class="text-blue-600 hover:underline"><?php echo e($task->blockedByTask->title); ?></a>
+                                <a href="<?php echo e(route('tasks.show', $task->blockedByTask)); ?>" class="text-blue-650 dark:text-blue-400 hover:underline"><?php echo e($task->blockedByTask->title); ?></a>
                             <?php else: ?>
                                 -
                             <?php endif; ?>
                         </p>
                     </div>
                     <div>
-                        <p class="text-slate-500 dark:text-slate-400">Deliverables</p>
-                        <p class="font-medium text-slate-800 dark:text-slate-100"><?php echo e($task->deliverables ?: '-'); ?></p>
+                        <p class="text-[10px] font-bold uppercase tracking-wide text-slate-450 dark:text-slate-500">Deliverables</p>
+                        <p class="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-0.5"><?php echo e($task->deliverables ?: '-'); ?></p>
                     </div>
                     <div>
-                        <p class="text-slate-500 dark:text-slate-400">Project Owner</p>
-                        <p class="font-medium text-slate-800 dark:text-slate-100"><?php echo e($task->project?->project_owner ?: 'Sales (Sales Project)'); ?></p>
+                        <p class="text-[10px] font-bold uppercase tracking-wide text-slate-450 dark:text-slate-500">Project Owner</p>
+                        <p class="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-0.5"><?php echo e($task->project?->project_owner ?: 'Sales (Sales Project)'); ?></p>
                     </div>
                 </div>
                 <?php if($task->remarks): ?>
-                    <div class="mt-4 rounded-xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/30 p-4 text-sm text-amber-900 dark:text-amber-200">
-                        <p class="mb-1 text-xs font-semibold uppercase tracking-wide">Remarks</p>
+                    <div class="mt-3 rounded-lg border border-amber-200/50 dark:border-amber-800/40 bg-amber-50/50 dark:bg-amber-900/20 p-3 text-xs text-amber-900 dark:text-amber-200">
+                        <p class="mb-1 text-[10px] font-bold uppercase tracking-wide">Remarks</p>
                         <p><?php echo e($task->remarks); ?></p>
                     </div>
                 <?php endif; ?>
                 <?php if($task->description): ?>
-                    <div class="mt-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50 p-4 text-sm text-slate-700 dark:text-slate-300">
+                    <div class="mt-3 rounded-lg border border-slate-200/40 bg-slate-50/50 dark:border-slate-800 dark:bg-slate-900/50 p-3 text-xs text-slate-750 dark:text-slate-350">
                         <?php echo e($task->description); ?>
 
                     </div>
                 <?php endif; ?>
             </div>
 
-            <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
-                <h2 class="mb-4 text-lg font-semibold text-slate-800 dark:text-slate-100">Checklists</h2>
+            <div class="rounded-xl border border-slate-200/40 bg-white/90 p-4 dark:border-slate-800 dark:bg-slate-900/90 shadow-sm">
+                <h2 class="mb-3 text-sm font-bold text-slate-800 dark:text-slate-100">Checklists</h2>
 
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('update', $task)): ?>
-                    <form method="POST" action="<?php echo e(route('tasks.checklists.store', $task)); ?>" class="mb-4 flex flex-col gap-2 sm:flex-row">
+                    <form method="POST" action="<?php echo e(route('tasks.checklists.store', $task)); ?>" class="mb-3 flex flex-col gap-2 sm:flex-row">
                         <?php echo csrf_field(); ?>
                         <input
                             type="text"
                             name="title"
                             required
                             placeholder="Add checklist item"
-                            class="w-full rounded border-2 border-cyan-300 bg-white dark:bg-slate-800 px-3 py-2 text-sm font-semibold text-slate-900 placeholder:text-slate-500 dark:text-slate-400 ring-1 ring-cyan-100 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-200"
+                            class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 px-2.5 py-1.5 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
                         >
-                        <button type="submit" class="rounded-lg bg-cyan-600 px-4 py-2 text-sm font-medium text-white hover:bg-cyan-700">Add</button>
+                        <button type="submit" class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-1.5 text-[11px] font-semibold text-white shadow-sm hover:bg-blue-700 transition-all duration-200 hover:-translate-y-0.5">Add</button>
                     </form>
                     <?php $__errorArgs = ['title'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                        <p class="mb-3 text-sm text-red-600"><?php echo e($message); ?></p>
+                        <p class="mb-3 text-xs text-red-650 font-semibold"><?php echo e($message); ?></p>
                     <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
@@ -123,22 +123,22 @@ unset($__errorArgs, $__bag); ?>
                 <?php endif; ?>
 
                 <?php if($task->checklistItems->isEmpty()): ?>
-                    <p class="text-sm text-slate-500 dark:text-slate-400">No checklist items yet.</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">No checklist items yet.</p>
                 <?php else: ?>
-                    <ul class="space-y-2">
+                    <ul class="space-y-1.5">
                         <?php $__currentLoopData = $task->checklistItems; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <li class="flex items-center justify-between gap-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50 px-3 py-2 text-sm">
+                            <li class="flex items-center justify-between gap-2 rounded-lg border border-slate-200/40 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 px-2.5 py-1.5 text-xs">
                                 <form method="POST" action="<?php echo e(route('tasks.checklists.toggle', [$task, $item])); ?>" class="flex items-center gap-2">
                                     <?php echo csrf_field(); ?>
                                     <?php echo method_field('PATCH'); ?>
-                                    <button type="submit" class="h-4 w-4 rounded border border-slate-300 dark:border-slate-600 <?php echo e($item->is_completed ? 'bg-emerald-50 dark:bg-emerald-900/300' : 'bg-white dark:bg-slate-800'); ?>"></button>
+                                    <button type="submit" class="h-3.5 w-3.5 rounded border border-slate-300 dark:border-slate-700 <?php echo e($item->is_completed ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600' : 'bg-white dark:bg-slate-900'); ?>"></button>
                                     <span class="<?php echo e($item->is_completed ? 'text-slate-400 line-through' : 'text-slate-700 dark:text-slate-300'); ?>"><?php echo e($item->title); ?></span>
                                 </form>
                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('update', $task)): ?>
                                     <form method="POST" action="<?php echo e(route('tasks.checklists.destroy', [$task, $item])); ?>" onsubmit="return confirm('Delete this checklist item?')">
                                         <?php echo csrf_field(); ?>
                                         <?php echo method_field('DELETE'); ?>
-                                        <button type="submit" class="rounded border border-red-200 px-2 py-1 text-xs text-red-600 hover:bg-red-50">Delete</button>
+                                        <button type="submit" class="inline-flex items-center gap-1 rounded border border-red-100 dark:border-red-900/50 bg-red-50/50 dark:bg-red-950/40 px-2 py-0.5 text-[10px] font-semibold text-red-650 dark:text-red-400 hover:bg-red-100/80 dark:hover:bg-red-900/50 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">Delete</button>
                                     </form>
                                 <?php endif; ?>
                             </li>
@@ -147,12 +147,12 @@ unset($__errorArgs, $__bag); ?>
                 <?php endif; ?>
             </div>
 
-            <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
-                <h2 class="mb-4 text-lg font-semibold text-slate-800 dark:text-slate-100">Task Attachments</h2>
-                <form method="POST" action="<?php echo e(route('tasks.attachments.store', $task)); ?>" enctype="multipart/form-data" class="mb-4 flex flex-col gap-3 md:flex-row md:items-center">
+            <div class="rounded-xl border border-slate-200/40 bg-white/90 p-4 dark:border-slate-800 dark:bg-slate-900/90 shadow-sm">
+                <h2 class="mb-3 text-sm font-bold text-slate-800 dark:text-slate-100">Task Attachments</h2>
+                <form method="POST" action="<?php echo e(route('tasks.attachments.store', $task)); ?>" enctype="multipart/form-data" class="mb-3 flex flex-col gap-3 md:flex-row md:items-center">
                     <?php echo csrf_field(); ?>
-                    <input type="file" name="file" required class="block w-full text-sm text-slate-700 dark:text-slate-300 file:mr-3 file:rounded file:border-0 file:bg-cyan-600 file:px-3 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-cyan-700">
-                    <button type="submit" class="rounded-lg bg-cyan-600 px-4 py-2 text-sm font-medium text-white hover:bg-cyan-700">Upload</button>
+                    <input type="file" name="file" required class="block w-full text-xs text-slate-700 dark:text-slate-350 file:mr-3 file:rounded-lg file:border-0 file:bg-blue-600 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-white hover:file:bg-blue-700 cursor-pointer">
+                    <button type="submit" class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-1.5 text-[11px] font-semibold text-white shadow-sm hover:bg-blue-700 transition-all duration-200 hover:-translate-y-0.5">Upload</button>
                 </form>
 
                 <?php $__errorArgs = ['file'];
@@ -160,32 +160,32 @@ $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                    <p class="mb-3 text-sm text-red-600"><?php echo e($message); ?></p>
+                    <p class="mb-3 text-xs text-red-600 font-semibold"><?php echo e($message); ?></p>
                 <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
 
                 <?php if($task->attachments->isEmpty()): ?>
-                    <p class="text-sm text-slate-500 dark:text-slate-400">No attachments yet.</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">No attachments yet.</p>
                 <?php else: ?>
-                    <ul class="divide-y divide-slate-100">
+                    <ul class="divide-y divide-slate-100/50 dark:divide-slate-800/55">
                         <?php $__currentLoopData = $task->attachments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attachment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <li class="flex items-center justify-between py-3 text-sm">
+                            <li class="flex items-center justify-between py-2 text-xs">
                                 <div>
-                                    <p class="font-medium text-slate-700 dark:text-slate-300"><?php echo e($attachment->filename); ?></p>
-                                    <p class="text-slate-500 dark:text-slate-400"><?php echo e(number_format($attachment->size / 1024, 1)); ?> KB · <?php echo e($attachment->created_at?->diffForHumans()); ?></p>
+                                    <p class="font-semibold text-slate-750 dark:text-slate-300"><?php echo e($attachment->filename); ?></p>
+                                    <p class="text-[10px] text-slate-500 dark:text-slate-450"><?php echo e(number_format($attachment->size / 1024, 1)); ?> KB · <?php echo e($attachment->created_at?->diffForHumans()); ?></p>
                                 </div>
-                                <div class="flex items-center gap-2">
+                                <div class="flex items-center gap-1.5">
                                     <?php if(str_starts_with($attachment->mime_type, 'image/')): ?>
-                                        <button type="button" onclick="openImageModal('<?php echo e(route('attachments.view', $attachment->id)); ?>')" class="rounded border border-cyan-300 dark:border-cyan-600 px-3 py-1 text-cyan-700 dark:text-cyan-300 hover:bg-cyan-50 dark:hover:bg-cyan-900/30">View</button>
+                                        <button type="button" onclick="openImageModal('<?php echo e(route('attachments.view', $attachment->id)); ?>')" class="inline-flex items-center gap-1.5 rounded border border-blue-100 dark:border-blue-900/50 bg-blue-50/50 dark:bg-blue-950/40 px-2.5 py-0.5 text-[10px] font-semibold text-blue-600 dark:text-blue-400 hover:bg-blue-100/80 dark:hover:bg-blue-900/50 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">View</button>
                                     <?php endif; ?>
-                                    <a href="<?php echo e(route('attachments.download', $attachment->id)); ?>" class="rounded border border-slate-300 dark:border-slate-600 px-3 py-1 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 dark:bg-slate-700/50">Download</a>
+                                    <a href="<?php echo e(route('attachments.download', $attachment->id)); ?>" class="inline-flex items-center gap-1.5 rounded border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/50 px-2.5 py-0.5 text-[10px] font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">Download</a>
                                     <?php if(auth()->id() === $attachment->user_id || auth()->user()?->isAdmin()): ?>
                                         <form method="POST" action="<?php echo e(route('attachments.destroy', $attachment->id)); ?>" onsubmit="return confirm('Delete this attachment?')">
                                             <?php echo csrf_field(); ?>
                                             <?php echo method_field('DELETE'); ?>
-                                            <button type="submit" class="rounded border border-red-200 px-3 py-1 text-red-600 hover:bg-red-50">Delete</button>
+                                            <button type="submit" class="inline-flex items-center gap-1.5 rounded border border-red-100 dark:border-red-900/50 bg-red-50/50 dark:bg-red-950/40 px-2.5 py-0.5 text-[10px] font-semibold text-red-650 dark:text-red-400 hover:bg-red-100/80 dark:hover:bg-red-900/50 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">Delete</button>
                                         </form>
                                     <?php endif; ?>
                                 </div>
@@ -193,28 +193,27 @@ unset($__errorArgs, $__bag); ?>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </ul>
                 <?php endif; ?>
+            </div>>
+            <div class="rounded-xl border border-slate-200/40 bg-white/90 p-4 dark:border-slate-800 dark:bg-slate-900/90 shadow-sm">
+                <div class="mb-3 flex items-center justify-between gap-3">
+                    <h2 class="text-sm font-bold text-slate-800 dark:text-slate-100">Activity Timeline</h2>
+                    <span id="task-activity-count" class="rounded-full bg-slate-100 dark:bg-slate-850 border border-slate-200/50 dark:border-slate-800 px-2 py-0.5 text-[10px] font-bold text-slate-650 dark:text-slate-300 shadow-sm">0</span>
+                </div>
+                <div id="task-activity-timeline" class="space-y-3">
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Loading timeline...</p>
+                </div>
             </div>
 
-            <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
-                <div class="mb-4 flex items-center justify-between gap-3">
-                    <h2 class="text-lg font-semibold text-slate-800 dark:text-slate-100">Activity Timeline</h2>
-                    <span id="task-activity-count" class="rounded-full bg-slate-100 dark:bg-slate-700 px-2.5 py-1 text-xs font-medium text-slate-600 dark:text-slate-400">0</span>
-                </div>
-                <div id="task-activity-timeline" class="space-y-4">
-                    <p class="text-sm text-slate-500 dark:text-slate-400">Loading timeline...</p>
-                </div>
-            </div>
+            <div class="rounded-xl border border-slate-200/40 bg-white/90 p-4 dark:border-slate-800 dark:bg-slate-900/90 shadow-sm">
+                <h2 class="mb-3 text-sm font-bold text-slate-800 dark:text-slate-100">Comments</h2>
 
-            <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
-                <h2 class="mb-4 text-lg font-semibold text-slate-800 dark:text-slate-100">Comments</h2>
-
-                <form method="POST" action="<?php echo e(route('comments.store', $task)); ?>" class="mb-4 space-y-2">
+                <form method="POST" action="<?php echo e(route('comments.store', $task)); ?>" class="mb-3 space-y-2">
                     <?php echo csrf_field(); ?>
                     <textarea
                         name="body"
                         rows="3"
                         required
-                        class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                        class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 px-2.5 py-1.5 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
                         placeholder="Write a comment..."
                     ><?php echo e(old('body')); ?></textarea>
                     <div class="flex items-center justify-between">
@@ -223,48 +222,47 @@ $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                            <p class="text-sm text-red-600"><?php echo e($message); ?></p>
+                            <p class="text-xs text-red-600 font-semibold"><?php echo e($message); ?></p>
                         <?php else: ?>
-                            <span class="text-xs text-slate-500 dark:text-slate-400">Share updates, blockers, or clarifications.</span>
+                            <span class="text-[10px] text-slate-550 dark:text-slate-450">Share updates, blockers, or clarifications.</span>
                         <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                        <button type="submit" class="rounded-lg bg-cyan-600 px-3 py-2 text-sm font-medium text-white hover:bg-cyan-700">Post Comment</button>
+                        <button type="submit" class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-1.5 text-[11px] font-semibold text-white shadow-sm hover:bg-blue-700 transition-all duration-200 hover:-translate-y-0.5">Post Comment</button>
                     </div>
                 </form>
 
                 <?php if($task->comments->isEmpty()): ?>
-                    <p class="text-sm text-slate-500 dark:text-slate-400">No comments yet.</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">No comments yet.</p>
                 <?php else: ?>
-                    <ul class="space-y-3">
+                    <ul class="space-y-2">
                         <?php $__currentLoopData = $task->comments->sortByDesc('created_at')->take(20); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $comment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <li class="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50 p-3 text-sm">
-                                <div class="mb-1 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-                                    <span class="font-medium text-slate-700 dark:text-slate-300"><?php echo e($comment->user?->name ?? 'Unknown user'); ?></span>
+                            <li class="rounded-lg border border-slate-200/40 bg-slate-50 dark:bg-slate-900/50 p-2.5 text-xs">
+                                <div class="mb-1 flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-450">
+                                    <span class="font-bold text-slate-800 dark:text-slate-200"><?php echo e($comment->user?->name ?? 'Unknown user'); ?></span>
                                     <div class="flex items-center gap-2">
                                         <span><?php echo e($comment->created_at?->diffForHumans()); ?></span>
                                         <?php if(auth()->id() === $comment->user_id || auth()->user()?->isAdmin()): ?>
                                             <form method="POST" action="<?php echo e(route('comments.destroy', $comment->id)); ?>" onsubmit="return confirm('Delete this comment?')">
                                                 <?php echo csrf_field(); ?>
                                                 <?php echo method_field('DELETE'); ?>
-                                                <button type="submit" class="rounded border border-red-200 px-2 py-0.5 text-xs text-red-600 hover:bg-red-50">Delete</button>
+                                                <button type="submit" class="rounded border border-red-100 dark:border-red-900/50 bg-red-50/50 dark:bg-red-950/40 px-1.5 py-0.5 text-[9px] font-semibold text-red-650 dark:text-red-400 hover:bg-red-100/80 dark:hover:bg-red-900/50 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">Delete</button>
                                             </form>
                                         <?php endif; ?>
                                     </div>
                                 </div>
-                                <p class="text-slate-700 dark:text-slate-300"><?php echo e($comment->body); ?></p>
+                                <p class="text-slate-700 dark:text-slate-350 mt-0.5 leading-normal"><?php echo e($comment->body); ?></p>
                             </li>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </ul>
                 <?php endif; ?>
-            </div>
+            </div>>
         </div>
-
-        <div class="space-y-6">
-            <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
-                <h2 class="mb-3 text-lg font-semibold text-slate-800 dark:text-slate-100">Completion</h2>
-                <p class="mb-3 text-sm text-slate-500 dark:text-slate-400">Submit for review when work is finished, then manager/admin can approve as done.</p>
+        <div class="space-y-4">
+            <div class="rounded-xl border border-slate-200/40 bg-white/90 p-4 dark:border-slate-800 dark:bg-slate-900/90 shadow-sm">
+                <h2 class="mb-2 text-sm font-bold text-slate-800 dark:text-slate-100">Completion</h2>
+                <p class="mb-3 text-xs text-slate-550 dark:text-slate-400 leading-normal">Submit for review when work is finished, then manager/admin can approve as done.</p>
 
                 <?php
                     $hasCompletionDocument = $task->attachments->isNotEmpty();
@@ -278,20 +276,20 @@ unset($__errorArgs, $__bag); ?>
                         default => 'Not Submitted',
                     };
                     $approvalStatusClass = match($task->status) {
-                        'done' => 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800',
-                        'for_review' => 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-600',
-                        default => 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-600',
+                        'done' => 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-750 dark:text-emerald-350 border border-emerald-200/60 dark:border-emerald-800 px-2 py-0.5 text-[10px] font-bold rounded-md',
+                        'for_review' => 'bg-orange-100 dark:bg-orange-500/20 text-orange-750 dark:text-orange-350 border border-orange-200/60 dark:border-orange-800 px-2 py-0.5 text-[10px] font-bold rounded-md',
+                        default => 'bg-slate-100 dark:bg-slate-700/50 text-slate-650 dark:text-slate-350 border border-slate-200 dark:border-slate-800 px-2 py-0.5 text-[10px] font-bold rounded-md',
                     };
                 ?>
 
-                <div class="mb-4 rounded-xl border <?php echo e(($hasCompletionDocument && !$hasIncompleteChecklists) ? 'border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/30' : 'border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/30'); ?> px-4 py-3 text-sm">
-                    <div class="mb-3 flex items-center justify-between gap-3">
-                        <div>
-                            <p class="font-semibold <?php echo e(($hasCompletionDocument && !$hasIncompleteChecklists) ? 'text-emerald-800 dark:text-emerald-300' : 'text-amber-800 dark:text-amber-300'); ?>">
+                <div class="mb-3 rounded-lg border <?php echo e(($hasCompletionDocument && !$hasIncompleteChecklists) ? 'border-emerald-200/40 dark:border-emerald-800/40 bg-emerald-50/50 dark:bg-emerald-950/20' : 'border-amber-200/40 dark:border-amber-800/40 bg-amber-50/50 dark:bg-amber-950/20'); ?> px-3 py-2 text-xs">
+                    <div class="mb-1 flex items-start justify-between gap-3">
+                        <div class="min-w-0 flex-1">
+                            <p class="font-bold <?php echo e(($hasCompletionDocument && !$hasIncompleteChecklists) ? 'text-emerald-700 dark:text-emerald-400' : 'text-amber-700 dark:text-amber-400'); ?>">
                                 <?php echo e(($hasCompletionDocument && !$hasIncompleteChecklists) ? 'Ready for review' : 'Requirements pending'); ?>
 
                             </p>
-                            <div class="mt-1 <?php echo e(($hasCompletionDocument && !$hasIncompleteChecklists) ? 'text-emerald-700 dark:text-emerald-400' : 'text-amber-700 dark:text-amber-400'); ?>">
+                            <div class="mt-1 space-y-0.5 text-[11px] font-medium <?php echo e(($hasCompletionDocument && !$hasIncompleteChecklists) ? 'text-emerald-600 dark:text-emerald-500' : 'text-amber-600 dark:text-amber-500'); ?>">
                                 <?php if(!$hasCompletionDocument): ?>
                                     <p>• Upload at least one proof file.</p>
                                 <?php endif; ?>
@@ -303,7 +301,7 @@ unset($__errorArgs, $__bag); ?>
                                 <?php endif; ?>
                             </div>
                         </div>
-                        <span class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold <?php echo e($approvalStatusClass); ?>">
+                        <span class="inline-flex shrink-0 items-center <?php echo e($approvalStatusClass); ?>">
                             <?php echo e($approvalStatusLabel); ?>
 
                         </span>
@@ -316,20 +314,20 @@ unset($__errorArgs, $__bag); ?>
                             <form method="POST" action="<?php echo e(route('tasks.status.update', $task)); ?>" onsubmit="const btn = this.querySelector('button'); setTimeout(() => { btn.disabled = true; btn.textContent = 'Updating...'; }, 0);">
                                 <?php echo csrf_field(); ?>
                                 <input type="hidden" name="status" value="in_progress">
-                                <button type="submit" class="w-full rounded-lg bg-cyan-600 px-3 py-2 text-sm font-medium text-white hover:bg-cyan-700">
+                                <button type="submit" class="w-full inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-blue-700 transition-all duration-200 hover:-translate-y-0.5">
                                     Start Progress
                                 </button>
                             </form>
                         <?php elseif($task->status === 'in_progress'): ?>
                             <?php if(!$hasCompletionDocument || $hasIncompleteChecklists): ?>
-                                <button type="button" class="w-full rounded-lg bg-slate-400 px-3 py-2 text-sm font-medium text-white cursor-not-allowed" disabled>
+                                <button type="button" class="w-full inline-flex items-center justify-center rounded-lg bg-slate-200 dark:bg-slate-700 px-3 py-1.5 text-xs font-semibold text-slate-550 dark:text-slate-400 cursor-not-allowed" disabled>
                                     Mark As For Review
                                 </button>
                             <?php else: ?>
                                 <form method="POST" action="<?php echo e(route('tasks.status.update', $task)); ?>" onsubmit="const btn = this.querySelector('button'); setTimeout(() => { btn.disabled = true; btn.textContent = 'Updating...'; }, 0);">
                                     <?php echo csrf_field(); ?>
                                     <input type="hidden" name="status" value="for_review">
-                                    <button type="submit" class="w-full rounded-lg bg-orange-600 px-3 py-2 text-sm font-medium text-white hover:bg-orange-700">
+                                    <button type="submit" class="w-full inline-flex items-center justify-center rounded-lg bg-orange-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-orange-700 transition-all duration-200 hover:-translate-y-0.5">
                                         Mark As For Review
                                     </button>
                                 </form>
@@ -339,17 +337,17 @@ unset($__errorArgs, $__bag); ?>
                                 <form method="POST" action="<?php echo e(route('tasks.status.update', $task)); ?>" onsubmit="const btn = this.querySelector('button'); setTimeout(() => { btn.disabled = true; btn.textContent = 'Updating...'; }, 0);">
                                     <?php echo csrf_field(); ?>
                                     <input type="hidden" name="status" value="done">
-                                    <button type="submit" class="w-full rounded-lg bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-700">
+                                    <button type="submit" class="w-full inline-flex items-center justify-center rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700 transition-all duration-200 hover:-translate-y-0.5">
                                         Approve As Done
                                     </button>
                                 </form>
                             <?php else: ?>
-                                <button type="button" class="w-full rounded-lg px-3 py-2 text-sm font-medium text-white bg-slate-400" disabled>
+                                <button type="button" class="w-full inline-flex items-center justify-center rounded-lg px-3 py-1.5 text-xs font-semibold text-white bg-slate-200 dark:bg-slate-700 cursor-not-allowed" disabled>
                                     Pending Review
                                 </button>
                             <?php endif; ?>
                         <?php elseif($task->status === 'done'): ?>
-                            <button type="button" class="w-full rounded-lg px-3 py-2 text-sm font-medium text-white bg-emerald-600" disabled>
+                            <button type="button" class="w-full inline-flex items-center justify-center rounded-lg px-3 py-1.5 text-xs font-semibold text-white bg-emerald-600 cursor-not-allowed" disabled>
                                 Approved As Done
                             </button>
                         <?php endif; ?>
@@ -359,13 +357,13 @@ $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                        <p class="mt-2 text-sm text-red-600"><?php echo e($message); ?></p>
+                        <p class="mt-2 text-xs text-red-600 font-semibold"><?php echo e($message); ?></p>
                     <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                 <?php else: ?>
-                    <p class="text-sm text-slate-500 dark:text-slate-400">You are not allowed to change task status.</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">You are not allowed to change task status.</p>
                 <?php endif; ?>
             </div>
         </div>
@@ -405,18 +403,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const iconSvg = (actionType) => {
         if (actionType === 'status_change') {
-            return '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>';
+            return '<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>';
         }
 
         if (actionType === 'assignee_change') {
-            return '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 1118.879 17.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>';
+            return '<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 1118.879 17.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>';
         }
 
         if (actionType === 'comment_added' || actionType === 'comment_created') {
-            return '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h8M8 14h5m-9 7l2.6-2.6A2 2 0 004 17V5a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H8.6a2 2 0 00-1.4.6L4 21z" /></svg>';
+            return '<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h8M8 14h5m-9 7l2.6-2.6A2 2 0 004 17V5a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H8.6a2 2 0 00-1.4.6L4 21z" /></svg>';
         }
 
-        return '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l2 2m6-2a8 8 0 11-16 0 8 8 0 0116 0z" /></svg>';
+        return '<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l2 2m6-2a8 8 0 11-16 0 8 8 0 0116 0z" /></svg>';
     };
 
     const renderTimeline = (activities) => {
@@ -425,7 +423,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (!activities || activities.length === 0) {
-            timelineEl.innerHTML = '<p class="text-sm text-slate-500 dark:text-slate-400">No activity recorded yet.</p>';
+            timelineEl.innerHTML = '<p class="text-xs text-slate-500 dark:text-slate-400">No activity recorded yet.</p>';
             if (countEl) {
                 countEl.textContent = '0';
             }
@@ -446,15 +444,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
             return `
                 <li class="relative">
-                    <span class="absolute -left-[31px] mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full border ${bgClass}">
+                    <span class="absolute -left-[27px] mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full border ${bgClass}">
                         ${iconSvg(item.action_type)}
                     </span>
-                    <div class="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3">
+                    <div class="rounded-lg border border-slate-200/40 bg-white/95 dark:bg-slate-900/90 p-2.5 shadow-sm">
                         <div class="flex items-center justify-between gap-2">
-                            <p class="flex items-center text-sm font-semibold text-slate-800 dark:text-slate-100">${actor}${badge}</p>
-                            <span class="text-xs text-slate-400">${ts}</span>
+                            <p class="flex items-center text-xs font-bold text-slate-850 dark:text-white">${actor}${badge}</p>
+                            <span class="text-[10px] text-slate-400/80">${ts}</span>
                         </div>
-                        <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">${description}</p>
+                        <p class="mt-0.5 text-xs text-slate-600 dark:text-slate-400 leading-normal">${description}</p>
                     </div>
                 </li>
             `;

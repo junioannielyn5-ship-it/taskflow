@@ -188,6 +188,9 @@ class ProjectController extends Controller
     {
         $this->authorize('update', $project);
         $validated = $request->validated();
+        if (array_key_exists('project_owner', $validated)) {
+            $validated['project_owner'] = self::SALES_OWNER_MAP[$validated['project_owner']] ?? $project->project_owner;
+        }
         $project->update($validated);
         return redirect()->route('projects.index')->with('success', 'Project updated successfully.');
     }
