@@ -162,7 +162,16 @@
                     
                     <div>
                         <label class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">Category</label>
-                        <input type="text" name="category" id="input_category" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
+                        <input list="supplier_categories" type="text" name="category" id="input_category" placeholder="Select or type category..." class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
+                        <datalist id="supplier_categories">
+                            <option value="Raw Materials">
+                            <option value="Equipment & Machinery">
+                            <option value="Hardware & Tools">
+                            <option value="Logistics & Transport">
+                            <option value="Packaging">
+                            <option value="Office Supplies">
+                            <option value="IT & Software">
+                        </datalist>
                     </div>
                     <div>
                         <label class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">Contact (Person)</label>

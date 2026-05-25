@@ -1,26 +1,47 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="relative space-y-6">
-    <div class="pointer-events-none absolute right-0 top-0 h-64 w-64 translate-x-1/3 -translate-y-1/3 rounded-full bg-blue-100/40 blur-3xl dark:hidden"></div>
-    <div class="pointer-events-none absolute bottom-0 left-20 h-52 w-52 rounded-full bg-slate-200/30 blur-3xl dark:hidden"></div>
+<div class="relative space-y-6 min-h-screen">
+    <!-- Dynamic Background Effects -->
+    <div class="pointer-events-none absolute right-0 top-0 h-[500px] w-[500px] -translate-y-1/3 translate-x-1/3 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 blur-[80px] dark:from-blue-600/20 dark:to-purple-600/20"></div>
+    <div class="pointer-events-none absolute bottom-0 left-0 h-[400px] w-[400px] -translate-x-1/3 translate-y-1/3 rounded-full bg-gradient-to-tr from-emerald-500/20 to-cyan-500/20 blur-[80px] dark:from-emerald-600/20 dark:to-cyan-600/20"></div>
 
-    <div class="relative overflow-visible rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 p-4 shadow-md dark:shadow-none flex gap-4">
+    {{-- Page Header --}}
+    <div class="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-8 z-10">
+        <div>
+            <div class="mb-2 inline-flex items-center rounded-full border border-blue-200/50 bg-blue-50/50 px-3 py-1 text-xs font-semibold tracking-wide text-blue-700 shadow-sm backdrop-blur-md dark:border-blue-700/50 dark:bg-blue-900/50 dark:text-blue-300">
+                <span class="mr-1.5 flex h-2 w-2 rounded-full bg-blue-500"></span>
+                Workflow Management
+            </div>
+            <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                Task <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-indigo-400">Kanban</span>
+            </h1>
+        </div>
+        @can('create-task')
+            <a href="{{ route('tasks.create') }}" class="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 text-sm font-bold text-white shadow-md shadow-blue-500/20 transition-all hover:scale-105 hover:from-blue-500 hover:to-indigo-500 hover:shadow-lg hover:shadow-blue-500/40">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+                Create Task
+            </a>
+        @endcan
+    </div>
+
+    <div class="relative overflow-visible rounded-2xl border border-white/40 bg-white/40 px-4 sm:px-6 py-4 sm:py-5 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/40 flex flex-wrap gap-3 mb-6 z-10">
         <div class="relative inline-block" id="kanban-project-picker">
             <button
                 type="button"
                 id="project-toggle-btn"
-                class="inline-flex items-center gap-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                class="inline-flex items-center gap-2 rounded-xl border-0 ring-1 ring-inset ring-slate-300/50 bg-white/70 py-2.5 px-4 text-sm font-medium text-slate-900 shadow-sm backdrop-blur-sm transition-all hover:bg-white focus:ring-2 focus:ring-inset focus:ring-blue-500 dark:bg-slate-900/50 dark:text-white dark:ring-slate-700/50 dark:hover:bg-slate-800"
             >
-                Project
-                <span class="text-xs text-slate-500 dark:text-slate-400" id="project-selected-label">All Projects</span>
+                <span class="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">Project:</span>
+                <span class="font-semibold" id="project-selected-label">All Projects</span>
+                <svg class="h-4 w-4 text-slate-400 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
             </button>
-            <div id="project-dropdown" class="absolute left-0 z-20 mt-2 hidden min-w-[260px] rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-2 shadow-xl">
-                <button type="button" class="project-option-btn block w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" data-project-id="">All Projects</button>
+            <div id="project-dropdown" class="absolute left-0 z-30 mt-2 hidden min-w-[260px] rounded-xl border border-slate-200/50 dark:border-slate-700/50 bg-white/90 dark:bg-slate-800/90 p-2 shadow-xl backdrop-blur-xl">
+                <button type="button" class="project-option-btn block w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/50" data-project-id="">All Projects</button>
                 @forelse(($projects ?? collect()) as $project)
                     <button
                         type="button"
-                        class="project-option-btn block w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                        class="project-option-btn block w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/50"
                         data-project-id="{{ $project['id'] }}"
                         data-project-name="{{ $project['name'] }}"
                     >
@@ -35,17 +56,18 @@
             <button
                 type="button"
                 id="company-toggle-btn"
-                class="inline-flex items-center gap-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                class="inline-flex items-center gap-2 rounded-xl border-0 ring-1 ring-inset ring-slate-300/50 bg-white/70 py-2.5 px-4 text-sm font-medium text-slate-900 shadow-sm backdrop-blur-sm transition-all hover:bg-white focus:ring-2 focus:ring-inset focus:ring-blue-500 dark:bg-slate-900/50 dark:text-white dark:ring-slate-700/50 dark:hover:bg-slate-800"
             >
-                Company Name
-                <span class="text-xs text-slate-500 dark:text-slate-400" id="company-selected-label">All Companies</span>
+                <span class="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">Company:</span>
+                <span class="font-semibold" id="company-selected-label">All Companies</span>
+                <svg class="h-4 w-4 text-slate-400 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
             </button>
-            <div id="company-dropdown" class="absolute left-0 z-20 mt-2 hidden min-w-[260px] rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-2 shadow-xl">
-                <button type="button" class="company-option-btn block w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" data-company-name="">All Companies</button>
+            <div id="company-dropdown" class="absolute left-0 z-30 mt-2 hidden min-w-[260px] rounded-xl border border-slate-200/50 dark:border-slate-700/50 bg-white/90 dark:bg-slate-800/90 p-2 shadow-xl backdrop-blur-xl">
+                <button type="button" class="company-option-btn block w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/50" data-company-name="">All Companies</button>
                 @foreach(['PBI', 'TOYOTA', 'Splash', 'Movaflex'] as $company)
                     <button
                         type="button"
-                        class="company-option-btn block w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                        class="company-option-btn block w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/50"
                         data-company-name="{{ $company }}"
                     >
                         {{ $company }}
@@ -55,40 +77,40 @@
         </div>
     </div>
 
-    <div id="kanban-board" class="grid grid-cols-1 gap-4 lg:grid-cols-4">
+    <div id="kanban-board" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         @php
             $columnMeta = [
                 'backlogs' => [
                     'label' => 'Backlog',
                     'headerClass' => 'bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-300 border border-red-300 dark:border-red-400/35',
-                    'columnClass' => 'border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80',
+                    'columnClass' => 'border-white/40 bg-white/40 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/40',
                     'countClass' => 'bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-200 border border-red-300 dark:border-red-400/30',
-                    'cardClass' => 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800',
-                    'emptyClass' => 'border-dashed border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-400 dark:text-slate-500',
+                    'cardClass' => 'border-white/60 bg-white/80 dark:border-slate-600/50 dark:bg-slate-700/80 shadow-sm hover:shadow-md hover:-translate-y-0.5',
+                    'emptyClass' => 'border-dashed border-slate-300/50 dark:border-slate-600/50 bg-white/30 dark:bg-slate-800/30 text-slate-400 dark:text-slate-500 backdrop-blur-sm',
                 ],
                 'todo' => [
                     'label' => 'To-do',
                     'headerClass' => 'bg-amber-100 dark:bg-orange-500/20 text-amber-700 dark:text-orange-200 border border-amber-300 dark:border-orange-400/35',
-                    'columnClass' => 'border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80',
+                    'columnClass' => 'border-white/40 bg-white/40 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/40',
                     'countClass' => 'bg-amber-100 dark:bg-orange-500/20 text-amber-700 dark:text-orange-200 border border-amber-300 dark:border-orange-400/30',
-                    'cardClass' => 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800',
-                    'emptyClass' => 'border-dashed border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-400 dark:text-slate-500',
+                    'cardClass' => 'border-white/60 bg-white/80 dark:border-slate-600/50 dark:bg-slate-700/80 shadow-sm hover:shadow-md hover:-translate-y-0.5',
+                    'emptyClass' => 'border-dashed border-slate-300/50 dark:border-slate-600/50 bg-white/30 dark:bg-slate-800/30 text-slate-400 dark:text-slate-500 backdrop-blur-sm',
                 ],
                 'in_progress' => [
                     'label' => 'In-Progress',
                     'headerClass' => 'bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-400/35',
-                    'columnClass' => 'border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80',
+                    'columnClass' => 'border-white/40 bg-white/40 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/40',
                     'countClass' => 'bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-200 border border-blue-300 dark:border-blue-400/30',
-                    'cardClass' => 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800',
-                    'emptyClass' => 'border-dashed border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-400 dark:text-slate-500',
+                    'cardClass' => 'border-white/60 bg-white/80 dark:border-slate-600/50 dark:bg-slate-700/80 shadow-sm hover:shadow-md hover:-translate-y-0.5',
+                    'emptyClass' => 'border-dashed border-slate-300/50 dark:border-slate-600/50 bg-white/30 dark:bg-slate-800/30 text-slate-400 dark:text-slate-500 backdrop-blur-sm',
                 ],
                 'done' => [
                     'label' => 'Done',
                     'headerClass' => 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-400/35',
-                    'columnClass' => 'border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80',
+                    'columnClass' => 'border-white/40 bg-white/40 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/40',
                     'countClass' => 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-400/30',
-                    'cardClass' => 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800',
-                    'emptyClass' => 'border-dashed border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-400 dark:text-slate-500',
+                    'cardClass' => 'border-white/60 bg-white/80 dark:border-slate-600/50 dark:bg-slate-700/80 shadow-sm hover:shadow-md hover:-translate-y-0.5',
+                    'emptyClass' => 'border-dashed border-slate-300/50 dark:border-slate-600/50 bg-white/30 dark:bg-slate-800/30 text-slate-400 dark:text-slate-500 backdrop-blur-sm',
                 ],
             ];
         @endphp
@@ -122,7 +144,7 @@
                             $taskNo = $task->task_no ?: sprintf('TSK-%05d', $task->id);
                             $overdueDays = $isDelayed && $task->due_date ? $task->due_date->diffInDays(now()) : 0;
                         @endphp
-                        <div class="kanban-card rounded-xl border p-3 {{ $columnMeta[$key]['cardClass'] }} {{ $isDelayed ? 'ring-1 ring-red-400/60' : '' }} shadow-sm hover:shadow-md dark:shadow-none transition-shadow" data-task-id="{{ $task->id }}" data-project-id="{{ $task->project?->id ?? '' }}" draggable="true">
+                        <div class="kanban-card relative z-10 rounded-xl border p-4 {{ $columnMeta[$key]['cardClass'] }} {{ $isDelayed ? 'ring-2 ring-red-400/60 dark:ring-red-500/60 bg-red-50/50 dark:bg-red-900/10' : '' }} transition-all duration-300" data-task-id="{{ $task->id }}" data-project-id="{{ $task->project?->id ?? '' }}" draggable="true">
                             <div class="mb-2 flex items-start justify-between gap-2">
                                 <a href="{{ route('tasks.show', $task) }}" class="text-sm font-semibold text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 hover:underline">{{ $task->title }}</a>
                                 <span class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold {{ $priorityClass }}">{{ $priorityLabel }}</span>

@@ -1,33 +1,45 @@
-
-
 <?php $__env->startSection('content'); ?>
-<div class="space-y-6 bg-slate-100 dark:bg-slate-900 min-h-screen p-6">
+<div class="relative space-y-6">
+    <!-- Dynamic Background Effects -->
+    <div class="pointer-events-none absolute right-0 top-0 h-[500px] w-[500px] -translate-y-1/3 translate-x-1/3 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 blur-[80px] dark:from-blue-600/20 dark:to-purple-600/20"></div>
+    <div class="pointer-events-none absolute bottom-0 left-0 h-[400px] w-[400px] -translate-x-1/3 translate-y-1/3 rounded-full bg-gradient-to-tr from-emerald-500/20 to-cyan-500/20 blur-[80px] dark:from-emerald-600/20 dark:to-cyan-600/20"></div>
 
-
-
-    <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-bold text-slate-800 dark:text-slate-100">Projects</h2>
+    
+    <div class="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-8 z-10">
+        <div>
+            <div class="mb-2 inline-flex items-center rounded-full border border-blue-200/50 bg-blue-50/50 px-3 py-1 text-xs font-semibold tracking-wide text-blue-700 shadow-sm backdrop-blur-md dark:border-blue-700/50 dark:bg-blue-900/50 dark:text-blue-300">
+                <span class="mr-1.5 flex h-2 w-2 rounded-full bg-blue-500"></span>
+                Workspace Overview
+            </div>
+            <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                Project <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-indigo-400">Hub</span>
+            </h1>
+        </div>
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create-project')): ?>
-            <a href="<?php echo e(route('projects.create')); ?>" class="rounded-xl bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 px-4 py-2 text-white font-semibold shadow-md dark:shadow-none transition hover:-translate-y-0.5">Create Project</a>
+            <a href="<?php echo e(route('projects.create')); ?>" class="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 text-sm font-bold text-white shadow-md shadow-blue-500/20 transition-all hover:scale-105 hover:from-blue-500 hover:to-indigo-500 hover:shadow-lg hover:shadow-blue-500/40">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+                Create Project
+            </a>
         <?php endif; ?>
     </div>
 
-    <div class="relative overflow-visible rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-md dark:shadow-none flex flex-wrap gap-4 mb-4">
+    <div class="relative overflow-visible rounded-2xl border border-white/40 bg-white/40 px-6 py-5 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/40 flex flex-wrap gap-4 mb-6 z-10">
         <div class="relative inline-block" id="projects-project-picker">
             <button
                 type="button"
                 id="projects-project-toggle-btn"
-                class="inline-flex items-center gap-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600"
+                class="inline-flex items-center gap-2 rounded-xl border-0 ring-1 ring-inset ring-slate-300/50 bg-white/70 py-2.5 px-4 text-sm font-medium text-slate-900 shadow-sm backdrop-blur-sm transition-all hover:bg-white focus:ring-2 focus:ring-inset focus:ring-blue-500 dark:bg-slate-900/50 dark:text-white dark:ring-slate-700/50 dark:hover:bg-slate-800"
             >
-                Project
-                <span class="text-xs text-slate-500 dark:text-slate-400" id="projects-project-selected-label">All Projects</span>
+                <span class="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">Project:</span>
+                <span class="font-semibold" id="projects-project-selected-label">All Projects</span>
+                <svg class="h-4 w-4 text-slate-400 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
             </button>
-            <div id="projects-project-dropdown" class="absolute left-0 z-20 mt-2 hidden min-w-[260px] rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 p-2 shadow-xl">
-                <button type="button" class="projects-project-option-btn block w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" data-project-name="">All Projects</button>
+            <div id="projects-project-dropdown" class="absolute left-0 z-30 mt-2 hidden min-w-[260px] rounded-xl border border-slate-200/50 dark:border-slate-700/50 bg-white/90 dark:bg-slate-800/90 p-2 shadow-xl backdrop-blur-xl">
+                <button type="button" class="projects-project-option-btn block w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/50" data-project-name="">All Projects</button>
                 <?php $__currentLoopData = ($projects ?? collect())->pluck('name')->filter()->unique()->sort()->values(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $projectName): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <button
                         type="button"
-                        class="projects-project-option-btn block w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                        class="projects-project-option-btn block w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/50"
                         data-project-name="<?php echo e($projectName); ?>"
                     >
                         <?php echo e($projectName); ?>
@@ -41,17 +53,18 @@
             <button
                 type="button"
                 id="projects-company-toggle-btn"
-                class="inline-flex items-center gap-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600"
+                class="inline-flex items-center gap-2 rounded-xl border-0 ring-1 ring-inset ring-slate-300/50 bg-white/70 py-2.5 px-4 text-sm font-medium text-slate-900 shadow-sm backdrop-blur-sm transition-all hover:bg-white focus:ring-2 focus:ring-inset focus:ring-blue-500 dark:bg-slate-900/50 dark:text-white dark:ring-slate-700/50 dark:hover:bg-slate-800"
             >
-                Company Name
-                <span class="text-xs text-slate-500 dark:text-slate-400" id="projects-company-selected-label">All Companies</span>
+                <span class="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">Company:</span>
+                <span class="font-semibold" id="projects-company-selected-label">All Companies</span>
+                <svg class="h-4 w-4 text-slate-400 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
             </button>
-            <div id="projects-company-dropdown" class="absolute left-0 z-20 mt-2 hidden min-w-[260px] rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 p-2 shadow-xl">
-                <button type="button" class="projects-company-option-btn block w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" data-company-name="">All Companies</button>
+            <div id="projects-company-dropdown" class="absolute left-0 z-30 mt-2 hidden min-w-[260px] rounded-xl border border-slate-200/50 dark:border-slate-700/50 bg-white/90 dark:bg-slate-800/90 p-2 shadow-xl backdrop-blur-xl">
+                <button type="button" class="projects-company-option-btn block w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/50" data-company-name="">All Companies</button>
                 <?php $__currentLoopData = ($projects ?? collect())->pluck('company_name')->filter()->unique()->sort()->values(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $companyName): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <button
                         type="button"
-                        class="projects-company-option-btn block w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                        class="projects-company-option-btn block w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/50"
                         data-company-name="<?php echo e($companyName); ?>"
                     >
                         <?php echo e($companyName); ?>
@@ -62,18 +75,21 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-stretch">
         <?php $__empty_1 = true; $__currentLoopData = $projects; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $project): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-            <div class="project-card relative overflow-hidden flex flex-col h-full rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-md dark:shadow-none hover:shadow-lg transition-all duration-300"
+            <div class="project-card relative overflow-hidden flex flex-col h-full rounded-3xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                 data-project-name="<?php echo e(strtolower((string) $project->name)); ?>"
                 data-company-name="<?php echo e(strtolower((string) ($project->company_name ?? ''))); ?>">
 
-                <div class="relative z-10 mb-4">
-                    <h4 class="text-xs uppercase font-semibold text-slate-500 dark:text-slate-400 tracking-wider">
-                        <?php echo e($project->company_name ?: '-'); ?>
+                <div class="relative z-10 mb-5">
+                    <div class="mb-2 inline-flex items-center gap-1.5 rounded-full bg-slate-100 dark:bg-slate-900/50 px-2.5 py-1">
+                        <svg class="h-3 w-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                        <h4 class="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                            <?php echo e($project->company_name ?: '-'); ?>
 
-                    </h4>
-                    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 mt-1">
+                        </h4>
+                    </div>
+                    <h3 class="text-xl font-extrabold text-slate-800 dark:text-white leading-tight">
                         <?php echo e($project->name); ?>
 
                     </h3>
@@ -162,8 +178,12 @@
 
             </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-            <div class="col-span-full rounded-2xl border border-dashed border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-6 py-12 text-center">
-                <p class="text-sm text-slate-500 dark:text-slate-400">No projects found.</p>
+            <div class="col-span-full flex flex-col items-center justify-center rounded-2xl border border-white/40 bg-white/40 px-6 py-16 text-center shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/40">
+                <div class="mb-4 rounded-full bg-slate-100/50 p-4 dark:bg-slate-900/30">
+                    <svg class="h-10 w-10 text-slate-400 dark:text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white">No projects found</h3>
+                <p class="mt-1 max-w-sm text-sm text-slate-500 dark:text-slate-400">Create a new project to get started.</p>
             </div>
         <?php endif; ?>
     </div>

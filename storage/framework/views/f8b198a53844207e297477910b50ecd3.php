@@ -1,188 +1,152 @@
-
 <?php $__env->startSection('content'); ?>
 <?php
-    $hour = now()->hour;
-    $greeting = $hour < 12 ? 'Good Morning' : ($hour < 18 ? 'Good Afternoon' : 'Good Evening');
+    $hour = now()->timezone('Asia/Manila')->hour;
+    $greeting = $hour < 12 ? 'Good morning' : ($hour < 18 ? 'Good afternoon' : 'Good evening');
 ?>
 <?php
     $logoPath = \App\Modules\Admin\Models\SystemSetting::valueOf('branding_logo_path', null);
 ?>
-<div class="mv-dashboard-shell">
-<div class="relative w-full min-h-[calc(100vh-4rem)] bg-transparent text-slate-700 dark:text-slate-200 transition-colors duration-300">
+<div class="relative space-y-4 sm:space-y-6 min-h-screen p-3 sm:p-4 lg:p-6">
+    <!-- Dynamic Background Effects -->
+    <div class="pointer-events-none absolute right-0 top-0 h-[300px] w-[300px] sm:h-[600px] sm:w-[600px] -translate-y-1/3 translate-x-1/3 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 blur-[100px] dark:from-blue-600/20 dark:to-purple-600/20"></div>
+    <div class="pointer-events-none absolute bottom-0 left-0 h-[250px] w-[250px] sm:h-[500px] sm:w-[500px] -translate-x-1/3 translate-y-1/3 rounded-full bg-gradient-to-tr from-emerald-500/20 to-cyan-500/20 blur-[100px] dark:from-emerald-600/20 dark:to-cyan-600/20"></div>
 
-<!-- Dashboard Navbar (Glass) -->
-<div class="mv-navbar relative overflow-hidden h-14 border-b border-white/40 dark:border-white/10 bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl flex items-center justify-between px-5 sticky top-0 z-20 shadow-[0_4px_30px_rgba(0,0,0,0.05)]">
-    <div class="pointer-events-none absolute right-0 top-0 h-28 w-28 translate-x-1/3 -translate-y-1/3 rounded-full bg-gradient-to-br from-[#00E5FF]/30 to-[#2962FF]/30 blur-3xl"></div>
-    <div class="pointer-events-none absolute bottom-0 left-24 h-20 w-20 rounded-full bg-[#9D4EDD]/20 blur-2xl"></div>
     
-    <div class="relative z-10 flex items-center gap-4 pl-6">
-        <h1 class="text-2xl font-semibold text-slate-800 dark:text-slate-100">Dashboard</h1>
-        <span class="hidden sm:inline text-xs text-slate-600 dark:text-slate-400"><?php echo e($greeting); ?>, <?php echo e(auth()->user()->name); ?></span>
-    </div>
-    
-    <div class="relative z-10 flex items-center gap-3">
+    <div class="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-8 z-10">
+        <div>
+            <div class="mb-2 inline-flex items-center rounded-full border border-blue-200/50 bg-blue-50/50 px-3 py-1 text-xs font-semibold tracking-wide text-blue-700 shadow-sm backdrop-blur-md dark:border-blue-700/50 dark:bg-blue-900/50 dark:text-blue-300">
+                <span class="mr-1.5 flex h-2 w-2 rounded-full bg-blue-500"></span>
+                <?php echo e($greeting); ?>, <?php echo e(auth()->user()->name); ?>
+
+            </div>
+            <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                Workspace <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-indigo-400">Dashboard</span>
+            </h1>
+        </div>
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create-project')): ?>
-            <a href="<?php echo e(route('projects.create')); ?>" class="dashboard-create-btn rounded-xl bg-gradient-to-r from-[#2962FF] to-[#00E5FF] px-4 py-2 text-sm font-medium text-white shadow-[0_0_15px_rgba(0,229,255,0.28)] transition hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(0,229,255,0.45)] backdrop-blur-sm">+ New Project</a>
+            <a href="<?php echo e(route('projects.create')); ?>" class="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 text-sm font-bold text-white shadow-md shadow-blue-500/20 transition-all hover:scale-105 hover:from-blue-500 hover:to-indigo-500 hover:shadow-lg hover:shadow-blue-500/40">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+                New Project
+            </a>
         <?php endif; ?>
     </div>
-</div>
 
-            <div class="mv-content-inner w-full max-w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pb-6 pt-6 space-y-6 transition-all duration-300">
+    
+    <div class="relative overflow-visible rounded-2xl sm:rounded-3xl border border-white/40 bg-white/40 px-4 sm:px-8 py-5 sm:py-8 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/40 mb-6 sm:mb-8 z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-6">
+        <div class="max-w-3xl space-y-3 sm:space-y-4">
+            <h2 class="text-xl sm:text-2xl md:text-3xl font-black tracking-wide text-slate-800 dark:text-slate-100">
+                Welcome to <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-indigo-400">TaskFlow Workspace</span>
+            </h2>
+            <p class="border-l-4 border-blue-500 pl-4 text-sm md:text-base font-medium italic leading-relaxed text-slate-600 dark:text-slate-300">
+                "<?php echo e($systemAnnouncement); ?>"
+            </p>
+        </div>
+        
+        <div class="flex w-full shrink-0 flex-wrap sm:flex-row gap-2 sm:gap-3 md:w-auto">
+            <a href="<?php echo e(route('tasks.list')); ?>" class="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-md transition-all hover:bg-blue-700 hover:scale-105 hover:shadow-lg">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                My Tasks
+            </a>
+            <a href="<?php echo e(route('tasks.kanban')); ?>" class="inline-flex items-center justify-center gap-2 rounded-xl border-0 ring-1 ring-inset ring-slate-300/50 bg-white/70 px-5 py-3 text-sm font-bold text-slate-900 shadow-sm backdrop-blur-sm transition-all hover:bg-white hover:scale-105 dark:bg-slate-900/50 dark:text-white dark:ring-slate-700/50 dark:hover:bg-slate-800">
+                <svg class="h-5 w-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path></svg>
+                Kanban
+            </a>
+            <?php if(auth()->user()?->hasAnyRole(['admin', 'manager'])): ?>
+            <a href="<?php echo e(route('admin.config.index')); ?>#broadcast-email" class="inline-flex items-center justify-center gap-2 rounded-xl border-0 ring-1 ring-inset ring-slate-300/50 bg-white/70 px-5 py-3 text-sm font-bold text-slate-900 shadow-sm backdrop-blur-sm transition-all hover:bg-white hover:scale-105 dark:bg-slate-900/50 dark:text-white dark:ring-slate-700/50 dark:hover:bg-slate-800">
+                <svg class="h-5 w-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
+                Broadcast
+            </a>
+            <?php endif; ?>
+        </div>
+    </div>
 
-            <style>
-                /* Glassmorphism Panel Utilities */
-                .dashboard-glass-panel {
-                    background: rgba(255, 255, 255, 0.60);
-                    backdrop-filter: blur(16px) saturate(180%);
-                    -webkit-backdrop-filter: blur(16px) saturate(180%);
-                    border: 1px solid rgba(255, 255, 255, 0.45);
-                    box-shadow: 0 4px 30px rgba(15, 23, 42, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-                }
-                html.dark .dashboard-glass-panel {
-                    background: rgba(15, 23, 42, 0.65);
-                    backdrop-filter: blur(16px) saturate(160%);
-                    -webkit-backdrop-filter: blur(16px) saturate(160%);
-                    border: 1px solid rgba(255, 255, 255, 0.08);
-                    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-                }
-                .glass-override {
-                    background: transparent !important;
-                    border: none !important;
-                }
-            </style>
-            
-            <div class="relative mt-0 overflow-hidden rounded-3xl dashboard-glass-panel border-none p-5 md:p-6 shadow-md dark:shadow-none transition-all duration-300">
-
-                
-                <div class="relative z-10 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-
-                    
-                    <div class="max-w-2xl space-y-3">
-                        
-                        
-                        <h2 class="text-2xl font-black tracking-wide text-slate-800 dark:text-slate-100 md:text-3xl">
-                            Welcome to <span class="text-blue-600">TaskFlow Workspace</span>
-                        </h2>
-
-                        
-                        <p class="border-l-2 border-blue-500 pl-4 text-sm font-medium italic leading-relaxed text-slate-600 dark:text-slate-400">
-                            "<?php echo e($systemAnnouncement); ?>"
-                        </p>
-                    </div>
-
-                    
-                    <div class="flex w-full shrink-0 flex-col gap-2 sm:flex-row md:w-auto">
-                        <a href="<?php echo e(route('tasks.list')); ?>" class="flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-bold text-white shadow-md dark:shadow-none transition-all duration-300 hover:bg-blue-700">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
-                            Open My Tasks
-                        </a>
-
-                        <a href="<?php echo e(route('tasks.kanban')); ?>" class="dashboard-glass-panel flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-slate-800 dark:text-slate-200 transition-all duration-300 hover:bg-white/40 dark:hover:bg-white/10">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path></svg>
-                            Kanban Board
-                        </a>
-
-                        <?php if(auth()->user()?->hasAnyRole(['admin', 'manager'])): ?>
-                        <a href="<?php echo e(route('admin.config.index')); ?>#broadcast-email" class="dashboard-glass-panel flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-slate-800 dark:text-slate-200 transition-all duration-300 hover:bg-white/40 dark:hover:bg-white/10">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
-                            Email Broadcast
-                        </a>
-                        <?php endif; ?>
+    
+    <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6 relative z-10">
+        
+        <a href="/projects" class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+            <div class="relative z-10">
+                <div class="flex justify-between items-start mb-4">
+                    <p class="text-blue-600 dark:text-blue-400 text-xs font-extrabold uppercase tracking-widest">Active Projects</p>
+                    <div class="p-2 bg-blue-100/80 dark:bg-blue-500/20 rounded-xl text-blue-600 dark:text-blue-400 shadow-inner">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     </div>
                 </div>
+                <h3 class="text-slate-900 dark:text-white text-5xl font-black mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"><?php echo e($totalProjects); ?></h3>
+                <div class="mt-4 h-2 w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full overflow-hidden shadow-inner">
+                    <div class="h-full w-[60%] bg-gradient-to-r from-blue-400 to-blue-600 rounded-full"></div>
+                </div>
             </div>
+        </a>
 
-            <div class="dashboard-stats grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 -mt-4">
-                
-                <a href="/projects" class="relative overflow-hidden rounded-3xl dashboard-glass-panel border-none p-6 group hover:shadow-lg transition-all duration-300">
-                    
-                    <div class="relative z-10">
-                        <div class="flex justify-between items-start mb-4">
-                            <p class="text-blue-600 text-xs font-bold uppercase tracking-wider">Active Projects</p>
-                            <div class="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg text-blue-600 border border-blue-200 dark:border-blue-800">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                            </div>
-                        </div>
-                        <h3 class="text-slate-800 dark:text-slate-100 text-4xl font-black"><?php echo e($totalProjects); ?></h3>
-                        <div class="mt-4 h-1.5 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                            <div class="h-full w-[60%] bg-blue-500"></div>
-                        </div>
+        <a href="<?php echo e(route('tasks.list')); ?>" class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+            <div class="relative z-10">
+                <div class="flex justify-between items-start mb-4">
+                    <p class="text-purple-600 dark:text-purple-400 text-xs font-extrabold uppercase tracking-widest">My Tasks</p>
+                    <div class="p-2 bg-purple-100/80 dark:bg-purple-500/20 rounded-xl text-purple-600 dark:text-purple-400 shadow-inner">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
                     </div>
-                </a>
-
-                <a href="<?php echo e(route('tasks.list')); ?>" class="relative overflow-hidden rounded-3xl dashboard-glass-panel border-none p-6 group hover:shadow-lg transition-all duration-300">
-                    <div class="relative z-10">
-                        <div class="flex justify-between items-start mb-4">
-                            <p class="text-purple-600 text-xs font-bold uppercase tracking-wider">My Tasks</p>
-                            <div class="p-2 bg-purple-50 dark:bg-purple-900/30 rounded-lg text-purple-600 border border-purple-200 dark:border-purple-800">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
-                            </div>
-                        </div>
-                        <h3 class="text-slate-800 dark:text-slate-100 text-4xl font-black"><?php echo e($totalTasks); ?></h3>
-                        <div class="mt-4 h-1.5 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                            <div class="h-full w-[80%] bg-purple-500"></div>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="<?php echo e(route('tasks.list', ['status' => 'for_review'])); ?>" class="relative overflow-hidden rounded-3xl dashboard-glass-panel border-none p-6 group hover:shadow-lg transition-all duration-300">
-                    
-                    <div class="relative z-10">
-                        <div class="flex justify-between items-start mb-4">
-                            <p class="text-orange-600 text-xs font-bold uppercase tracking-wider">Pending Review</p>
-                            <div class="p-2 bg-orange-50 dark:bg-orange-900/30 rounded-lg text-orange-600 border border-orange-200 dark:border-orange-800">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
-                            </div>
-                        </div>
-                        <h3 class="text-slate-800 dark:text-slate-100 text-4xl font-black"><?php echo e($pendingReview); ?></h3>
-                        <div class="mt-4 h-1.5 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                            <div class="h-full w-[30%] bg-orange-500"></div>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="<?php echo e(route('tasks.list')); ?>" class="relative overflow-hidden rounded-3xl dashboard-glass-panel border-none p-6 group hover:shadow-lg transition-all duration-300">
-                    
-                    <div class="relative z-10">
-                        <div class="flex justify-between items-start mb-4">
-                            <p class="text-rose-600 text-xs font-bold uppercase tracking-wider">Overdue</p>
-                            <div class="p-2 bg-rose-50 dark:bg-rose-900/30 rounded-lg text-rose-600 border border-rose-200 dark:border-rose-800">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            </div>
-                        </div>
-                        <h3 class="text-slate-800 dark:text-slate-100 text-4xl font-black"><?php echo e($overdue); ?></h3>
-                        <div class="mt-4 h-1.5 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                            <div class="h-full w-[100%] bg-rose-500"></div>
-                        </div>
-                    </div>
-                </a>
-
+                </div>
+                <h3 class="text-slate-900 dark:text-white text-5xl font-black mb-1 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors"><?php echo e($totalTasks); ?></h3>
+                <div class="mt-4 h-2 w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full overflow-hidden shadow-inner">
+                    <div class="h-full w-[80%] bg-gradient-to-r from-purple-400 to-purple-600 rounded-full"></div>
+                </div>
             </div>
+        </a>
 
-            <div class="dashboard-analytics grid grid-cols-1 gap-4 xl:grid-cols-2">
-                <div id="latest-notifications-card" class="relative overflow-hidden rounded-2xl dashboard-glass-panel border-none p-5 shadow-md dark:shadow-none transition-all scroll-mt-24" style="border-left: 4px solid #2563eb;">
+        <a href="<?php echo e(route('tasks.list', ['status' => 'for_review'])); ?>" class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+            <div class="relative z-10">
+                <div class="flex justify-between items-start mb-4">
+                    <p class="text-amber-600 dark:text-amber-400 text-xs font-extrabold uppercase tracking-widest">Pending Review</p>
+                    <div class="p-2 bg-amber-100/80 dark:bg-amber-500/20 rounded-xl text-amber-600 dark:text-amber-400 shadow-inner">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                    </div>
+                </div>
+                <h3 class="text-slate-900 dark:text-white text-5xl font-black mb-1 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors"><?php echo e($pendingReview); ?></h3>
+                <div class="mt-4 h-2 w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full overflow-hidden shadow-inner">
+                    <div class="h-full w-[30%] bg-gradient-to-r from-amber-400 to-orange-500 rounded-full"></div>
+                </div>
+            </div>
+        </a>
+
+        <a href="<?php echo e(route('tasks.list')); ?>" class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+            <div class="relative z-10">
+                <div class="flex justify-between items-start mb-4">
+                    <p class="text-rose-600 dark:text-rose-400 text-xs font-extrabold uppercase tracking-widest">Overdue</p>
+                    <div class="p-2 bg-rose-100/80 dark:bg-rose-500/20 rounded-xl text-rose-600 dark:text-rose-400 shadow-inner">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                </div>
+                <h3 class="text-slate-900 dark:text-white text-5xl font-black mb-1 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors"><?php echo e($overdue); ?></h3>
+                <div class="mt-4 h-2 w-full bg-slate-200/50 dark:bg-slate-700/50 rounded-full overflow-hidden shadow-inner">
+                    <div class="h-full w-[100%] bg-gradient-to-r from-rose-500 to-red-600 rounded-full"></div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+            <div class="dashboard-analytics grid grid-cols-1 gap-4 xl:grid-cols-2 relative z-10 mb-6">
+                <div id="latest-notifications-card" class="relative overflow-hidden rounded-2xl sm:rounded-3xl border border-white/40 bg-white/60 p-4 sm:p-6 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50 transition-all scroll-mt-24">
                     <div class="mb-4 flex items-center justify-between gap-3">
-                        <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-100">Task Status Overview</h3>
+                        <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100">Task Status Overview</h3>
                         <div class="flex items-center gap-2">
-                            <a href="<?php echo e(route('dashboard.export.status-overview.csv')); ?>" class="rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600">CSV</a>
-                            <a href="<?php echo e(route('dashboard.export.status-overview.pdf')); ?>" class="rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600">PDF</a>
+                            <a href="<?php echo e(route('dashboard.export.status-overview.csv')); ?>" class="rounded-lg border border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-700/50 px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-600 shadow-sm transition-all">CSV</a>
+                            <a href="<?php echo e(route('dashboard.export.status-overview.pdf')); ?>" class="rounded-lg border border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-700/50 px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-600 shadow-sm transition-all">PDF</a>
                         </div>
                     </div>
-                    <p class="mb-3 text-sm text-slate-600 dark:text-slate-400">Done: <span id="done-percentage" class="font-semibold text-emerald-600"><?php echo e($donePercentage); ?>%</span> · In Progress: <span id="in-progress-percentage" class="font-semibold text-blue-600"><?php echo e($inProgressPercentage); ?>%</span></p>
+                    <p class="mb-3 text-sm font-medium text-slate-600 dark:text-slate-400">Done: <span id="done-percentage" class="font-extrabold text-emerald-600"><?php echo e($donePercentage); ?>%</span> · In Progress: <span id="in-progress-percentage" class="font-extrabold text-blue-600"><?php echo e($inProgressPercentage); ?>%</span></p>
                     <div class="relative h-64 w-full">
                         <canvas id="taskStatusChart"></canvas>
                     </div>
                 </div>
-                <div class="relative overflow-hidden rounded-2xl dashboard-glass-panel border-none p-5 shadow-md dark:shadow-none transition-all" style="border-left: 4px solid #10b981;">
-                    <h3 class="mb-4 text-lg font-semibold text-slate-800 dark:text-slate-100">Tasks Over Time</h3>
+                <div class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50 transition-all">
+                    <h3 class="mb-4 text-lg font-bold text-slate-800 dark:text-slate-100">Tasks Over Time</h3>
                     <div class="relative h-64 w-full">
                         <canvas id="tasksOverTimeChart"></canvas>
                     </div>
                 </div>
             </div>
 
-            
-            <div class="dashboard-panel relative overflow-hidden rounded-3xl dashboard-glass-panel border-none p-5 shadow-md dark:shadow-none transition-all hover:shadow-lg" id="mv-progress-panel">
+            <div class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50 transition-all z-10 mb-6" id="mv-progress-panel">
 
                 
                 <div class="relative z-10 mb-4 flex items-center gap-2">
@@ -503,8 +467,7 @@
             </script>
 
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                
-                <div class="dashboard-panel relative overflow-hidden rounded-3xl dashboard-glass-panel border-none p-4 shadow-md dark:shadow-none transition-all hover:shadow-lg">
+                <div class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50 transition-all">
                     <div class="relative z-10 mb-3 flex items-center justify-between">
                         <h3 class="text-base font-semibold text-slate-800 dark:text-slate-100">Urgent Tasks</h3>
                         <a href="<?php echo e(route('tasks.list', ['priority' => 'urgent'])); ?>" class="text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:underline">View All</a>
@@ -542,8 +505,7 @@
                     <?php endif; ?>
                 </div>
 
-                
-                <div class="dashboard-panel relative overflow-hidden rounded-3xl dashboard-glass-panel border-none p-4 shadow-md dark:shadow-none transition-all hover:shadow-lg">
+                <div class="relative overflow-hidden rounded-3xl border border-white/40 bg-white/60 p-6 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50 transition-all">
                     <div class="relative z-10 mb-3 flex items-center justify-between">
                         <h3 class="text-base font-semibold text-slate-800 dark:text-slate-100">Upcoming Meetings</h3>
                         <a href="<?php echo e(route('meetings.index')); ?>" class="text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:underline">View All</a>

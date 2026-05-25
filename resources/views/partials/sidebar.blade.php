@@ -323,7 +323,7 @@ html.dark #gbl-sidebar-backdrop {
     aria-expanded="false"
     class="fixed left-0 top-1/2 z-[80] -translate-y-1/2
            flex flex-col items-center justify-center gap-[3px]
-           w-[1.15rem] h-[4.5rem] rounded-r-xl">
+           w-[1.35rem] h-[5rem] sm:w-[1.15rem] sm:h-[4.5rem] rounded-r-xl touch-manipulation">
     <span id="gbl-bar1" class="block h-[2px] w-[10px] rounded-full bg-white/90 transition-all duration-300 ease-in-out origin-center"></span>
     <span id="gbl-bar2" class="block h-[2px] w-[10px] rounded-full bg-white/90 transition-all duration-300 ease-in-out"></span>
     <span id="gbl-bar3" class="block h-[2px] w-[10px] rounded-full bg-white/90 transition-all duration-300 ease-in-out origin-center"></span>
@@ -558,3 +558,4 @@ html.dark #gbl-sidebar-backdrop {
 }());
 </script>
 @endauth
+

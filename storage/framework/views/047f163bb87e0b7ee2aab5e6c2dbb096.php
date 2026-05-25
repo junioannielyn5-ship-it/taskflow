@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <title>Movaflex Task Manager</title>
     <script>
@@ -157,24 +157,24 @@
     
     <div class="pointer-events-none absolute left-1/4 top-0 h-12 w-96 -translate-x-1/2 rounded-full bg-gradient-to-r from-blue-500/10 to-indigo-500/10 dark:from-blue-500/20 dark:to-indigo-500/20 blur-2xl"></div>
     
-    <div class="relative z-10 mx-auto flex h-16 w-full max-w-full items-center justify-between px-4 sm:px-6 lg:px-8 xl:px-10">
+    <div class="relative z-10 mx-auto flex h-14 sm:h-16 w-full max-w-full items-center justify-between px-3 sm:px-4 lg:px-8 xl:px-10">
 
         
         <div class="flex shrink-0 items-center">
-            <a href="<?php echo e(route('dashboard')); ?>" class="flex items-center gap-2 group">
+            <a href="<?php echo e(route('dashboard')); ?>" class="flex items-center gap-1.5 sm:gap-2 group">
                  <img src="<?php echo e(asset('images/movaflex-logo-official.png')); ?>"
-                    class="h-12 w-auto object-contain transform group-hover:scale-105 transition-transform duration-300 saturate-125 contrast-110 brightness-105 dark:saturate-100 dark:contrast-150 dark:brightness-150 dark:drop-shadow-[0_0_12px_rgba(59,130,246,0.8)]"
+                    class="h-9 sm:h-12 w-auto object-contain transform group-hover:scale-105 transition-transform duration-300 saturate-125 contrast-110 brightness-105 dark:saturate-100 dark:contrast-150 dark:brightness-150 dark:drop-shadow-[0_0_12px_rgba(59,130,246,0.8)]"
                     alt="Movaflex">
-                 <div class="w-px h-6 bg-slate-300 dark:bg-slate-700 mx-1"></div>
-                 <span class="text-xs font-bold tracking-[0.2em] uppercase text-slate-400 group-hover:text-blue-500 transition-colors">Workspace</span>
+                 <div class="hidden sm:block w-px h-6 bg-slate-300 dark:bg-slate-700 mx-1"></div>
+                 <span class="hidden sm:block text-xs font-bold tracking-[0.2em] uppercase text-slate-400 group-hover:text-blue-500 transition-colors">Workspace</span>
             </a>
         </div>
 
         <?php if(auth()->guard()->check()): ?>
         
-        <div class="hidden lg:flex items-center gap-1 bg-slate-100/80 dark:bg-slate-800/60 p-1 rounded-xl border border-slate-200/50 dark:border-slate-700/50">
+        <div class="hidden md:flex items-center gap-0.5 xl:gap-1 bg-slate-100/80 dark:bg-slate-800/60 p-1 rounded-xl border border-slate-200/50 dark:border-slate-700/50 overflow-x-auto max-w-[60vw]">
             <?php
-                $navBase   = "inline-flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition-all duration-200";
+                $navBase   = "inline-flex items-center gap-1 md:gap-1.5 rounded-lg px-2.5 lg:px-3.5 py-1.5 text-xs font-semibold transition-all duration-200 whitespace-nowrap";
                 $navActive = "bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-300 shadow-sm border border-slate-200/60 dark:border-slate-600/50";
                 $navIdle   = "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/50 dark:hover:bg-slate-800/50 border border-transparent";
             ?>
@@ -188,7 +188,7 @@
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
             <?php if(auth()->user()->isAdmin()): ?>
-            <a href="<?php echo e(route('users.create')); ?>" class="<?php echo e($navBase); ?> <?php echo e(request()->routeIs('users.*') ? $navActive : $navIdle); ?>">
+            <a href="<?php echo e(route('users.index')); ?>" class="<?php echo e($navBase); ?> <?php echo e(request()->routeIs('users.*') ? $navActive : $navIdle); ?>">
                     <i data-lucide="user-plus" class="h-3.5 w-3.5"></i>
                     Create User
                 </a>
@@ -196,7 +196,7 @@
         </div>
 
         
-        <div class="relative z-20 hidden lg:flex items-center gap-1" x-data="{ userMenu: false }">
+        <div class="relative z-20 hidden md:flex items-center gap-1 shrink-0" x-data="{ userMenu: false }">
             
             <?php
                 $unreadNotifCount = \App\Modules\Notifications\Models\Notification::where('user_id', auth()->id())->unread()->count();
@@ -238,7 +238,7 @@
 
                         </div>
                     <?php endif; ?>
-                    <span class="text-xs font-semibold text-slate-700 dark:text-slate-300 xl:inline"><?php echo e(Str::limit(auth()->user()->name, 12)); ?></span>
+                    <span class="hidden lg:inline text-xs font-semibold text-slate-700 dark:text-slate-300"><?php echo e(Str::limit(auth()->user()->name, 12)); ?></span>
                     <i data-lucide="chevron-down" class="h-3 w-3 text-slate-400 transform transition-transform duration-200" :class="userMenu && 'rotate-180'"></i>
                 </button>
 
@@ -259,7 +259,7 @@
         </div>
 
         
-        <div class="flex lg:hidden items-center gap-1">
+        <div class="flex md:hidden items-center gap-1">
             <button onclick="toggleDarkMode()" class="rounded-xl p-2 text-slate-500 dark:text-amber-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
                 <i data-lucide="sun" class="h-4 w-4 hidden dark:block"></i>
                 <i data-lucide="moon" class="h-4 w-4 block dark:hidden"></i>
@@ -286,7 +286,7 @@
     <div x-show="mobileMenuOpen" x-cloak
          x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
          x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2"
-         class="lg:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl"
+         class="md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl"
          @click.away="mobileMenuOpen = false">
         <div class="px-4 py-3 space-y-1">
             <?php
@@ -303,7 +303,7 @@
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
             <?php if(auth()->user()->isAdmin()): ?>
-            <a href="<?php echo e(route('users.create')); ?>" class="<?php echo e($mobileBase); ?> <?php echo e(request()->routeIs('users.*') ? $mobileActive : $mobileInactive); ?>">
+            <a href="<?php echo e(route('users.index')); ?>" class="<?php echo e($mobileBase); ?> <?php echo e(request()->routeIs('users.*') ? $mobileActive : $mobileInactive); ?>">
                 <i data-lucide="user-plus" class="h-5 w-5"></i> Create User
             </a>
             <?php endif; ?>
@@ -330,8 +330,8 @@
 <?php echo $__env->make('partials.sidebar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
     <?php $isDashboard = request()->routeIs('dashboard'); ?>
-    <main class="<?php if($isDashboard): ?> w-full max-w-none p-0 m-0 <?php else: ?> w-full max-w-full px-4 sm:px-6 lg:px-8 xl:px-10 py-6 sm:py-8 <?php endif; ?>" style="min-height:0;">
-        <div class="mv-page-enter <?php if($isDashboard): ?> w-full max-w-none p-0 m-0 <?php else: ?> mv-shell rounded-2xl sm:rounded-[2rem] glass-card p-4 sm:p-6 lg:p-8 shadow-2xl <?php endif; ?>">
+    <main class="<?php if($isDashboard): ?> w-full max-w-none p-0 m-0 <?php else: ?> w-full max-w-full px-3 sm:px-5 lg:px-8 xl:px-10 py-4 sm:py-6 lg:py-8 <?php endif; ?>" style="min-height:0;">
+        <div class="mv-page-enter <?php if($isDashboard): ?> w-full max-w-none p-0 m-0 <?php else: ?> mv-shell rounded-xl sm:rounded-2xl lg:rounded-[2rem] glass-card p-3 sm:p-5 lg:p-8 shadow-xl <?php endif; ?>">
             <?php echo $__env->yieldContent('content'); ?>
         </div>
     </main>

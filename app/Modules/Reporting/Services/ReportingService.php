@@ -1,3 +1,16 @@
+<?php
+
+namespace App\Modules\Reporting\Services;
+
+use App\Modules\Projects\Services\ProjectService;
+use App\Modules\Tasks\Models\Task;
+use App\Modules\Workflow\Models\TaskActivityLog;
+use Illuminate\Support\Carbon;
+
+class ReportingService
+{
+    public function __construct(private ProjectService $projectService) {}
+
     /**
      * Get total hours spent per project or per member.
      *
@@ -19,18 +32,6 @@
         $totalSeconds = $query->whereNotNull('total_seconds')->sum('total_seconds');
         return round($totalSeconds / 3600, 2); // hours
     }
-<?php
-
-namespace App\Modules\Reporting\Services;
-
-use App\Modules\Projects\Services\ProjectService;
-use App\Modules\Tasks\Models\Task;
-use App\Modules\Workflow\Models\TaskActivityLog;
-use Illuminate\Support\Carbon;
-
-class ReportingService
-{
-    public function __construct(private ProjectService $projectService) {}
 
     public function getOverdueTasks(int $projectId, int $userId)
     {

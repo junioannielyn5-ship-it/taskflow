@@ -148,104 +148,166 @@
     .tasks-table th.w-24, .tasks-table td.w-24 { width: 90px !important; min-width: 70px; }
     .tasks-table th.w-32, .tasks-table td.w-32 { width: 120px !important; min-width: 90px; }
 </style>
-<div class="relative space-y-6 tasks-page">
-    <div class="pointer-events-none absolute right-0 top-0 h-64 w-64 translate-x-1/3 -translate-y-1/3 rounded-full bg-blue-100/40 blur-3xl dark:hidden"></div>
-    <div class="pointer-events-none absolute bottom-0 left-20 h-52 w-52 rounded-full bg-slate-200/30 blur-3xl dark:hidden"></div>
+<div class="relative space-y-8 tasks-page">
+    <!-- Dynamic Background Effects -->
+    <div class="pointer-events-none absolute right-0 top-0 h-[500px] w-[500px] -translate-y-1/3 translate-x-1/3 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 blur-[80px] dark:from-blue-600/20 dark:to-purple-600/20"></div>
+    <div class="pointer-events-none absolute bottom-0 left-0 h-[400px] w-[400px] -translate-x-1/3 translate-y-1/3 rounded-full bg-gradient-to-tr from-emerald-500/20 to-cyan-500/20 blur-[80px] dark:from-emerald-600/20 dark:to-cyan-600/20"></div>
+
     @php
         $currentTab = request('tab') === 'done' ? 'done' : 'active';
     @endphp
 
-    <div class="relative inline-flex w-fit overflow-hidden rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-5 py-2.5 shadow-md dark:shadow-none" style="border-left: 4px solid #2563eb;">
-        <p class="text-2xl font-bold uppercase tracking-wide text-slate-800 dark:text-slate-100 md:text-3xl">Task Manager</p>
+    <!-- Header Section -->
+    <div class="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+            <div class="mb-2 inline-flex items-center rounded-full border border-blue-200/50 bg-blue-50/50 px-3 py-1 text-xs font-semibold tracking-wide text-blue-700 shadow-sm backdrop-blur-md dark:border-blue-700/50 dark:bg-blue-900/50 dark:text-blue-300">
+                <span class="mr-1.5 flex h-2 w-2 rounded-full bg-blue-500"></span>
+                Workspace Overview
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                Task <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-indigo-400">Manager</span>
+            </h1>
+        </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-5">
+    {{-- Stat Cards Grid --}}
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">
         <!-- Active Projects -->
-          <a href="{{ route('tasks.list') }}"
-              class="block rounded-2xl border border-slate-300 dark:border-slate-700 border-l-4 border-l-blue-400 bg-white dark:bg-slate-800 shadow-md dark:shadow-none px-4 py-3 transition hover:-translate-y-0.5 hover:shadow-lg">
-            <p class="text-xs font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-400">Active Projects</p>
-            <p class="mt-1 text-2xl font-bold text-slate-800 dark:text-slate-100">{{ $activeProjectsCount ?? 0 }}</p>
+        <a href="{{ route('tasks.list') }}" class="group relative overflow-hidden rounded-2xl border border-white/40 bg-white/60 p-5 shadow-lg backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+            <div class="relative z-10 flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Active Projects</p>
+                    <p class="mt-2 text-3xl font-black text-slate-800 dark:text-white">{{ $activeProjectsCount ?? 0 }}</p>
+                </div>
+                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-blue-600 shadow-inner dark:bg-blue-900/50 dark:text-blue-400">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6"/></svg>
+                </div>
+            </div>
+            <div class="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-blue-500 to-blue-400"></div>
         </a>
+
         <!-- My Tasks -->
-          <a href="{{ route('tasks.list', ['assignee' => auth()->id()]) }}"
-              class="block rounded-2xl border border-slate-300 dark:border-slate-700 border-l-4 border-l-purple-400 bg-white dark:bg-slate-800 shadow-md dark:shadow-none px-4 py-3 transition hover:-translate-y-0.5 hover:shadow-lg">
-            <p class="text-xs font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-400">My Tasks</p>
-            <p class="mt-1 text-2xl font-bold text-slate-800 dark:text-slate-100">{{ $myTasksCount ?? 0 }}</p>
+        <a href="{{ route('tasks.list', ['assignee' => auth()->id()]) }}" class="group relative overflow-hidden rounded-2xl border border-white/40 bg-white/60 p-5 shadow-lg backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50">
+            <div class="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+            <div class="relative z-10 flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">My Tasks</p>
+                    <p class="mt-2 text-3xl font-black text-slate-800 dark:text-white">{{ $myTasksCount ?? 0 }}</p>
+                </div>
+                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-purple-100 text-purple-600 shadow-inner dark:bg-purple-900/50 dark:text-purple-400">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+                </div>
+            </div>
+            <div class="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-purple-500 to-purple-400"></div>
         </a>
+
         <!-- Pending Review -->
-          <a href="{{ route('tasks.list', ['status' => 'for_review']) }}"
-              class="block rounded-2xl border border-slate-300 dark:border-slate-700 border-l-4 border-l-yellow-400 bg-white dark:bg-slate-800 shadow-md dark:shadow-none px-4 py-3 transition hover:-translate-y-0.5 hover:shadow-lg">
-            <p class="text-xs font-semibold uppercase tracking-wide text-yellow-600 dark:text-yellow-400">Pending Review</p>
-            <p class="mt-1 text-2xl font-bold text-slate-800 dark:text-slate-100">{{ $pendingReviewCount ?? 0 }}</p>
+        <a href="{{ route('tasks.list', ['status' => 'for_review']) }}" class="group relative overflow-hidden rounded-2xl border border-white/40 bg-white/60 p-5 shadow-lg backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50">
+            <div class="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+            <div class="relative z-10 flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Pending Review</p>
+                    <p class="mt-2 text-3xl font-black text-slate-800 dark:text-white">{{ $pendingReviewCount ?? 0 }}</p>
+                </div>
+                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100 text-amber-600 shadow-inner dark:bg-amber-900/50 dark:text-amber-400">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+            </div>
+            <div class="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-amber-500 to-amber-400"></div>
         </a>
+
         <!-- Overdue -->
-          <a href="{{ route('tasks.list', ['overdue' => 1]) }}"
-              class="block rounded-2xl border border-slate-300 dark:border-slate-700 border-l-4 border-l-red-500 bg-white dark:bg-slate-800 shadow-md dark:shadow-none px-4 py-3 transition hover:-translate-y-0.5 hover:shadow-lg">
-            <p class="text-xs font-semibold uppercase tracking-wide text-red-600 dark:text-red-400">Overdue</p>
-            <p class="mt-1 text-2xl font-bold text-slate-800 dark:text-slate-100">{{ $overdueCount ?? 0 }}</p>
+        <a href="{{ route('tasks.list', ['overdue' => 1]) }}" class="group relative overflow-hidden rounded-2xl border border-white/40 bg-white/60 p-5 shadow-lg backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50">
+            <div class="absolute inset-0 bg-gradient-to-br from-rose-500/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+            <div class="relative z-10 flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400">Overdue</p>
+                    <p class="mt-2 text-3xl font-black text-slate-800 dark:text-white">{{ $overdueCount ?? 0 }}</p>
+                </div>
+                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-rose-100 text-rose-600 shadow-inner dark:bg-rose-900/50 dark:text-rose-400">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                </div>
+            </div>
+            <div class="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-rose-500 to-rose-400"></div>
         </a>
+
         <!-- Done -->
-          <a href="{{ route('tasks.list', ['tab' => 'done']) }}"
-              class="block rounded-2xl border border-slate-300 dark:border-slate-700 border-l-4 border-l-emerald-400 bg-white dark:bg-slate-800 shadow-md dark:shadow-none px-4 py-3 transition hover:-translate-y-0.5 hover:shadow-lg">
-            <p class="text-xs font-semibold uppercase tracking-wide text-emerald-600 dark:text-emerald-400">Done</p>
-            <p class="mt-1 text-2xl font-bold text-slate-800 dark:text-slate-100">{{ $doneTasksCount ?? 0 }}</p>
+        <a href="{{ route('tasks.list', ['tab' => 'done']) }}" class="group relative overflow-hidden rounded-2xl border border-white/40 bg-white/60 p-5 shadow-lg backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50">
+            <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+            <div class="relative z-10 flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Done</p>
+                    <p class="mt-2 text-3xl font-black text-slate-800 dark:text-white">{{ $doneTasksCount ?? 0 }}</p>
+                </div>
+                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600 shadow-inner dark:bg-emerald-900/50 dark:text-emerald-400">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+            </div>
+            <div class="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-emerald-500 to-emerald-400"></div>
         </a>
     </div>
 
-    <div class="relative overflow-hidden rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 shadow-md dark:shadow-none">
-        <span class="mr-1 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Status Colors:</span>
-        <span class="inline-flex items-center rounded-full border border-amber-300 bg-amber-100 px-3 py-1 text-xs font-bold tracking-wide text-amber-900 shadow-sm">TO-DO</span>
-        <span class="inline-flex items-center rounded-full border border-blue-300 bg-blue-100 px-3 py-1 text-xs font-bold tracking-wide text-blue-900 shadow-sm">IN-PROGRESS</span>
-        <span class="inline-flex items-center rounded-full border border-orange-300 bg-orange-100 px-3 py-1 text-xs font-bold tracking-wide text-orange-900 shadow-sm">FOR REVIEW</span>
-        <span class="inline-flex items-center rounded-full border border-emerald-300 bg-emerald-100 px-3 py-1 text-xs font-bold tracking-wide text-emerald-900 shadow-sm">DONE</span>
+    <div class="flex flex-wrap items-center justify-between gap-4">
+        <div class="relative inline-flex items-center overflow-hidden rounded-xl border border-white/20 bg-white/40 p-1 shadow-sm backdrop-blur-md dark:border-slate-700/50 dark:bg-slate-800/40">
+            <a href="{{ route('tasks.list', array_merge(request()->except(['tab', 'done_page', 'page']), ['tab' => 'active'])) }}"
+               class="relative flex items-center justify-center rounded-lg px-5 py-2 text-sm font-bold transition-all duration-200 {{ $currentTab === 'active' ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md' : 'text-slate-600 hover:bg-white/50 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-700/50 dark:hover:text-white' }}">
+                <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                Active Tasks
+            </a>
+            <a href="{{ route('tasks.list', array_merge(request()->except(['tab', 'page']), ['tab' => 'done'])) }}"
+               class="relative flex items-center justify-center rounded-lg px-5 py-2 text-sm font-bold transition-all duration-200 {{ $currentTab === 'done' ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md' : 'text-slate-600 hover:bg-white/50 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-700/50 dark:hover:text-white' }}">
+                <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                Checklist / Completed
+            </a>
+        </div>
+
+        <div class="flex items-center gap-2 rounded-xl border border-white/20 bg-white/40 px-4 py-2 shadow-sm backdrop-blur-md dark:border-slate-700/50 dark:bg-slate-800/40">
+            <span class="mr-2 text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">Legend:</span>
+            <span class="inline-flex h-2.5 w-2.5 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.8)]" title="TO-DO"></span>
+            <span class="inline-flex items-center text-xs font-semibold text-slate-600 dark:text-slate-300">To-Do</span>
+            <div class="mx-2 h-4 w-px bg-slate-300 dark:bg-slate-600"></div>
+            <span class="inline-flex h-2.5 w-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]" title="IN-PROGRESS"></span>
+            <span class="inline-flex items-center text-xs font-semibold text-slate-600 dark:text-slate-300">In-Progress</span>
+            <div class="mx-2 h-4 w-px bg-slate-300 dark:bg-slate-600"></div>
+            <span class="inline-flex h-2.5 w-2.5 rounded-full bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.8)]" title="FOR REVIEW"></span>
+            <span class="inline-flex items-center text-xs font-semibold text-slate-600 dark:text-slate-300">Review</span>
+            <div class="mx-2 h-4 w-px bg-slate-300 dark:bg-slate-600"></div>
+            <span class="inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" title="DONE"></span>
+            <span class="inline-flex items-center text-xs font-semibold text-slate-600 dark:text-slate-300">Done</span>
+        </div>
     </div>
 
-    <div class="relative inline-flex overflow-hidden rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-1 shadow-md dark:shadow-none">
-        <a
-            href="{{ route('tasks.list', array_merge(request()->except(['tab', 'done_page', 'page']), ['tab' => 'active'])) }}"
-            class="rounded-lg px-4 py-2 text-sm font-semibold {{ $currentTab === 'active' ? 'bg-teal-600 text-white' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-white' }}"
-        >
-            Active Tasks
-        </a>
-        <a
-            href="{{ route('tasks.list', array_merge(request()->except(['tab', 'page']), ['tab' => 'done'])) }}"
-            class="rounded-lg px-4 py-2 text-sm font-semibold {{ $currentTab === 'done' ? 'bg-emerald-600 text-white' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-white' }}"
-        >
-            Checklist / Completed
-        </a>
-    </div>
-
-    <form method="GET" action="{{ route('tasks.list') }}" class="relative overflow-hidden rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-md dark:shadow-none">
+    <form method="GET" action="{{ route('tasks.list') }}" class="relative overflow-hidden rounded-2xl border border-white/40 bg-white/40 p-5 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/40">
         <input type="hidden" name="tab" value="{{ request('tab', 'active') }}">
-        <div class="grid grid-cols-1 gap-4 {{ $currentTab === 'done' ? 'md:grid-cols-6' : 'md:grid-cols-8' }}">
-            <div>
-                <label for="search" class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">Search</label>
-                <input
-                    id="search"
-                    type="text"
-                    name="search"
-                    value="{{ $filters['search'] ?? '' }}"
-                    placeholder="Title, description, or company"
-                    class="w-full rounded border-2 border-cyan-300 dark:border-cyan-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm font-semibold text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder-slate-400 ring-1 ring-cyan-100 dark:ring-cyan-900/30 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-200 dark:focus:border-cyan-400 dark:focus:ring-cyan-900/40"
-                >
+        
+        <div class="mb-4 flex items-center justify-between border-b border-slate-200/50 pb-3 dark:border-slate-700/50">
+            <h2 class="text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                <svg class="mr-2 inline h-5 w-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" /></svg>
+                Filter & Search
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8 items-end">
+            <div class="xl:col-span-2">
+                <label for="search" class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-600 dark:text-slate-400">Search Keywords</label>
+                <div class="relative">
+                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <svg class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    </div>
+                    <input id="search" type="text" name="search" value="{{ $filters['search'] ?? '' }}" placeholder="Search tasks..." class="block w-full rounded-xl border-0 bg-white/70 py-2.5 pl-10 text-sm font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300/50 backdrop-blur-sm transition-all focus:bg-white focus:ring-2 focus:ring-inset focus:ring-blue-500 dark:bg-slate-900/50 dark:text-white dark:ring-slate-700/50 dark:focus:bg-slate-800 dark:focus:ring-blue-500 placeholder:text-slate-400">
+                </div>
             </div>
 
             <div>
-                <label for="company" class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">Company/Client</label>
-                <input
-                    id="company"
-                    type="text"
-                    name="company"
-                    value="{{ $filters['company'] ?? '' }}"
-                    placeholder="Filter by company"
-                    class="w-full rounded border-2 border-cyan-300 dark:border-cyan-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm font-semibold text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder-slate-400 ring-1 ring-cyan-100 dark:ring-cyan-900/30 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-200 dark:focus:border-cyan-400 dark:focus:ring-cyan-900/40"
-                >
+                <label for="company" class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-600 dark:text-slate-400">Company</label>
+                <input id="company" type="text" name="company" value="{{ $filters['company'] ?? '' }}" placeholder="Client..." class="block w-full rounded-xl border-0 bg-white/70 py-2.5 px-3 text-sm font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300/50 backdrop-blur-sm transition-all focus:bg-white focus:ring-2 focus:ring-inset focus:ring-blue-500 dark:bg-slate-900/50 dark:text-white dark:ring-slate-700/50 dark:focus:bg-slate-800 dark:focus:ring-blue-500 placeholder:text-slate-400">
             </div>
 
             <div>
-                <label for="status" class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">Status</label>
-                <select id="status" name="status" class="w-full rounded border-2 border-cyan-300 dark:border-cyan-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm font-semibold text-slate-900 dark:text-white ring-1 ring-cyan-100 dark:ring-cyan-900/30 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-200 dark:focus:border-cyan-400 dark:focus:ring-cyan-900/40">
-                    <option value="">All statuses</option>
+                <label for="status" class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-600 dark:text-slate-400">Status</label>
+                <select id="status" name="status" class="block w-full rounded-xl border-0 bg-white/70 py-2.5 px-3 text-sm font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300/50 backdrop-blur-sm transition-all focus:bg-white focus:ring-2 focus:ring-inset focus:ring-blue-500 dark:bg-slate-900/50 dark:text-white dark:ring-slate-700/50 dark:focus:bg-slate-800 dark:focus:ring-blue-500">
+                    <option value="">All Statuses</option>
                     <option value="blocked" @selected(($filters['status'] ?? '') === 'blocked')>BACKLOG</option>
                     <option value="todo" @selected(($filters['status'] ?? '') === 'todo')>TO-DO</option>
                     <option value="in_progress" @selected(($filters['status'] ?? '') === 'in_progress')>IN-PROGRESS</option>
@@ -257,9 +319,9 @@
 
             @if ($currentTab === 'active')
                 <div>
-                    <label for="priority" class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">Priority</label>
-                    <select id="priority" name="priority" class="w-full rounded border-2 border-cyan-300 dark:border-cyan-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm font-semibold text-slate-900 dark:text-white ring-1 ring-cyan-100 dark:ring-cyan-900/30 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-200 dark:focus:border-cyan-400 dark:focus:ring-cyan-900/40">
-                        <option value="">All priorities</option>
+                    <label for="priority" class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-600 dark:text-slate-400">Priority</label>
+                    <select id="priority" name="priority" class="block w-full rounded-xl border-0 bg-white/70 py-2.5 px-3 text-sm font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300/50 backdrop-blur-sm transition-all focus:bg-white focus:ring-2 focus:ring-inset focus:ring-blue-500 dark:bg-slate-900/50 dark:text-white dark:ring-slate-700/50 dark:focus:bg-slate-800 dark:focus:ring-blue-500">
+                        <option value="">All Priorities</option>
                         <option value="low" @selected(($filters['priority'] ?? '') === 'low')>Low</option>
                         <option value="medium" @selected(($filters['priority'] ?? '') === 'medium')>Medium</option>
                         <option value="high" @selected(($filters['priority'] ?? '') === 'high')>High</option>
@@ -269,9 +331,9 @@
             @endif
 
             <div>
-                <label for="assignee" class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">Assignee</label>
-                <select id="assignee" name="assignee" class="w-full rounded border-2 border-cyan-300 dark:border-cyan-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm font-semibold text-slate-900 dark:text-white ring-1 ring-cyan-100 dark:ring-cyan-900/30 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-200 dark:focus:border-cyan-400 dark:focus:ring-cyan-900/40">
-                    <option value="">All assignees</option>
+                <label for="assignee" class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-600 dark:text-slate-400">Assignee</label>
+                <select id="assignee" name="assignee" class="block w-full rounded-xl border-0 bg-white/70 py-2.5 px-3 text-sm font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300/50 backdrop-blur-sm transition-all focus:bg-white focus:ring-2 focus:ring-inset focus:ring-blue-500 dark:bg-slate-900/50 dark:text-white dark:ring-slate-700/50 dark:focus:bg-slate-800 dark:focus:ring-blue-500">
+                    <option value="">Anyone</option>
                     @foreach ($assignees as $assignee)
                         <option value="{{ $assignee->id }}" @selected((string) ($filters['assignee'] ?? '') === (string) $assignee->id)>
                             {{ $assignee->name }}
@@ -281,21 +343,15 @@
             </div>
 
             <div>
-                <label for="date_received" class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">Date Received</label>
-                <input
-                    id="date_received"
-                    type="date"
-                    name="date_received"
-                    value="{{ $filters['date_received'] ?? '' }}"
-                    class="w-full rounded border-2 border-cyan-300 dark:border-cyan-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm font-semibold text-slate-900 dark:text-white ring-1 ring-cyan-100 dark:ring-cyan-900/30 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-200 dark:focus:border-cyan-400 dark:focus:ring-cyan-900/40"
-                >
+                <label for="date_received" class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-600 dark:text-slate-400">Date Received</label>
+                <input id="date_received" type="date" name="date_received" value="{{ $filters['date_received'] ?? '' }}" class="block w-full rounded-xl border-0 bg-white/70 py-2.5 px-3 text-sm font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300/50 backdrop-blur-sm transition-all focus:bg-white focus:ring-2 focus:ring-inset focus:ring-blue-500 dark:bg-slate-900/50 dark:text-white dark:ring-slate-700/50 dark:focus:bg-slate-800 dark:focus:ring-blue-500">
             </div>
 
             @if ($currentTab === 'active')
-                <div>
-                    <label for="blocked_by_task_id" class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">Blocked By</label>
-                    <select id="blocked_by_task_id" name="blocked_by_task_id" class="w-full rounded border-2 border-cyan-300 dark:border-cyan-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm font-semibold text-slate-900 dark:text-white ring-1 ring-cyan-100 dark:ring-cyan-900/30 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-200 dark:focus:border-cyan-400 dark:focus:ring-cyan-900/40">
-                        <option value="">All dependencies</option>
+                <div class="xl:col-span-2">
+                    <label for="blocked_by_task_id" class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-600 dark:text-slate-400">Blocked By</label>
+                    <select id="blocked_by_task_id" name="blocked_by_task_id" class="block w-full rounded-xl border-0 bg-white/70 py-2.5 px-3 text-sm font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300/50 backdrop-blur-sm transition-all focus:bg-white focus:ring-2 focus:ring-inset focus:ring-blue-500 dark:bg-slate-900/50 dark:text-white dark:ring-slate-700/50 dark:focus:bg-slate-800 dark:focus:ring-blue-500">
+                        <option value="">No Blockers</option>
                         @foreach ($dependencyOptions as $dependencyOption)
                             <option value="{{ $dependencyOption->id }}" @selected((string) ($filters['blocked_by_task_id'] ?? '') === (string) $dependencyOption->id)>
                                 {{ $dependencyOption->title }}
@@ -304,11 +360,16 @@
                     </select>
                 </div>
             @endif
-
-            <div class="flex items-end gap-2">
-                <button type="submit" class="rounded-lg bg-teal-700 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-800">Apply</button>
-                <a href="{{ route('tasks.list') }}" class="rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-4 py-2 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600">Clear</a>
-            </div>
+        </div>
+        
+        <div class="mt-5 flex items-center justify-end gap-3 border-t border-slate-200/50 pt-4 dark:border-slate-700/50">
+            <a href="{{ route('tasks.list') }}" class="inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-bold text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-700/50 dark:hover:text-white">
+                Clear Filters
+            </a>
+            <button type="submit" class="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-2.5 text-sm font-bold text-white shadow-md shadow-blue-500/20 transition-all hover:scale-105 hover:from-blue-500 hover:to-indigo-500 hover:shadow-lg hover:shadow-blue-500/40">
+                <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                Apply Filters
+            </button>
         </div>
     </form>
 
@@ -320,40 +381,47 @@
 
     @if ($currentTab === 'active')
         @if ($tasks->isEmpty())
-            <div class="rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-6 py-8 text-center text-slate-500 dark:text-slate-400 shadow-md dark:shadow-none">
-                No tasks found.
+            <div class="flex flex-col items-center justify-center rounded-2xl border border-white/40 bg-white/40 px-6 py-16 text-center shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/40">
+                <div class="mb-4 rounded-full bg-blue-100/50 p-4 dark:bg-blue-900/30">
+                    <svg class="h-10 w-10 text-blue-500 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white">No active tasks found</h3>
+                <p class="mt-1 max-w-sm text-sm text-slate-500 dark:text-slate-400">You're all caught up! There are no tasks matching your current filters.</p>
             </div>
         @else
             <div class="mb-3 flex items-center justify-between">
-                <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-600 dark:text-slate-400">Active Project Tasks</h2>
-                <span class="text-xs text-slate-400">Showing non-done tasks</span>
+                <h2 class="flex items-center text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                    <svg class="mr-2 h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" /></svg>
+                    Active Project Tasks
+                </h2>
+                <span class="rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">{{ $tasks->total() }} task(s)</span>
             </div>
-            <div class="overflow-x-auto rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-md dark:shadow-none">
-                <table class="tasks-table min-w-[1700px] divide-y divide-gray-200 dark:divide-slate-700">
-                <thead class="sticky top-0 z-10 bg-white dark:bg-slate-800 shadow-sm border-b-2 border-slate-200 dark:border-slate-700">
+            <div class="overflow-x-auto rounded-2xl border border-white/40 bg-white/60 shadow-xl backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50">
+                <table class="tasks-table min-w-[1700px] divide-y divide-slate-200/60 dark:divide-slate-700/60">
+                <thead class="sticky top-0 z-10 bg-white/80 backdrop-blur-md shadow-sm border-b-2 border-slate-200/50 dark:bg-slate-800/80 dark:border-slate-700/50">
                     <tr>
-                        <th class="w-20 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Task No</th>
-                        <th class="w-24 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Priority</th>
-                        <th class="w-44 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Project Owner</th>
-                        <th class="w-40 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Person-in-Charge</th>
-                        <th class="w-36 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Task Process</th>
-                        <th class="w-36 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Specific Process</th>
-                        <th class="w-36 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Blocked By</th>
-                        <th class="w-36 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Company Client</th>
-                        <th class="w-28 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Project</th>
-                        <th class="w-44 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Deliverables</th>
-                        <th class="w-44 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Document Link</th>
-                        <th class="w-52 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Remarks / Latest Comment</th>
-                        <th class="w-28 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Status</th>
-                        <th class="w-24 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Your Role</th>
-                        <th class="w-32 whitespace-nowrap px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Date Received</th>
-                        <th class="w-32 whitespace-nowrap px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Date Started</th>
-                        <th class="w-32 whitespace-nowrap px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Date Finish</th>
-                        <th class="w-36 whitespace-nowrap px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Target Deadline</th>
-                        <th class="w-32 whitespace-nowrap px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Actions</th>
+                        <th class="w-20 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Task No</th>
+                        <th class="w-24 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Priority</th>
+                        <th class="w-44 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Project Owner</th>
+                        <th class="w-40 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Person-in-Charge</th>
+                        <th class="w-36 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Task Process</th>
+                        <th class="w-36 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Specific Process</th>
+                        <th class="w-36 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Blocked By</th>
+                        <th class="w-36 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Company Client</th>
+                        <th class="w-28 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Project</th>
+                        <th class="w-44 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Deliverables</th>
+                        <th class="w-44 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Document Link</th>
+                        <th class="w-52 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Remarks / Latest Comment</th>
+                        <th class="w-28 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Status</th>
+                        <th class="w-24 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Your Role</th>
+                        <th class="w-32 whitespace-nowrap px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Date Received</th>
+                        <th class="w-32 whitespace-nowrap px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Date Started</th>
+                        <th class="w-32 whitespace-nowrap px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Date Finish</th>
+                        <th class="w-36 whitespace-nowrap px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Target Deadline</th>
+                        <th class="w-32 whitespace-nowrap px-4 py-3.5 text-center text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-slate-800">
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-700/30 bg-transparent">
                     @foreach ($tasks as $index => $task)
                         @php
                             $isDelayed = $task->isOverdue();
@@ -391,7 +459,7 @@
                             $taskNumber = $task->task_no ?: sprintf('TSK-%05d', $task->id);
                             $overdueDays = $isDelayed && $task->due_date ? (int) $task->due_date->diffInDays(now()) : 0;
                         @endphp
-                        <tr class="{{ $rowAccentClass }} {{ $isDelayed ? 'is-overdue-row' : '' }} border-b border-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors duration-200">
+                        <tr class="{{ $rowAccentClass }} {{ $isDelayed ? 'is-overdue-row bg-red-50/20 dark:bg-red-950/20' : 'bg-transparent' }} hover:bg-slate-50/50 dark:hover:bg-slate-700/30 transition-colors duration-200">
                             <td class="py-4 px-3 text-xs font-medium text-slate-800 dark:text-slate-100 leading-relaxed">
                                 <a href="{{ route('tasks.show', $task) }}" class="font-medium text-blue-600 hover:underline">{{ $taskNumber }}</a>
                             </td>
@@ -472,19 +540,19 @@
                                 @endif
                             </td>
                             <td class="whitespace-nowrap py-4 px-3 text-right text-xs">
-                                <a href="{{ route('tasks.show', $task) }}" class="mr-2 rounded border border-blue-200 dark:border-blue-700 px-3 py-1 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30">Open</a>
+                                <a href="{{ route('tasks.show', $task) }}" class="mr-2 rounded-lg border border-blue-200/50 bg-blue-50/50 px-3 py-1.5 font-bold text-blue-600 transition-colors hover:bg-blue-100 dark:border-blue-700/50 dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-800/50">Open</a>
                                 @if(auth()->user()?->isAdmin())
-                                    <a href="{{ route('tasks.edit', $task) }}" class="mr-2 rounded border border-yellow-200 dark:border-yellow-700 px-3 py-1 text-yellow-600 dark:text-yellow-400 hover:bg-yellow-50 dark:hover:bg-yellow-900/30">Edit</a>
+                                    <a href="{{ route('tasks.edit', $task) }}" class="mr-2 rounded-lg border border-yellow-200/50 bg-yellow-50/50 px-3 py-1.5 font-bold text-yellow-600 transition-colors hover:bg-yellow-100 dark:border-yellow-700/50 dark:bg-yellow-900/30 dark:text-yellow-400 dark:hover:bg-yellow-800/50">Edit</a>
                                 @else
                                     @can('update-task', $task)
-                                        <a href="{{ route('tasks.edit', $task) }}" class="mr-2 rounded border border-yellow-200 dark:border-yellow-700 px-3 py-1 text-yellow-600 dark:text-yellow-400 hover:bg-yellow-50 dark:hover:bg-yellow-900/30">Edit</a>
+                                        <a href="{{ route('tasks.edit', $task) }}" class="mr-2 rounded-lg border border-yellow-200/50 bg-yellow-50/50 px-3 py-1.5 font-bold text-yellow-600 transition-colors hover:bg-yellow-100 dark:border-yellow-700/50 dark:bg-yellow-900/30 dark:text-yellow-400 dark:hover:bg-yellow-800/50">Edit</a>
                                     @endcan
                                 @endif
                                 @can('delete-task', $task)
                                     <form method="POST" action="{{ route('tasks.destroy', $task) }}" class="inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="rounded border border-red-200 dark:border-red-700 px-3 py-1 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30" onclick="return confirm('Delete this task?')">Delete</button>
+                                        <button type="submit" class="rounded-lg border border-red-200/50 bg-red-50/50 px-3 py-1.5 font-bold text-red-600 transition-colors hover:bg-red-100 dark:border-red-700/50 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-800/50" onclick="return confirm('Delete this task?')">Delete</button>
                                     </form>
                                 @else
                                     <span class="text-gray-300">-</span>
@@ -506,39 +574,46 @@
 
     @if ($currentTab === 'done')
         <div id="done-tasks" class="mt-2 mb-3 flex items-center justify-between">
-            <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-600 dark:text-slate-400">Checklist / Completed Tasks</h2>
-            <span class="text-xs text-slate-400">{{ $doneTasksCount ?? 0 }} completed task(s)</span>
+            <h2 class="flex items-center text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                <svg class="mr-2 h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                Checklist / Completed Tasks
+            </h2>
+            <span class="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">{{ $doneTasksCount ?? 0 }} completed</span>
         </div>
 
         @if (($doneTasksCount ?? 0) === 0)
-            <div class="rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-6 py-8 text-center text-slate-500 dark:text-slate-400 shadow-md dark:shadow-none">
-                No done tasks yet.
+            <div class="flex flex-col items-center justify-center rounded-2xl border border-white/40 bg-white/40 px-6 py-16 text-center shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/40">
+                <div class="mb-4 rounded-full bg-emerald-100/50 p-4 dark:bg-emerald-900/30">
+                    <svg class="h-10 w-10 text-emerald-500 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white">No completed tasks yet</h3>
+                <p class="mt-1 max-w-sm text-sm text-slate-500 dark:text-slate-400">Tasks that you complete will appear here.</p>
             </div>
         @else
-            <div class="overflow-x-auto rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-md dark:shadow-none">
-                <table class="tasks-table min-w-[1450px] divide-y divide-gray-200 dark:divide-slate-700">
-                <thead class="sticky top-0 z-10 bg-white dark:bg-slate-800 shadow-sm border-b-2 border-slate-200 dark:border-slate-700">
+            <div class="overflow-x-auto rounded-2xl border border-white/40 bg-white/60 shadow-xl backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50">
+                <table class="tasks-table min-w-[1450px] divide-y divide-slate-200/60 dark:divide-slate-700/60">
+                <thead class="sticky top-0 z-10 bg-white/80 backdrop-blur-md shadow-sm border-b-2 border-slate-200/50 dark:bg-slate-800/80 dark:border-slate-700/50">
                     <tr>
-                        <th class="w-20 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Task No</th>
-                        <th class="w-44 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Project Owner</th>
-                        <th class="w-40 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Person-in-Charge</th>
-                        <th class="w-36 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Task Process</th>
-                        <th class="w-36 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Specific Process</th>
-                        <th class="w-36 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Company Client</th>
-                        <th class="w-28 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Project</th>
-                        <th class="w-44 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Deliverables</th>
-                        <th class="w-44 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Document Link</th>
-                        <th class="w-52 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Remarks / Latest Comment</th>
-                        <th class="w-28 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Status</th>
-                        <th class="w-24 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Your Role</th>
-                        <th class="w-32 whitespace-nowrap px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Date Received</th>
-                        <th class="w-32 whitespace-nowrap px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Date Started</th>
-                        <th class="w-32 whitespace-nowrap px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Date Finish</th>
-                        <th class="w-36 whitespace-nowrap px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Target Deadline</th>
-                        <th class="w-32 whitespace-nowrap px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Actions</th>
+                        <th class="w-20 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Task No</th>
+                        <th class="w-44 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Project Owner</th>
+                        <th class="w-40 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Person-in-Charge</th>
+                        <th class="w-36 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Task Process</th>
+                        <th class="w-36 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Specific Process</th>
+                        <th class="w-36 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Company Client</th>
+                        <th class="w-28 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Project</th>
+                        <th class="w-44 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Deliverables</th>
+                        <th class="w-44 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Document Link</th>
+                        <th class="w-52 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Remarks / Latest Comment</th>
+                        <th class="w-28 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Status</th>
+                        <th class="w-24 px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Your Role</th>
+                        <th class="w-32 whitespace-nowrap px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Date Received</th>
+                        <th class="w-32 whitespace-nowrap px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Date Started</th>
+                        <th class="w-32 whitespace-nowrap px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Date Finish</th>
+                        <th class="w-36 whitespace-nowrap px-4 py-3.5 text-left text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Target Deadline</th>
+                        <th class="w-32 whitespace-nowrap px-4 py-3.5 text-right text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-slate-800">
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-700/30 bg-transparent">
                     @foreach ($doneTasks as $index => $task)
                         @php
                             $projectOwner = $task->project?->project_owner ?: 'Sales (Sales Project)';
@@ -546,7 +621,7 @@
                             $taskNumber = $task->task_no ?: sprintf('TSK-%05d', $task->id);
                             $statusBadgeClass = 'border border-emerald-300 bg-emerald-100 text-emerald-900 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-700 shadow-sm';
                         @endphp
-                        <tr class="border-l-4 border-emerald-500 border-b border-slate-200 dark:border-slate-700 bg-emerald-50/30 dark:bg-emerald-950/30 hover:bg-slate-50 dark:hover:bg-slate-700 dark:hover:bg-slate-700 transition-colors duration-200">
+                        <tr class="border-l-4 border-emerald-500 bg-transparent hover:bg-slate-50/50 transition-colors duration-200 dark:hover:bg-slate-700/30">
                             <td class="py-4 px-3 text-xs font-medium text-slate-800 dark:text-slate-100 leading-relaxed">
                                 <a href="{{ route('tasks.show', $task) }}" class="font-medium text-blue-600 hover:underline">{{ $taskNumber }}</a>
                             </td>
@@ -607,8 +682,8 @@
                             <td class="whitespace-nowrap py-4 px-3 text-xs font-medium text-slate-800 dark:text-slate-100 leading-relaxed">{{ $dateFinish ? $dateFinish->format('M d, Y') : '-' }}</td>
                             <td class="whitespace-nowrap py-4 px-3 text-xs font-medium text-slate-800 dark:text-slate-100 leading-relaxed">{{ $task->due_date ? $task->due_date->format('m-d-Y') : '-' }}</td>
                             <td class="whitespace-nowrap py-4 px-3 text-right text-xs">
-                                <a href="{{ route('tasks.show', $task) }}" class="mr-2 rounded border border-blue-200 dark:border-blue-700 px-3 py-1 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30">Open</a>
-                                <span class="text-gray-300">-</span>
+                                <a href="{{ route('tasks.show', $task) }}" class="mr-2 rounded-lg border border-blue-200/50 bg-blue-50/50 px-3 py-1.5 font-bold text-blue-600 transition-colors hover:bg-blue-100 dark:border-blue-700/50 dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-800/50">Open</a>
+                                <span class="text-gray-300 dark:text-slate-600">-</span>
                             </td>
                         </tr>
                     @endforeach

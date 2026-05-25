@@ -2,26 +2,40 @@
 
 @section('content')
 <div class="relative space-y-6">
-    <div class="pointer-events-none absolute right-0 top-0 h-64 w-64 translate-x-1/3 -translate-y-1/3 rounded-full bg-blue-100/40 blur-3xl dark:hidden"></div>
-    <div class="pointer-events-none absolute bottom-0 left-20 h-52 w-52 rounded-full bg-slate-200/30 blur-3xl dark:hidden"></div>
+    <!-- Dynamic Background Effects -->
+    <div class="pointer-events-none absolute right-0 top-0 h-[500px] w-[500px] -translate-y-1/3 translate-x-1/3 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 blur-[80px] dark:from-blue-600/20 dark:to-purple-600/20"></div>
+    <div class="pointer-events-none absolute bottom-0 left-0 h-[400px] w-[400px] -translate-x-1/3 translate-y-1/3 rounded-full bg-gradient-to-tr from-emerald-500/20 to-cyan-500/20 blur-[80px] dark:from-emerald-600/20 dark:to-cyan-600/20"></div>
 
     {{-- Page Header --}}
-    <div class="relative inline-flex w-fit overflow-hidden rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-5 py-2.5 shadow-md" style="border-left: 4px solid #2563eb;">
-        <p class="text-2xl font-bold uppercase tracking-wide text-slate-800 dark:text-slate-100 md:text-3xl">Audit Log</p>
+    <div class="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-8">
+        <div>
+            <div class="mb-2 inline-flex items-center rounded-full border border-blue-200/50 bg-blue-50/50 px-3 py-1 text-xs font-semibold tracking-wide text-blue-700 shadow-sm backdrop-blur-md dark:border-blue-700/50 dark:bg-blue-900/50 dark:text-blue-300">
+                <span class="mr-1.5 flex h-2 w-2 rounded-full bg-blue-500"></span>
+                System Logs
+            </div>
+            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white md:text-4xl lg:text-5xl">
+                Audit <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-indigo-400">Log</span>
+            </h1>
+        </div>
     </div>
 
     {{-- Filters --}}
     <form method="GET" action="{{ route('audit-logs.index') }}">
-        <div class="relative flex flex-wrap items-end gap-4 rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-6 py-4 shadow-md">
-            <div>
-            <label for="search" class="mb-1 block text-sm font-medium text-slate-600 dark:text-slate-300">Search</label>
-                <input type="text" id="search" name="search" value="{{ request('search') }}"
-                class="rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="User, task no...">
+        <div class="relative flex flex-wrap items-end gap-5 rounded-2xl border border-white/40 bg-white/40 px-6 py-5 shadow-lg backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/40 mb-6">
+            <div class="flex-grow md:flex-grow-0">
+                <label for="search" class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-600 dark:text-slate-400">Search Keywords</label>
+                <div class="relative">
+                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <svg class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    </div>
+                    <input type="text" id="search" name="search" value="{{ request('search') }}"
+                        class="block w-full rounded-xl border-0 bg-white/70 py-2.5 pl-10 text-sm font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300/50 backdrop-blur-sm transition-all focus:bg-white focus:ring-2 focus:ring-inset focus:ring-blue-500 dark:bg-slate-900/50 dark:text-white dark:ring-slate-700/50 dark:focus:bg-slate-800 dark:focus:ring-blue-500 placeholder:text-slate-400"
+                        placeholder="User, task no...">
+                </div>
             </div>
             <div>
-            <label for="action" class="mb-1 block text-sm font-medium text-slate-600 dark:text-slate-300">Action</label>
-            <select id="action" name="action" class="rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm text-slate-800 dark:text-slate-100 focus:border-blue-500 focus:ring-blue-500">
+                <label for="action" class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-600 dark:text-slate-400">Action</label>
+                <select id="action" name="action" class="block w-full rounded-xl border-0 bg-white/70 py-2.5 px-3 text-sm font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300/50 backdrop-blur-sm transition-all focus:bg-white focus:ring-2 focus:ring-inset focus:ring-blue-500 dark:bg-slate-900/50 dark:text-white dark:ring-slate-700/50 dark:focus:bg-slate-800 dark:focus:ring-blue-500">
                     <option value="">All actions</option>
                     <option value="Created" {{ request('action') === 'Created' ? 'selected' : '' }}>Created</option>
                     <option value="Updated" {{ request('action') === 'Updated' ? 'selected' : '' }}>Updated</option>
@@ -30,65 +44,67 @@
                 </select>
             </div>
             <div>
-                 <label for="model_type" class="mb-1 block text-sm font-medium text-slate-600 dark:text-slate-300">Type</label>
-                 <select id="model_type" name="model_type" class="rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm text-slate-800 dark:text-slate-100 focus:border-blue-500 focus:ring-blue-500">
+                 <label for="model_type" class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-600 dark:text-slate-400">Type</label>
+                 <select id="model_type" name="model_type" class="block w-full rounded-xl border-0 bg-white/70 py-2.5 px-3 text-sm font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300/50 backdrop-blur-sm transition-all focus:bg-white focus:ring-2 focus:ring-inset focus:ring-blue-500 dark:bg-slate-900/50 dark:text-white dark:ring-slate-700/50 dark:focus:bg-slate-800 dark:focus:ring-blue-500">
                     <option value="">All types</option>
                     <option value="task" {{ request('model_type') === 'task' ? 'selected' : '' }}>Task</option>
                     <option value="project" {{ request('model_type') === 'project' ? 'selected' : '' }}>Project</option>
                 </select>
             </div>
             <div>
-                 <label for="user_id" class="mb-1 block text-sm font-medium text-slate-600 dark:text-slate-300">User</label>
-                 <select id="user_id" name="user_id" class="rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm text-slate-800 dark:text-slate-100 focus:border-blue-500 focus:ring-blue-500">
+                 <label for="user_id" class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-600 dark:text-slate-400">User</label>
+                 <select id="user_id" name="user_id" class="block w-full rounded-xl border-0 bg-white/70 py-2.5 px-3 text-sm font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300/50 backdrop-blur-sm transition-all focus:bg-white focus:ring-2 focus:ring-inset focus:ring-blue-500 dark:bg-slate-900/50 dark:text-white dark:ring-slate-700/50 dark:focus:bg-slate-800 dark:focus:ring-blue-500">
                     <option value="">All users</option>
                     @foreach($users as $user)
                         <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
                     @endforeach
                 </select>
             </div>
-            <div class="flex items-end gap-2">
-                <button type="submit" class="rounded-lg bg-teal-600 hover:bg-teal-700 px-4 py-2 text-sm font-semibold text-white shadow-sm">Apply</button>
-                <a href="{{ route('audit-logs.index') }}" class="rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-4 py-2 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600">Clear</a>
+            <div class="flex flex-1 items-end justify-end gap-3">
+                <a href="{{ route('audit-logs.index') }}" class="inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-bold text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-700/50 dark:hover:text-white">Clear Filters</a>
+                <button type="submit" class="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-2.5 text-sm font-bold text-white shadow-md shadow-blue-500/20 transition-all hover:scale-105 hover:from-blue-500 hover:to-indigo-500 hover:shadow-lg hover:shadow-blue-500/40">Apply</button>
             </div>
         </div>
     </form>
 
     {{-- Table --}}
-    <div class="rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-md overflow-hidden">
-        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-            <h3 class="text-lg font-extrabold text-slate-800 dark:text-slate-100 flex items-center gap-2">
-                <span class="p-2 bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-300 rounded-lg border border-blue-200 dark:border-blue-400/30">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </span>
-                Audit Log
+    <div class="overflow-x-auto rounded-2xl border border-white/40 bg-white/60 shadow-xl backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-800/60 dark:shadow-slate-900/50">
+        <div class="px-6 py-5 border-b border-slate-200/50 dark:border-slate-700/50 flex items-center justify-between">
+            <h3 class="text-lg font-extrabold text-slate-800 dark:text-slate-100 flex items-center gap-3">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100 text-blue-600 shadow-inner dark:bg-blue-900/50 dark:text-blue-400">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                </div>
+                Audit Trail
             </h3>
-            <span class="text-xs font-medium text-slate-500 dark:text-slate-400">{{ $auditLogs->total() }} total entries</span>
+            <span class="rounded-full bg-slate-200/50 px-3 py-1 text-xs font-semibold text-slate-600 dark:bg-slate-700/50 dark:text-slate-300">{{ $auditLogs->total() }} total entries</span>
         </div>
 
         @if($auditLogs->isEmpty())
-            <div class="px-6 py-8 text-center text-slate-500 dark:text-slate-400">
-                No audit log entries found.
+            <div class="flex flex-col items-center justify-center px-6 py-16 text-center">
+                <div class="mb-4 rounded-full bg-slate-100/50 p-4 dark:bg-slate-800/30">
+                    <svg class="h-10 w-10 text-slate-400 dark:text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white">No audit entries found</h3>
+                <p class="mt-1 max-w-sm text-sm text-slate-500 dark:text-slate-400">There is no log data matching your current filters.</p>
             </div>
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left">
-                    <thead class="bg-slate-50 dark:bg-slate-900/50 text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">
-                        <tr class="divide-x divide-slate-200 dark:divide-slate-700">
-                            <th class="px-6 py-3 font-semibold">User</th>
-                            <th class="px-6 py-3 font-semibold">Action</th>
-                            <th class="px-6 py-3 font-semibold">Type</th>
-                            <th class="px-6 py-3 font-semibold">Reference</th>
-                            <th class="px-6 py-3 font-semibold">Details</th>
-                            <th class="px-6 py-3 font-semibold">Date</th>
-                            <th class="px-6 py-3 font-semibold">IP</th>
+                    <thead class="bg-slate-50/50 dark:bg-slate-800/50 backdrop-blur-md text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200/50 dark:border-slate-700/50">
+                        <tr class="divide-x divide-slate-200/30 dark:divide-slate-700/30">
+                            <th class="px-6 py-3.5">User</th>
+                            <th class="px-6 py-3.5">Action</th>
+                            <th class="px-6 py-3.5">Type</th>
+                            <th class="px-6 py-3.5">Reference</th>
+                            <th class="px-6 py-3.5">Details</th>
+                            <th class="px-6 py-3.5">Date</th>
+                            <th class="px-6 py-3.5">IP</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
+                    <tbody class="divide-y divide-slate-100 dark:divide-slate-700/30 bg-transparent">
                         @foreach($auditLogs as $log)
-                        <tr class="divide-x divide-slate-100 dark:divide-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-                            <td class="px-6 py-3 font-semibold text-slate-800 dark:text-slate-100 whitespace-nowrap">
+                        <tr class="divide-x divide-slate-100 dark:divide-slate-700/30 hover:bg-slate-50/50 dark:hover:bg-slate-700/30 transition-colors duration-200">
+                            <td class="px-6 py-4 font-bold text-slate-800 dark:text-slate-100 whitespace-nowrap">
                                 {{ $log->user->name ?? 'System' }}
                             </td>
                             <td class="px-6 py-3">
@@ -100,13 +116,13 @@
                                     @endif
                                 ">{{ $log->action }}</span>
                             </td>
-                            <td class="px-6 py-3 text-slate-600 dark:text-slate-300">
+                            <td class="px-6 py-4 text-xs font-semibold text-slate-600 dark:text-slate-300">
                                 {{ class_basename($log->model_type) }}
                             </td>
-                            <td class="px-6 py-3">
+                            <td class="px-6 py-4">
                                 <span class="font-mono bg-slate-100 dark:bg-white/10 px-2 py-0.5 rounded text-blue-600 dark:text-[#93C5FD] text-xs border border-slate-200 dark:border-white/15">{{ $log->model_label ?? '#' . $log->model_id }}</span>
                             </td>
-                            <td class="px-6 py-3 text-xs text-slate-600 dark:text-slate-300 max-w-xs">
+                            <td class="px-6 py-4 text-xs text-slate-600 dark:text-slate-300 max-w-xs leading-relaxed">
                                 @if($log->action === 'Updated' && !empty($log->new_values))
                                     @foreach($log->new_values as $field => $newVal)
                                         @php
@@ -132,10 +148,10 @@
                                     <span class="text-slate-500">—</span>
                                 @endif
                             </td>
-                            <td class="px-6 py-3 text-slate-500 dark:text-slate-400 whitespace-nowrap text-xs">
+                            <td class="px-6 py-4 text-slate-500 dark:text-slate-400 whitespace-nowrap text-xs font-medium">
                                 {{ $log->created_at->format('M d, Y h:i A') }}
                             </td>
-                            <td class="px-6 py-3 text-slate-400 dark:text-slate-500 whitespace-nowrap text-xs font-mono">
+                            <td class="px-6 py-4 text-slate-400 dark:text-slate-500 whitespace-nowrap text-xs font-mono">
                                 {{ $log->ip_address ?? '—' }}
                             </td>
                         </tr>
@@ -146,7 +162,7 @@
 
             {{-- Pagination --}}
             @if($auditLogs->hasPages())
-                <div class="px-6 py-4 border-t border-slate-200 dark:border-slate-700">
+                <div class="px-6 py-4 border-t border-slate-200/50 dark:border-slate-700/50">
                     {{ $auditLogs->links() }}
                 </div>
             @endif

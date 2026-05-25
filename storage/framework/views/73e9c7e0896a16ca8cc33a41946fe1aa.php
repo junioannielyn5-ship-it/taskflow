@@ -1,0 +1,47 @@
+<?php $__env->startSection('content'); ?>
+<div class="space-y-6">
+    <section class="relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
+        <div class="pointer-events-none absolute -top-16 -right-16 h-44 w-44 rounded-full bg-amber-200/40 dark:bg-amber-500/10 blur-3xl"></div>
+        <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Team Lead Operations</h1>
+        <p class="mt-2 max-w-2xl text-sm text-slate-600 dark:text-slate-400">Guide daily execution, approve quality gates, and keep delivery flow healthy for your squad.</p>
+        <div class="mt-5 flex flex-wrap gap-2 text-xs font-semibold">
+            <span class="rounded-full border border-amber-200 dark:border-amber-700 bg-amber-50 dark:bg-amber-900/30 px-3 py-1 text-amber-700 dark:text-amber-400">Review Queue</span>
+            <span class="rounded-full border border-cyan-200 dark:border-cyan-700 bg-cyan-50 dark:bg-cyan-900/30 px-3 py-1 text-cyan-700 dark:text-cyan-400">Daily Visibility</span>
+            <span class="rounded-full border border-emerald-200 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-900/30 px-3 py-1 text-emerald-700 dark:text-emerald-400">Team Output</span>
+        </div>
+    </section>
+
+    <section class="grid gap-4 md:grid-cols-3">
+        <a href="<?php echo e(route('tasks.list')); ?>" class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-amber-300 dark:hover:border-amber-500 hover:shadow-md dark:hover:shadow-[0_4px_20px_rgba(245,158,11,0.15)]">
+            <div class="text-xs font-semibold uppercase tracking-wide text-amber-700 dark:text-amber-400">Quality Gate</div>
+            <div class="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">Review Queue</div>
+            <div class="mt-1 text-sm text-slate-600 dark:text-slate-400">Approve work items waiting for lead review and release.</div>
+        </a>
+
+        <a href="<?php echo e(route('dashboard')); ?>" class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-amber-300 dark:hover:border-amber-500 hover:shadow-md dark:hover:shadow-[0_4px_20px_rgba(245,158,11,0.15)]">
+            <div class="text-xs font-semibold uppercase tracking-wide text-amber-700 dark:text-amber-400">Visibility</div>
+            <div class="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">Dashboard</div>
+            <div class="mt-1 text-sm text-slate-600 dark:text-slate-400">Track blockers, due dates, and progress at a glance.</div>
+        </a>
+
+        <a href="<?php echo e(route('reports.index')); ?>" class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-amber-300 dark:hover:border-amber-500 hover:shadow-md dark:hover:shadow-[0_4px_20px_rgba(245,158,11,0.15)]">
+            <div class="text-xs font-semibold uppercase tracking-wide text-amber-700 dark:text-amber-400">Insights</div>
+            <div class="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">Reports</div>
+            <div class="mt-1 text-sm text-slate-600 dark:text-slate-400">Assess cycle time, completion rates, and workload trends.</div>
+        </a>
+    </section>
+
+    <section class="grid gap-4 md:grid-cols-2">
+        <a href="<?php echo e(route('meetings.index')); ?>" class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-gradient-to-br from-white to-amber-50 dark:from-slate-800 dark:to-amber-900/20 p-5 shadow-sm transition hover:border-amber-300 dark:hover:border-amber-500 hover:shadow-md dark:hover:shadow-[0_4px_20px_rgba(245,158,11,0.1)]">
+            <div class="text-sm font-semibold text-slate-900 dark:text-slate-100">Meetings</div>
+            <div class="mt-1 text-sm text-slate-600 dark:text-slate-400">Run focused standups and weekly sync with clear outcomes.</div>
+        </a>
+        <a href="<?php echo e(route('notifications.history')); ?>" class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-gradient-to-br from-white to-cyan-50 dark:from-slate-800 dark:to-cyan-900/20 p-5 shadow-sm transition hover:border-cyan-300 dark:hover:border-cyan-500 hover:shadow-md dark:hover:shadow-[0_4px_20px_rgba(6,182,212,0.1)]">
+            <div class="text-sm font-semibold text-slate-900 dark:text-slate-100">Email Alerts</div>
+            <div class="mt-1 text-sm text-slate-600 dark:text-slate-400">Watch escalation updates and timeline-sensitive changes.</div>
+        </a>
+    </section>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\Local.Administrator\Herd\taskmanagement\resources\views\lead\index.blade.php ENDPATH**/ ?>

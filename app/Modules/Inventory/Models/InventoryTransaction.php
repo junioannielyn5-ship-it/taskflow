@@ -3,13 +3,14 @@
 namespace App\Modules\Inventory\Models;
 
 use App\Modules\Identity\Models\User;
+use App\Concerns\LogsAuditTrail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class InventoryTransaction extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, LogsAuditTrail;
 
     protected $fillable = [
         'inventory_item_id',

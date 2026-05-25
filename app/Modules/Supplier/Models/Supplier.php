@@ -5,9 +5,12 @@ namespace App\Modules\Supplier\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Concerns\LogsAuditTrail;
+
 class Supplier extends Model
 {
-    use HasFactory;
+    
+    use LogsAuditTrail;
 
     protected $fillable = [
         'name',

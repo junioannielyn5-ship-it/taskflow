@@ -17,10 +17,18 @@
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ── RESPONSIVE BASE ── */
+html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
     background-color: #f8fafc;
     color: #1e293b;
+    overflow-x: hidden;
+    min-width: 320px;
 }
 
 html.dark body {
@@ -657,48 +665,19 @@ html.dark body {
             inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
     }
 
-    /* --- 15. DASHBOARD DARK MODE OVERRIDES (high-specificity) --- */
-    /* Stat cards */
-    html.dark .dashboard-stats a {
-        background-color: #1e293b;
-        border-color: #334155;
+    /* --- 15. DASHBOARD GLASS PANEL (Recent Activity / Notifications) --- */
+    .dashboard-glass-panel {
+        background: rgba(255, 255, 255, 0.60);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(226, 232, 240, 0.50);
     }
 
-    html.dark .dashboard-stats a h3 {
-        color: #f1f5f9;
+    html.dark .dashboard-glass-panel {
+        background: rgba(30, 41, 59, 0.60);
+        border-color: rgba(51, 65, 85, 0.50);
     }
 
-    html.dark .dashboard-stats a .bg-slate-200 {
-        background-color: #334155;
-    }
-
-    /* Welcome banner */
-    html.dark .mv-content-inner>div:first-child {
-        background-color: #1e293b;
-        border-color: #334155;
-    }
-
-    html.dark .mv-content-inner>div:first-child h2 {
-        color: #f1f5f9;
-    }
-
-    html.dark .mv-content-inner>div:first-child p {
-        color: #94a3b8;
-    }
-
-    /* Chart cards and analytics panels */
-    html.dark .dashboard-analytics>div,
-    html.dark .dashboard-panel,
-    html.dark #latest-notifications-card {
-        background-color: #1e293b;
-        border-color: #334155;
-    }
-
-    html.dark .dashboard-analytics h3,
-    html.dark .dashboard-panel h3 {
-        color: #f1f5f9;
-    }
-
+    /* --- 16. DASHBOARD DARK MODE OVERRIDES --- */
     /* Navbar */
     html.dark .mv-navbar {
         background: linear-gradient(to right, #0f172a, #1e293b, #0f172a);
@@ -709,4 +688,58 @@ html.dark body {
     html.dark .dashboard-main {
         background-color: #0f172a;
     }
+}
+/* ================================================
+   GLOBAL RESPONSIVE MEDIA QUERIES
+   Works for: phones, tablets, 12-inch laptops
+   ================================================ */
+
+/* Prevent overflow globally */
+body { overflow-x: hidden; min-width: 320px; }
+img, video, canvas, iframe, embed, object { max-width: 100%; }
+.overflow-x-auto { -webkit-overflow-scrolling: touch; }
+
+/* Horizontal scroll helper for tables */
+.table-scroll {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.table-scroll::-webkit-scrollbar { height: 4px; }
+.table-scroll::-webkit-scrollbar-thumb {
+    background: rgba(148,163,184,0.4);
+    border-radius: 999px;
+}
+
+/* Extra-small phones (<= 480px) */
+@media (max-width: 480px) {
+    .mv-shell { padding: 0.625rem !important; border-radius: 1rem !important; }
+    .glass-card { padding: 0.875rem !important; border-radius: 1rem !important; }
+    main { padding-left: 0.625rem !important; padding-right: 0.625rem !important; padding-top: 0.75rem !important; }
+    #kanban-board { grid-template-columns: 1fr !important; }
+    .dashboard-analytics { grid-template-columns: 1fr !important; }
+}
+
+/* Small phones (<= 640px) */
+@media (max-width: 640px) {
+    body { font-size: 14px; }
+    .mv-shell { padding: 0.75rem !important; border-radius: 1rem !important; }
+    .glass-card { padding: 1rem !important; border-radius: 1rem !important; }
+    main { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+    #kanban-board { grid-template-columns: 1fr !important; }
+    .dashboard-analytics { grid-template-columns: 1fr !important; }
+    .welcome-actions-row { flex-direction: column !important; align-items: stretch !important; }
+    /* Page header h1 smaller */
+    h1 { font-size: 1.875rem !important; }
+}
+
+/* Tablets (641-1024px) */
+@media (min-width: 641px) and (max-width: 1024px) {
+    #kanban-board { grid-template-columns: repeat(2, 1fr) !important; }
+    .dashboard-analytics { grid-template-columns: 1fr !important; }
+}
+
+/* Small laptops 900-1200px (12 inch screens) */
+@media (max-width: 1200px) {
+    .mv-shell { padding: 1.25rem !important; }
 }

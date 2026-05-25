@@ -6,6 +6,7 @@ use App\Modules\Projects\Models\Project;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Concerns\LogsAuditTrail;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 
@@ -44,7 +45,7 @@ class User extends Authenticatable
         return $this->belongsToMany(\App\Models\Role::class, 'role_user', 'user_id', 'role_id');
     }
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, TwoFactorAuthenticatable;
+    use HasFactory, Notifiable, TwoFactorAuthenticatable, LogsAuditTrail;
 
     /**
      * The attributes that are mass assignable.
@@ -53,6 +54,11 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'first_name',
+        'last_name',
+        'middle_name',
+        'suffix',
+        'phone_no',
         'email',
         'password',
         'role',

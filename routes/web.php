@@ -833,8 +833,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
         // User management
-        Route::get('/users/create', [AdminController::class, 'createUser'])->name('users.create');
+        Route::get('/users', [AdminController::class, 'manageUsers'])->name('users.index');
         Route::post('/users', [AdminController::class, 'storeUser'])->name('users.store');
+        Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('users.update');
+        Route::delete('/users/{user}', [AdminController::class, 'destroyUser'])->name('users.destroy');
 
         Route::post('/admin/email/broadcast', function (Request $request) use ($isDeliverableEmail) {
             $validated = $request->validate([
