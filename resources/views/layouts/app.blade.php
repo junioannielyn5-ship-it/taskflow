@@ -15,14 +15,106 @@
             }
         })();
     </script>
-@vite(['resources/css/app.css', 'resources/js/chart-global.ts'])
+    @vite(['resources/css/app.css', 'resources/js/chart-global.ts'])
     
     <script src="/js/lucide.min.js"></script>
     <script defer src="/js/alpine.min.js"></script>
     <script src="/js/darkmode.js"></script>
+
+    {{-- Toast Notification Styles --}}
+    <style>
+        /* ===== GLASSMORPHISM TOAST SYSTEM ===== */
+        #mv-toast-container {
+            position: fixed;
+            top: 5rem;
+            right: 1.25rem;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            pointer-events: none;
+            max-width: 420px;
+            width: calc(100% - 2.5rem);
+        }
+        .mv-toast {
+            pointer-events: auto;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.875rem 1rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(255,255,255,0.18);
+            backdrop-filter: blur(18px) saturate(1.6);
+            -webkit-backdrop-filter: blur(18px) saturate(1.6);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.15);
+            animation: mv-toast-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            transform: translateX(120%);
+            opacity: 0;
+        }
+        .mv-toast.mv-toast-exit {
+            animation: mv-toast-out 0.35s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+        }
+        @keyframes mv-toast-in {
+            0% { transform: translateX(120%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes mv-toast-out {
+            0% { transform: translateX(0); opacity: 1; }
+            100% { transform: translateX(120%); opacity: 0; }
+        }
+        /* Progress bar */
+        .mv-toast-progress {
+            position: absolute;
+            bottom: 0; left: 0;
+            height: 3px;
+            border-radius: 0 0 1rem 1rem;
+            animation: mv-toast-progress linear forwards;
+        }
+        @keyframes mv-toast-progress {
+            0% { width: 100%; }
+            100% { width: 0%; }
+        }
+        /* Types */
+        .mv-toast--success {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: rgba(16, 185, 129, 0.25);
+        }
+        .mv-toast--success .mv-toast-icon { color: #10b981; }
+        .mv-toast--success .mv-toast-progress { background: linear-gradient(90deg, #10b981, #34d399); }
+
+        .mv-toast--error {
+            background: rgba(239, 68, 68, 0.12);
+            border-color: rgba(239, 68, 68, 0.25);
+        }
+        .mv-toast--error .mv-toast-icon { color: #ef4444; }
+        .mv-toast--error .mv-toast-progress { background: linear-gradient(90deg, #ef4444, #f87171); }
+
+        .mv-toast--info {
+            background: rgba(59, 130, 246, 0.12);
+            border-color: rgba(59, 130, 246, 0.25);
+        }
+        .mv-toast--info .mv-toast-icon { color: #3b82f6; }
+        .mv-toast--info .mv-toast-progress { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+
+        .mv-toast--warning {
+            background: rgba(245, 158, 11, 0.12);
+            border-color: rgba(245, 158, 11, 0.25);
+        }
+        .mv-toast--warning .mv-toast-icon { color: #f59e0b; }
+        .mv-toast--warning .mv-toast-progress { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+
+        /* Dark mode refinements */
+        .dark .mv-toast--success { background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.3); }
+        .dark .mv-toast--error   { background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.3); }
+        .dark .mv-toast--info    { background: rgba(59, 130, 246, 0.15); border-color: rgba(59, 130, 246, 0.3); }
+        .dark .mv-toast--warning { background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.3); }
+    </style>
     
 </head>
-<body class="mv-body m-0 p-0 min-h-screen text-slate-800 antialiased">
+<body class="mv-body m-0 p-0 min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 antialiased">
+
+{{-- ===== GLOBAL TOAST CONTAINER ===== --}}
+<div id="mv-toast-container"></div>
 
 <div x-data="{ chatOpen: false, mobileMenuOpen: false }">
 @php
@@ -60,126 +152,128 @@
     ];
 @endphp
 
-<nav class="sticky top-0 z-50 w-full border-b border-slate-300 dark:border-slate-700 bg-gradient-to-r from-slate-100 via-slate-50 to-gray-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 shadow-lg backdrop-blur-xl">
-    <div class="pointer-events-none absolute right-0 top-0 h-24 w-24 translate-x-1/3 -translate-y-1/3 rounded-full bg-blue-100/40 dark:bg-blue-500/20 blur-3xl"></div>
-    <div class="pointer-events-none absolute bottom-0 left-40 h-16 w-16 rounded-full bg-slate-200/35 dark:bg-violet-500/15 blur-2xl"></div>
-    <div class="relative z-10 mx-auto flex h-20 max-w-[1400px] items-center justify-between px-4 md:px-6">
+{{-- ==================== FLEXIFLOW DESIGN HEADER ==================== --}}
+<nav class="sticky top-0 z-50 w-full border-b border-slate-200/80 dark:border-slate-800/80 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md transition-all duration-300">
+    {{-- Decorative Stream Ambient Lights --}}
+    <div class="pointer-events-none absolute left-1/4 top-0 h-12 w-96 -translate-x-1/2 rounded-full bg-gradient-to-r from-blue-500/10 to-indigo-500/10 dark:from-blue-500/20 dark:to-indigo-500/20 blur-2xl"></div>
+    
+    <div class="relative z-10 mx-auto flex h-16 w-full max-w-full items-center justify-between px-4 sm:px-6 lg:px-8 xl:px-10">
 
-        {{-- LEFT: Logo --}}
+        {{-- LEFT: Brand Stream Logo Space --}}
         <div class="flex shrink-0 items-center">
-            <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
+            <a href="{{ route('dashboard') }}" class="flex items-center gap-2 group">
                  <img src="{{ asset('images/movaflex-logo-official.png') }}"
-                     class="h-20 w-auto"
-                     alt="Movaflex">
-                
+                    class="h-12 w-auto object-contain transform group-hover:scale-105 transition-transform duration-300 saturate-125 contrast-110 brightness-105 dark:saturate-100 dark:contrast-150 dark:brightness-150 dark:drop-shadow-[0_0_12px_rgba(59,130,246,0.8)]"
+                    alt="Movaflex">
+                 <div class="w-px h-6 bg-slate-300 dark:bg-slate-700 mx-1"></div>
+                 <span class="text-xs font-bold tracking-[0.2em] uppercase text-slate-400 group-hover:text-blue-500 transition-colors">Workspace</span>
             </a>
         </div>
 
         @auth
-        {{-- CENTER: Nav Links (desktop) --}}
-        <div class="hidden lg:flex items-center gap-1">
+        {{-- CENTER: MovaStream Dynamic Nav Capsules (desktop) --}}
+        <div class="hidden lg:flex items-center gap-1 bg-slate-100/80 dark:bg-slate-800/60 p-1 rounded-xl border border-slate-200/50 dark:border-slate-700/50">
             @php
-                $navBase   = "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors border border-transparent";
-                $navActive = "bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 border-blue-300 dark:border-blue-500/40";
-                $navIdle   = "text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white hover:border-slate-300 dark:hover:border-white/10";
+                $navBase   = "inline-flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition-all duration-200";
+                $navActive = "bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-300 shadow-sm border border-slate-200/60 dark:border-slate-600/50";
+                $navIdle   = "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/50 dark:hover:bg-slate-800/50 border border-transparent";
             @endphp
 
             @foreach ($topNavItems as $item)
                 <a href="{{ $item['href'] }}" class="{{ $navBase }} {{ $item['active'] ? $navActive : $navIdle }}">
-                    <i data-lucide="{{ $item['icon'] }}" class="h-4 w-4"></i>
+                    <i data-lucide="{{ $item['icon'] }}" class="h-3.5 w-3.5"></i>
                     {{ $item['label'] }}
                 </a>
             @endforeach
 
             @if(auth()->user()->isAdmin())
             <a href="{{ route('users.create') }}" class="{{ $navBase }} {{ request()->routeIs('users.*') ? $navActive : $navIdle }}">
-                    <i data-lucide="user-plus" class="h-4 w-4"></i>
+                    <i data-lucide="user-plus" class="h-3.5 w-3.5"></i>
                     Create User
                 </a>
             @endif
         </div>
 
-        {{-- RIGHT: Actions + User (desktop) --}}
-        <div class="relative z-20 hidden lg:flex items-center gap-1.5" x-data="{ userMenu: false }">
+        {{-- RIGHT: Smooth Utility Controls (desktop) --}}
+        <div class="relative z-20 hidden lg:flex items-center gap-1" x-data="{ userMenu: false }">
             {{-- Notifications --}}
-            <a href="{{ route('notifications.history') }}" class="relative rounded-full p-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white transition-colors">
-                <i data-lucide="bell" class="h-5 w-5"></i>
-                <span class="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-rose-500"></span>
+            @php
+                $unreadNotifCount = \App\Modules\Notifications\Models\Notification::where('user_id', auth()->id())->unread()->count();
+            @endphp
+            <a href="{{ route('notifications.history') }}" class="relative rounded-xl p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 transition-all">
+                <i data-lucide="bell" class="h-4 w-4"></i>
+                @if($unreadNotifCount > 0)
+                    <span class="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-rose-500 text-[10px] font-bold text-white ring-2 ring-white dark:ring-slate-900 shadow-sm">{{ $unreadNotifCount > 99 ? '99+' : $unreadNotifCount }}</span>
+                @endif
             </a>
 
             {{-- Email --}}
-            <a href="{{ route('email.shortcut') }}" class="rounded-full p-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white transition-colors">
-                <i data-lucide="mail" class="h-5 w-5"></i>
+            <a href="{{ route('email.shortcut') }}" class="rounded-xl p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 transition-all">
+                <i data-lucide="mail" class="h-4 w-4"></i>
             </a>
 
             {{-- Chat --}}
-            <button @click="chatOpen = true" class="relative rounded-full p-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white transition-colors" title="Group Chat">
-                <i data-lucide="message-circle" class="h-5 w-5"></i>
-                <span id="chat-unread-dot" class="hidden absolute top-1 right-1 flex h-2 w-2 rounded-full bg-rose-500 ring-2 ring-[#0F172A]"></span>
+            <button @click="chatOpen = true" class="relative rounded-xl p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 transition-all" title="Group Chat">
+                <i data-lucide="message-circle" class="h-4 w-4"></i>
+                <span id="chat-unread-dot" class="hidden absolute top-2 right-2 flex h-1.5 w-1.5 rounded-full bg-rose-500 ring-2 ring-white dark:ring-slate-900"></span>
             </button>
 
-            {{-- Dark Mode --}}
-            <button onclick="toggleDarkMode()" class="rounded-full p-2 text-slate-700 dark:text-amber-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors" title="Toggle Dark Mode">
-                <svg class="h-5 w-5 hidden dark:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" /></svg>
-                <svg class="h-5 w-5 block dark:hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" /></svg>
+            {{-- Dark Mode Switcher --}}
+            <button onclick="toggleDarkMode()" class="rounded-xl p-2 text-slate-500 dark:text-amber-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 transition-all" title="Toggle Dark Mode">
+                <i data-lucide="sun" class="h-4 w-4 hidden dark:block"></i>
+                <i data-lucide="moon" class="h-4 w-4 block dark:hidden"></i>
             </button>
 
-            <div class="mx-1 h-5 w-px bg-slate-300 dark:bg-white/15"></div>
+            <div class="mx-2 h-4 w-px bg-slate-200 dark:bg-slate-800"></div>
 
-            {{-- User Dropdown --}}
+            {{-- Smooth User Profile Capsule --}}
             <div class="relative">
-                <button id="desktop-user-menu-trigger" type="button" @click="userMenu = !userMenu" class="flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors focus:outline-none" aria-haspopup="menu" aria-expanded="false">
+                <button id="desktop-user-menu-trigger" type="button" @click="userMenu = !userMenu" class="flex items-center gap-2 rounded-xl p-1 pr-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all focus:outline-none border border-transparent hover:border-slate-200/60 dark:hover:border-slate-700/60">
                     @if(auth()->user()->profile_photo_path)
-                        <img src="{{ asset('storage/' . auth()->user()->profile_photo_path) }}" class="h-7 w-7 rounded-full object-cover" alt="Profile">
+                        <img src="{{ asset('storage/' . auth()->user()->profile_photo_path) }}" class="h-6 w-6 rounded-lg object-cover" alt="Profile">
                     @else
-                        <div class="flex h-7 w-7 items-center justify-center rounded-full bg-indigo-600 text-xs font-bold text-white">
+                        <div class="flex h-6 w-6 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 text-[10px] font-bold text-white shadow-sm">
                             {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}
                         </div>
                     @endif
-                    <span class="hidden text-sm font-medium text-slate-700 dark:text-slate-100 xl:inline">{{ Str::limit(auth()->user()->name, 14) }}</span>
-                    <svg class="h-4 w-4 text-slate-500 dark:text-slate-300" :class="userMenu && 'rotate-180'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    <span class="text-xs font-semibold text-slate-700 dark:text-slate-300 xl:inline">{{ Str::limit(auth()->user()->name, 12) }}</span>
+                    <i data-lucide="chevron-down" class="h-3 w-3 text-slate-400 transform transition-transform duration-200" :class="userMenu && 'rotate-180'"></i>
                 </button>
 
                  <div id="desktop-user-menu-panel" x-show="userMenu" x-cloak @click.outside="userMenu = false"
-                     x-transition:enter="transition ease-out duration-100" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
-                     x-transition:leave="transition ease-in duration-75" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
-                     class="absolute right-0 mt-2 w-48 origin-top-right rounded-lg border border-slate-200 dark:border-white/15 bg-white dark:bg-[#0F172A]/95 py-1 shadow-xl backdrop-blur-xl z-50">
-                    <a href="{{ route('profile.edit') }}" class="flex items-center gap-2 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10">
-                        <i data-lucide="settings" class="h-4 w-4 text-slate-500 dark:text-slate-300"></i> Settings
+                      x-transition:enter="transition ease-out duration-100" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                      x-transition:leave="transition ease-in duration-75" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                      class="absolute right-0 mt-2 w-48 origin-top-right rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-1 shadow-lg z-50">
+                    <a href="{{ route('profile.edit') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                        <i data-lucide="settings" class="h-3.5 w-3.5 text-slate-400"></i> Settings
                     </a>
-                    <hr class="my-1 border-slate-200 dark:border-white/10">
-                    <a href="{{ route('logout.get') }}" class="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-rose-200 bg-rose-500/10 border-t border-rose-500/20 hover:bg-rose-500/20 hover:text-rose-100 transition-colors">
-                        <i data-lucide="log-out" class="h-4 w-4 text-rose-200"></i> Logout
-                        <span class="ml-auto rounded-full bg-rose-500/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-rose-100">Exit</span>
+                    <hr class="my-1 border-slate-100 dark:border-slate-800">
+                    <a href="{{ route('logout.get') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors">
+                        <i data-lucide="log-out" class="h-3.5 w-3.5"></i> Logout
+                        <span class="ml-auto rounded-md bg-rose-100 dark:bg-rose-500/10 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-rose-600 dark:text-rose-400">Exit</span>
                     </a>
                 </div>
             </div>
         </div>
 
-        {{-- MOBILE: icons + hamburger (below lg) --}}
+        {{-- MOBILE: Controls --}}
         <div class="flex lg:hidden items-center gap-1">
-            <button onclick="toggleDarkMode()" class="rounded-full p-2 text-slate-700 dark:text-amber-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors" title="Toggle Dark Mode">
-                <svg class="h-5 w-5 hidden dark:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
-                </svg>
-                <svg class="h-5 w-5 block dark:hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-                </svg>
+            <button onclick="toggleDarkMode()" class="rounded-xl p-2 text-slate-500 dark:text-amber-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                <i data-lucide="sun" class="h-4 w-4 hidden dark:block"></i>
+                <i data-lucide="moon" class="h-4 w-4 block dark:hidden"></i>
             </button>
-            <a href="{{ route('notifications.history') }}" class="group relative rounded-full p-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10">
-                <i data-lucide="bell" class="h-5 w-5"></i>
-                <span class="absolute right-1 top-1 flex h-2 w-2 rounded-full bg-rose-500 ring-2 ring-[#0F172A]"></span>
+            <a href="{{ route('notifications.history') }}" class="relative rounded-xl p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+                <i data-lucide="bell" class="h-4 w-4"></i>
+                @if($unreadNotifCount > 0)
+                    <span class="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-rose-500 text-[10px] font-bold text-white ring-2 ring-white dark:ring-slate-900 shadow-sm">{{ $unreadNotifCount > 99 ? '99+' : $unreadNotifCount }}</span>
+                @endif
             </a>
-            <button @click="chatOpen = true" class="relative rounded-full p-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10" title="Group Chat">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
-                <span id="chat-unread-dot-mobile" class="hidden absolute top-0.5 right-0.5 flex h-2.5 w-2.5">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500"></span>
-                </span>
+            <button @click="chatOpen = true" class="relative rounded-xl p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800" title="Group Chat">
+                <i data-lucide="message-circle" class="h-4 w-4"></i>
             </button>
-            <button @click="mobileMenuOpen = !mobileMenuOpen" class="rounded-lg p-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors ml-1" aria-label="Toggle menu">
-                <svg x-show="!mobileMenuOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
-                <svg x-show="mobileMenuOpen" x-cloak class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="rounded-xl p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ml-1" aria-label="Toggle menu">
+                <i data-lucide="menu" class="h-5 w-5" x-show="!mobileMenuOpen"></i>
+                <i data-lucide="x" class="h-5 w-5" x-show="mobileMenuOpen" x-cloak></i>
             </button>
         </div>
         @endauth
@@ -190,13 +284,13 @@
     <div x-show="mobileMenuOpen" x-cloak
          x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
          x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2"
-         class="lg:hidden border-t border-slate-200 dark:border-white/10 bg-white dark:bg-[#0F172A]/95 shadow-xl backdrop-blur-xl"
+         class="lg:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl"
          @click.away="mobileMenuOpen = false">
         <div class="px-4 py-3 space-y-1">
             @php
                 $mobileBase = "flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all";
-                $mobileActive = "bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-500/40";
-                $mobileInactive = "text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10";
+                $mobileActive = "bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800/40";
+                $mobileInactive = "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800";
             @endphp
 
             @foreach ($topNavItems as $item)
@@ -211,7 +305,7 @@
             </a>
             @endif
 
-            <hr class="border-slate-200 dark:border-white/10 my-2">
+            <hr class="border-slate-200 dark:border-slate-800 my-2">
 
             <a href="{{ route('email.shortcut') }}" class="{{ $mobileBase }} {{ $mobileInactive }}">
                 <i data-lucide="mail" class="h-5 w-5"></i> Email
@@ -221,28 +315,29 @@
                 <i data-lucide="settings" class="h-5 w-5"></i> Account Settings
             </a>
 
-            <a href="{{ route('logout.get') }}" class="{{ $mobileBase }} bg-rose-500/10 text-rose-200 border border-rose-500/20 shadow-sm hover:bg-rose-500/20 hover:text-rose-100">
-                <i data-lucide="log-out" class="h-5 w-5 text-rose-200"></i> Logout
-                <span class="ml-auto rounded-full bg-rose-500/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-rose-100">Exit</span>
+            <a href="{{ route('logout.get') }}" class="{{ $mobileBase }} bg-rose-50 dark:bg-rose-950/20 text-rose-600 dark:text-rose-400 border border-rose-100 dark:border-rose-900/40">
+                <i data-lucide="log-out" class="h-5 w-5"></i> Logout
             </a>
         </div>
     </div>
     @endauth
 </nav>
 
+{{-- ==================== GLOBAL SIDEBAR ==================== --}}
+@include('partials.sidebar')
+
     @php $isDashboard = request()->routeIs('dashboard'); @endphp
-    <main class="@if($isDashboard) w-full max-w-none p-0 m-0 @else mx-auto w-full max-w-[1400px] px-4 py-8 md:px-8 @endif" style="min-height:0;">
-        <div class="mv-page-enter @if($isDashboard) w-full max-w-none p-0 m-0 @else mv-shell rounded-[2.5rem] glass-card p-8 shadow-2xl shadow-orange-100/40 @endif">
+    <main class="@if($isDashboard) w-full max-w-none p-0 m-0 @else w-full max-w-full px-4 sm:px-6 lg:px-8 xl:px-10 py-6 sm:py-8 @endif" style="min-height:0;">
+        <div class="mv-page-enter @if($isDashboard) w-full max-w-none p-0 m-0 @else mv-shell rounded-2xl sm:rounded-[2rem] glass-card p-4 sm:p-6 lg:p-8 shadow-2xl @endif">
             @yield('content')
         </div>
     </main>
 
     @if(!$isDashboard)
-    <footer class="mv-footer mt-12 border-t border-orange-100/30 bg-white/40 dark:bg-slate-900/80 dark:border-slate-700 py-10 text-center backdrop-blur-md">
-        <div class="flex flex-col items-center gap-4">
-            <div class="h-px w-12 bg-orange-200"></div>
-            <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
-                &copy; 2026 <span class="text-orange-500">Movaflex</span> Designs Unlimited Inc.
+    <footer class="mv-footer mt-12 border-t border-slate-200 dark:border-slate-800 bg-white/40 dark:bg-slate-900/40 py-8 text-center backdrop-blur-sm">
+        <div class="flex flex-col items-center gap-2">
+            <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                &copy; 2026 <span class="text-blue-600 dark:text-blue-400">Movaflex</span> Designs Unlimited Inc.
             </p>
         </div>
     </footer>
@@ -261,13 +356,11 @@
      x-transition:leave-start="translate-x-0"
      x-transition:leave-end="translate-x-full">
 
-
-    {{-- Viber-style Panel Header with Group Buttons --}}
     <div class="px-5 py-4 flex flex-col gap-2 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 shrink-0">
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="h-10 w-10 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-400">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                    <i data-lucide="users" class="w-5 h-5"></i>
                 </div>
                 <div>
                     <h3 class="font-bold text-slate-800 dark:text-white leading-tight">Movaflex Team</h3>
@@ -275,7 +368,7 @@
                 </div>
             </div>
             <button @click="chatOpen = false" class="p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-slate-700 rounded-full transition-colors focus:outline-none">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                <i data-lucide="x" class="w-4 h-4"></i>
             </button>
         </div>
         <div class="flex justify-between gap-2 mt-2">
@@ -285,26 +378,22 @@
         </div>
     </div>
 
-    {{-- Chat Messages Area --}}
     <div id="chat-panel-messages" class="flex-1 overflow-y-auto p-5 space-y-5 bg-white dark:bg-slate-900">
-        {{-- Loading --}}
         <div id="chat-panel-loading" class="flex items-center justify-center h-full">
             <div class="text-center text-slate-400 dark:text-slate-500">
-                <svg class="inline-block w-6 h-6 animate-spin mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                <i data-lucide="loader-2" class="inline-block w-5 h-5 animate-spin mb-2"></i>
                 <p class="text-sm">Loading messages...</p>
             </div>
         </div>
-        {{-- Empty state --}}
         <div id="chat-panel-empty" class="hidden items-center justify-center h-full">
             <div class="text-center text-slate-400 dark:text-slate-500">
-                <svg class="inline-block w-10 h-10 mb-2 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                <i data-lucide="message-square-dashed" class="inline-block w-8 h-8 mb-2 opacity-50"></i>
                 <p class="text-sm font-medium">Walang messages pa</p>
                 <p class="text-xs">Maging una kang mag-send!</p>
             </div>
         </div>
     </div>
 
-    {{-- Message Input --}}
     <div class="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 shrink-0">
         <form id="chat-panel-form" class="flex gap-2 relative">
             <label for="chat-panel-input" class="sr-only">Message</label>
@@ -312,21 +401,19 @@
                    autocomplete="off"
                    class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl pl-4 pr-12 py-3 text-sm focus:ring-2 focus:ring-blue-600 outline-none text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 transition-colors">
             <button type="submit" id="chat-panel-send-btn" class="absolute right-1.5 top-1.5 bottom-1.5 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center justify-center shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
-                <svg class="w-4 h-4 transform rotate-90" fill="currentColor" viewBox="0 0 20 20"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg>
+                <i data-lucide="send-horizontal" class="w-4 h-4"></i>
             </button>
         </form>
     </div>
 </div>
 
-{{-- Chat backdrop overlay --}}
 <div x-show="chatOpen" x-cloak @click="chatOpen = false" class="fixed inset-0 z-[55] bg-black/20 backdrop-blur-sm lg:hidden"
      x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
      x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
      style="display: none;"></div>
 @endauth
-{{-- ==================== END GROUP CHAT PANEL ==================== --}}
 
-</div>{{-- end Alpine wrapper --}}
+</div>
 
     <script>
       lucide.createIcons();
@@ -336,15 +423,11 @@
     function toggleDarkMode() {
         var html = document.documentElement;
         html.classList.toggle('dark');
-        if (html.classList.contains('dark')) {
-            localStorage.setItem('theme', 'dark');
-        } else {
-            localStorage.setItem('theme', 'light');
-        }
+        var theme = html.classList.contains('dark') ? 'dark' : 'light';
+        localStorage.setItem('theme', theme);
+        window.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme: theme } }));
     }
     </script>
-
-
 
     @auth
     <script>
@@ -353,7 +436,7 @@
     @endauth
     @stack('scripts')
 
-    {{-- ==================== GROUP CHAT FETCH API ==================== --}}
+    {{-- Chat Fetch API --}}
     @auth
     <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -370,11 +453,7 @@
         var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         var currentUserId = window.currentUserId || null;
         var lastMessageId = 0;
-        var chatIsOpen = false;
 
-        // Watch chatOpen state via Alpine
-        document.addEventListener('alpine:init', function () {});
-        // We poll chatIsOpen from the DOM attribute
         function isChatOpen() {
             var panel = document.querySelector('[x-show="chatOpen"]');
             return panel && panel.style.display !== 'none';
@@ -461,7 +540,6 @@
                 return;
             }
 
-            // Clear dynamic messages
             messagesBox.querySelectorAll('[data-message-id]').forEach(function(el) { el.remove(); });
 
             messages.forEach(function(msg) {
@@ -494,7 +572,6 @@
                 if (!messages) return;
                 var hadMessages = lastMessageId;
                 renderMessages(messages);
-                // Show unread dot if new messages arrived while panel is closed
                 if (messages.length > 0 && messages[messages.length - 1].id > hadMessages && hadMessages > 0 && !isChatOpen()) {
                     unreadDots.forEach(function(dot) {
                         dot.classList.remove('hidden');
@@ -507,7 +584,6 @@
             });
         }
 
-        // Send message
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             var message = input.value.trim();
@@ -541,24 +617,21 @@
                 input.focus();
             });
         });
-        // Group button switching
+
         document.querySelectorAll('.chat-group-btn').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.chat-group-btn').forEach(function(b) {
                     b.classList.remove('ring', 'ring-2', 'ring-blue-400', 'ring-violet-400', 'ring-emerald-400');
                 });
                 currentGroup = btn.getAttribute('data-group');
-                // Highlight active
                 if(currentGroup === 'all') btn.classList.add('ring', 'ring-2', 'ring-blue-400');
                 if(currentGroup === 'sales') btn.classList.add('ring', 'ring-2', 'ring-violet-400');
                 if(currentGroup === 'technical') btn.classList.add('ring', 'ring-2', 'ring-emerald-400');
                 fetchMessages();
             });
         });
-        // Set default highlight
         document.querySelector('.chat-group-btn[data-group="all"]').classList.add('ring', 'ring-2', 'ring-blue-400');
 
-        // Send on Enter
         input.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -566,7 +639,6 @@
             }
         });
 
-        // Clear unread dot when opening panel
         document.addEventListener('click', function(e) {
             var btn = e.target.closest('[title="Group Chat"]');
             if (btn) {
@@ -577,7 +649,6 @@
             }
         });
 
-        // Delete message
         window.deletePanelMessage = function(messageId) {
             if (!confirm('Delete this message?')) return;
 
@@ -607,12 +678,147 @@
             });
         };
 
-        // Initial load + polling
         fetchMessages();
         var chatPollInterval = setInterval(fetchMessages, 3000);
     });
     </script>
     @endauth
 
+    {{-- ===== GLOBAL TOAST NOTIFICATION ENGINE ===== --}}
+    @php
+        $toastMessages = [];
+        if (session('success')) $toastMessages[] = ['type' => 'success', 'message' => session('success')];
+        if (session('error'))   $toastMessages[] = ['type' => 'error',   'message' => session('error')];
+        if (session('info'))    $toastMessages[] = ['type' => 'info',    'message' => session('info')];
+        if (session('warning')) $toastMessages[] = ['type' => 'warning', 'message' => session('warning')];
+        if ($errors->any()) {
+            foreach ($errors->all() as $err) {
+                $toastMessages[] = ['type' => 'error', 'message' => $err];
+            }
+        }
+    @endphp
+    <script id="mv-toast-data" type="application/json">@json($toastMessages)</script>
+    <script>
+    (function() {
+        var container = document.getElementById('mv-toast-container');
+
+        var icons = {
+            success: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>',
+            error:   '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>',
+            info:    '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>',
+            warning: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" /></svg>'
+        };
+
+        var titles = {
+            success: 'Success',
+            error: 'Error',
+            info: 'Info',
+            warning: 'Warning'
+        };
+
+        var textColors = {
+            success: 'color:#065f46',
+            error:   'color:#991b1b',
+            info:    'color:#1e40af',
+            warning: 'color:#92400e'
+        };
+        var darkTextColors = {
+            success: 'color:#a7f3d0',
+            error:   'color:#fecaca',
+            info:    'color:#bfdbfe',
+            warning: 'color:#fde68a'
+        };
+
+        function isDark() {
+            return document.documentElement.classList.contains('dark');
+        }
+
+        function escapeHtml(str) {
+            var div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        /**
+         * Show a toast notification.
+         * @param {string} type    - success | error | info | warning
+         * @param {string} message - The message to display
+         * @param {number} duration - Auto-dismiss in ms (default 5000)
+         */
+        window.mvToast = function(type, message, duration) {
+            if (!container) return;
+            duration = duration || 5000;
+
+            var toast = document.createElement('div');
+            toast.className = 'mv-toast mv-toast--' + type;
+            toast.style.position = 'relative';
+            toast.style.overflow = 'hidden';
+
+            var tColors = isDark() ? darkTextColors : textColors;
+
+            toast.innerHTML =
+                '<div class="mv-toast-icon flex-shrink-0 mt-0.5">' + (icons[type] || icons.info) + '</div>' +
+                '<div class="flex-1 min-w-0">' +
+                    '<p style="font-size:0.8125rem;font-weight:700;margin:0;' + (tColors[type] || '') + '">' + escapeHtml(titles[type] || 'Notification') + '</p>' +
+                    '<p style="font-size:0.8125rem;margin:0.125rem 0 0;' + (tColors[type] || '') + ';opacity:0.85">' + escapeHtml(message) + '</p>' +
+                '</div>' +
+                '<button type="button" class="mv-toast-close flex-shrink-0 mt-0.5" style="background:none;border:none;cursor:pointer;padding:0.25rem;border-radius:0.375rem;opacity:0.5;transition:opacity 0.2s">' +
+                    '<svg xmlns="http://www.w3.org/2000/svg" style="width:1rem;height:1rem;' + (tColors[type] || '') + '" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>' +
+                '</button>' +
+                '<div class="mv-toast-progress" style="animation-duration:' + duration + 'ms"></div>';
+
+            // Close button
+            toast.querySelector('.mv-toast-close').addEventListener('click', function() {
+                dismissToast(toast);
+            });
+            toast.querySelector('.mv-toast-close').addEventListener('mouseenter', function() {
+                this.style.opacity = '1';
+            });
+            toast.querySelector('.mv-toast-close').addEventListener('mouseleave', function() {
+                this.style.opacity = '0.5';
+            });
+
+            container.appendChild(toast);
+
+            // Auto-dismiss
+            var timer = setTimeout(function() { dismissToast(toast); }, duration);
+
+            // Pause on hover
+            toast.addEventListener('mouseenter', function() {
+                clearTimeout(timer);
+                var bar = toast.querySelector('.mv-toast-progress');
+                if (bar) bar.style.animationPlayState = 'paused';
+            });
+            toast.addEventListener('mouseleave', function() {
+                var bar = toast.querySelector('.mv-toast-progress');
+                if (bar) bar.style.animationPlayState = 'running';
+                timer = setTimeout(function() { dismissToast(toast); }, 2000);
+            });
+        };
+
+        function dismissToast(toast) {
+            if (toast.classList.contains('mv-toast-exit')) return;
+            toast.classList.add('mv-toast-exit');
+            setTimeout(function() {
+                if (toast.parentNode) toast.parentNode.removeChild(toast);
+            }, 400);
+        }
+
+        // Fire initial toasts from session flash data
+        var dataEl = document.getElementById('mv-toast-data');
+        if (dataEl) {
+            try {
+                var messages = JSON.parse(dataEl.textContent || '[]');
+                messages.forEach(function(item, i) {
+                    setTimeout(function() {
+                        window.mvToast(item.type, item.message);
+                    }, i * 150);
+                });
+            } catch (e) {}
+        }
+    })();
+    </script>
+
+    @stack('modals')
 </body>
 </html>

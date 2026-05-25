@@ -45,7 +45,9 @@ class TaskChecklistController extends Controller
         $task->loadMissing('assignees');
         $actorName = Auth::user()?->name;
 
-        foreach ($task->assignees as $assignee) {
+        $assignees = $task->relationLoaded('assignees') ? $task->getRelation('assignees') : $task->assignees()->get();
+
+        foreach ($assignees as $assignee) {
             try {
                 $assignee->notify(new TaskChecklistUpdatedNotification($task, $item->fresh(), $isCompleted, $actorName));
             } catch (\Throwable $e) {

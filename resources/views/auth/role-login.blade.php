@@ -30,7 +30,7 @@
             <div class="flex justify-center">
                 <a href="/" class="group inline-block transition-transform duration-300 hover:scale-105">
                     <div class="relative flex items-center justify-center">
-                        <div class="absolute h-32 w-32 rounded-full bg-white opacity-50 blur-xl"></div>
+                        <div class="absolute h-32 w-32 rounded-full bg-white dark:bg-slate-900 opacity-50 blur-xl"></div>
                         <img src="{{ asset('images/movaflex-logo-official.png') }}" alt="Movaflex Logo" class="relative z-10 h-24 w-auto object-contain">
                     </div>
                 </a>
@@ -45,7 +45,7 @@
                     Where Focus Meets
                     <span class="bg-gradient-to-r from-cyan-300 via-teal-300 to-emerald-300 bg-clip-text text-transparent">Execution</span>
                 </h1>
-                <p class="mx-auto max-w-sm text-[13px] leading-relaxed text-slate-400">
+                <p class="mx-auto max-w-sm text-[13px] leading-relaxed text-slate-400 dark:text-slate-500 dark:text-slate-400">
                     Plan, deliver, and stay accountable — all in one streamlined platform with timelines, approvals, and smart reporting.
                 </p>
             </div>
@@ -78,12 +78,12 @@
             {{-- Footer --}}
             <div class="mt-auto pt-8">
                 <div class="mx-auto h-px w-16 bg-gradient-to-r from-transparent via-slate-500/20 to-transparent"></div>
-                <p class="mt-3 text-center text-[10px] text-slate-500/50">&copy; {{ date('Y') }} Movaflex Designs Unlimited Inc.</p>
+                <p class="mt-3 text-center text-[10px] text-slate-500 dark:text-slate-400/50">&copy; {{ date('Y') }} Movaflex Designs Unlimited Inc.</p>
             </div>
         </div>
 
         {{-- RIGHT PANEL — Login Form --}}
-        <div class="relative flex flex-col justify-center bg-white p-8 md:p-10 lg:p-12">
+        <div class="relative flex flex-col justify-center bg-white dark:bg-slate-900 p-8 md:p-10 lg:p-12">
             <div class="pointer-events-none absolute top-0 right-0 h-32 w-32 bg-gradient-to-bl from-cyan-50 to-transparent opacity-60"></div>
 
             <div class="relative mx-auto w-full max-w-sm">
@@ -93,12 +93,12 @@
                 </div>
 
                 <div class="mb-8">
-                    <h2 class="text-2xl font-extrabold tracking-tight text-slate-800">{{ $roleLabel }} Login</h2>
-                    <p class="mt-1 text-sm text-slate-400">Sign in with your {{ $roleLabel }} account to continue.</p>
+                    <h2 class="text-2xl font-extrabold tracking-tight text-slate-800 dark:text-slate-100">{{ $roleLabel }} Login</h2>
+                    <p class="mt-1 text-sm text-slate-400 dark:text-slate-500 dark:text-slate-400">Sign in with your {{ $roleLabel }} account to continue.</p>
                 </div>
 
                 @if ($errors->any())
-                    <div class="mb-5 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
+                    <div class="mb-5 rounded-xl border border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-900/30 px-4 py-3 text-sm font-medium text-rose-700 dark:text-rose-400">
                         {{ $errors->first() }}
                     </div>
                 @endif
@@ -107,23 +107,23 @@
                     @csrf
 
                     <div>
-                        <label for="email" class="mb-1.5 block text-[13px] font-semibold text-slate-700">Email address</label>
+                        <label for="email" class="mb-1.5 block text-[13px] font-semibold text-slate-700 dark:text-slate-300">Email address</label>
                         <input id="email" name="email" type="email" required autofocus autocomplete="email" value="{{ old('email') }}"
                                placeholder="you@company.com"
-                               class="h-11 w-full rounded-xl border border-slate-200 bg-slate-50/80 px-4 text-sm text-slate-900 placeholder:text-slate-400 transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                               class="h-11 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-800 px-4 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:text-slate-500 dark:text-slate-400 transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
                     </div>
 
                     <div>
                         <div class="mb-1.5 flex items-center justify-between">
-                            <label for="password" class="text-[13px] font-semibold text-slate-700">Password</label>
+                            <label for="password" class="text-[13px] font-semibold text-slate-700 dark:text-slate-300">Password</label>
                             <a href="{{ route('password.request') }}" class="text-[11px] font-semibold tracking-wide text-indigo-600 hover:text-indigo-800">Forgot password?</a>
                         </div>
                         <input id="password" name="password" type="password" required autocomplete="current-password"
                                placeholder="Password"
-                               class="h-11 w-full rounded-xl border border-slate-200 bg-slate-50/80 px-4 text-sm text-slate-900 placeholder:text-slate-400 transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                               class="h-11 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-800 px-4 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:text-slate-500 dark:text-slate-400 transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
                     </div>
 
-                    <label class="flex items-center gap-2.5 text-sm text-slate-500">
+                    <label class="flex items-center gap-2.5 text-sm text-slate-500 dark:text-slate-400">
                         <input type="checkbox" name="remember" value="1" class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
                         Keep me signed in
                     </label>
@@ -133,7 +133,7 @@
                     </button>
                 </form>
 
-                <div class="mt-6 border-t border-slate-100 pt-4">
+                <div class="mt-6 border-t border-slate-100 dark:border-slate-800 pt-4">
                     <a href="{{ route('role.login.launcher') }}" class="inline-flex items-center gap-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-800 transition">
                         <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                         Back to role launcher

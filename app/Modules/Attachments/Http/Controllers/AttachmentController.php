@@ -84,6 +84,27 @@ class AttachmentController
     }
 
     /**
+     * View attachment inline securely.
+     *
+     * GET /attachments/{id}/view
+     */
+    public function view(Request $request, TaskAttachment $attachment)
+    {
+        $user = $request->user();
+
+        $canView = $this->projectService->isMember($attachment->task->project_id, $user->id)
+            || $user->isAdmin()
+            || $user->isPM()
+            || $user->isLead();
+
+        if (!$canView) {
+            return response()->json(['message' => 'You are not a member of the project'], 403);
+        }
+
+        return response()->file(Storage::disk('private')->path($attachment->path));
+    }
+
+    /**
      * Delete an attachment (record + file).
      *
      * DELETE /attachments/{id}

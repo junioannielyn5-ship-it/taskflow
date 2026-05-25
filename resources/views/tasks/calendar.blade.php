@@ -90,12 +90,12 @@
     @endif
 
     @if (($panel ?? 'all') !== 'events')
-    <div class="bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-[3rem] shadow-2xl overflow-hidden">
+    <div class="bg-white/80 dark:bg-slate-900/40 backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-[3rem] shadow-2xl overflow-hidden">
         {{-- Header --}}
-        <div class="flex flex-wrap items-center justify-between gap-3 px-8 py-6 border-b border-white/5 bg-white/5">
-            <h3 class="text-sm font-black tracking-[0.3em] text-teal-400 uppercase">
+        <div class="flex flex-wrap items-center justify-between gap-3 px-8 py-6 border-b border-slate-200 dark:border-white/5 bg-slate-50/50 dark:bg-white/5">
+            <h3 class="text-sm font-black tracking-[0.3em] text-teal-600 dark:text-teal-400 uppercase">
                 Tasks Calendar —
-                <span class="text-slate-100">
+                <span class="text-slate-700 dark:text-slate-100">
                     @if (($activity ?? 'all') === 'sales') Sales Activity
                     @elseif (($activity ?? 'all') === 'technical') Technical Activity
                     @else Active Tasks Only
@@ -112,9 +112,9 @@
         </div>
 
         {{-- Day headers --}}
-        <div class="grid grid-cols-7 text-center border-b border-white/5 bg-white/5">
+        <div class="grid grid-cols-7 text-center border-b border-slate-200 dark:border-white/5 bg-slate-50/50 dark:bg-white/5">
             @foreach(['Sun','Mon','Tue','Wed','Thu','Fri','Sat'] as $dow)
-            <div class="py-5 text-xs font-bold uppercase tracking-[0.2em] text-slate-500">{{ $dow }}</div>
+            <div class="py-5 text-xs font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">{{ $dow }}</div>
             @endforeach
         </div>
 
@@ -129,14 +129,14 @@
                     $isCurrentMonth = $day->month === $month->month;
                     $isToday = $day->isToday();
                 @endphp
-                <div class="min-h-[140px] border-b border-r border-white/5 p-4 transition-all group hover:bg-white/5 relative {{ $isCurrentMonth ? '' : 'opacity-40' }}">
+                <div class="min-h-[140px] border-b border-r border-slate-200 dark:border-white/5 p-4 transition-all group hover:bg-slate-50 dark:hover:bg-white/5 relative {{ $isCurrentMonth ? '' : 'opacity-40' }}">
                     <div class="mb-2 flex items-center justify-between">
                         @if($isToday)
                             <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-sm font-black text-white shadow-[0_0_20px_rgba(37,99,235,0.6)]">{{ $day->day }}</span>
                         @elseif($hasContent)
                             <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-teal-500/20 border border-teal-400/40 text-sm font-black text-teal-300 shadow-[0_0_12px_rgba(20,184,166,0.3)] transition-colors">{{ $day->day }}</span>
                         @else
-                            <span class="text-base font-bold text-slate-500 group-hover:text-white transition-colors">{{ $day->day }}</span>
+                            <span class="text-base font-bold text-slate-500 group-hover:text-slate-800 dark:group-hover:text-white transition-colors">{{ $day->day }}</span>
                         @endif
                         @if ($dayTasks->isNotEmpty())
                             <span class="rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-bold text-slate-400">{{ $dayTasks->count() }}</span>

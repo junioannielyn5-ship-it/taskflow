@@ -21,6 +21,9 @@ class ProjectController extends Controller
     private const SALES_OWNER_MAP = [
         'LS' => 'Lawrence Solee',
         'NR' => 'Norman Reyes',
+        'PB' => 'Philip Borromeo',
+        'VA' => 'Vera Andino',
+        'EC' => 'Edcel Ching',
     ];
 
     public function __construct(

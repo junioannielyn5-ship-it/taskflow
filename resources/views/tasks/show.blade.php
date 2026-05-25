@@ -2,69 +2,69 @@
 
 @section('content')
 <div class="space-y-6">
-    <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div class="relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
         <div class="pointer-events-none absolute -right-16 -top-16 h-52 w-52 rounded-full bg-cyan-200/35 blur-3xl"></div>
         <div class="flex flex-wrap items-center justify-between gap-3">
             <div>
-                <h1 class="text-2xl font-bold text-slate-800">{{ $task->title }}</h1>
-                <p class="text-sm text-slate-500">Project: {{ $task->project?->name ?? 'N/A' }}</p>
+                <h1 class="text-2xl font-bold text-slate-800 dark:text-slate-100">{{ $task->title }}</h1>
+                <p class="text-sm text-slate-500 dark:text-slate-400">Project: {{ $task->project?->name ?? 'N/A' }}</p>
             </div>
-            <a href="{{ route('tasks.list') }}" class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">Back to Tasks</a>
+            <a href="{{ route('tasks.list') }}" class="rounded-lg border border-slate-300 dark:border-slate-600 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 dark:bg-slate-700/50">Back to Tasks</a>
         </div>
     </div>
 
     @if (session('success'))
-        <div class="mb-4 rounded border border-green-200 bg-green-50 px-4 py-3 text-green-700">
+        <div class="mb-4 rounded border border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/30 px-4 py-3 text-green-700 dark:text-green-400">
             {{ session('success') }}
         </div>
     @endif
 
     @if (session('info'))
-        <div class="mb-4 rounded border border-blue-200 bg-blue-50 px-4 py-3 text-blue-700">
+        <div class="mb-4 rounded border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/30 px-4 py-3 text-blue-700 dark:text-blue-400">
             {{ session('info') }}
         </div>
     @endif
 
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div class="space-y-6 lg:col-span-2">
-            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h2 class="mb-4 text-lg font-semibold text-slate-800">Task Details</h2>
+            <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
+                <h2 class="mb-4 text-lg font-semibold text-slate-800 dark:text-slate-100">Task Details</h2>
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2 text-sm">
                     <div>
-                        <p class="text-slate-500">Status</p>
-                        <p class="font-medium text-slate-800">{{ ucwords(str_replace('_', ' ', $task->status)) }}</p>
+                        <p class="text-slate-500 dark:text-slate-400">Status</p>
+                        <p class="font-medium text-slate-800 dark:text-slate-100">{{ ucwords(str_replace('_', ' ', $task->status)) }}</p>
                     </div>
                     <div>
-                        <p class="text-slate-500">Priority</p>
-                        <p class="font-medium text-slate-800">{{ ucfirst($task->priority) }}</p>
+                        <p class="text-slate-500 dark:text-slate-400">Priority</p>
+                        <p class="font-medium text-slate-800 dark:text-slate-100">{{ ucfirst($task->priority) }}</p>
                     </div>
                     <div>
-                        <p class="text-slate-500">Due</p>
-                        <p class="font-medium text-slate-800">{{ $task->due_date ? $task->due_date->format('m-d-Y') : '-' }}</p>
+                        <p class="text-slate-500 dark:text-slate-400">Due</p>
+                        <p class="font-medium text-slate-800 dark:text-slate-100">{{ $task->due_date ? $task->due_date->format('m-d-Y') : '-' }}</p>
                     </div>
                     <div>
-                        <p class="text-slate-500">Date Received</p>
-                        <p class="font-medium text-slate-800">{{ $task->date_received ? $task->date_received->format('M d, Y') : '-' }}</p>
+                        <p class="text-slate-500 dark:text-slate-400">Date Received</p>
+                        <p class="font-medium text-slate-800 dark:text-slate-100">{{ $task->date_received ? $task->date_received->format('M d, Y') : '-' }}</p>
                     </div>
                     <div>
-                        <p class="text-slate-500">Date Started</p>
-                        <p class="font-medium text-slate-800">{{ $task->date_started ? $task->date_started->format('M d, Y') : '-' }}</p>
+                        <p class="text-slate-500 dark:text-slate-400">Date Started</p>
+                        <p class="font-medium text-slate-800 dark:text-slate-100">{{ $task->date_started ? $task->date_started->format('M d, Y') : '-' }}</p>
                     </div>
                     <div>
-                        <p class="text-slate-500">Task Process</p>
-                        <p class="font-medium text-slate-800">{{ $task->task_process ?: '-' }}</p>
+                        <p class="text-slate-500 dark:text-slate-400">Task Process</p>
+                        <p class="font-medium text-slate-800 dark:text-slate-100">{{ $task->task_process ?: '-' }}</p>
                     </div>
                     <div>
-                        <p class="text-slate-500">Company/Client</p>
-                        <p class="font-medium text-slate-800">{{ $task->company ?: '-' }}</p>
+                        <p class="text-slate-500 dark:text-slate-400">Company/Client</p>
+                        <p class="font-medium text-slate-800 dark:text-slate-100">{{ $task->company ?: '-' }}</p>
                     </div>
                     <div>
-                        <p class="text-slate-500">Person-in-charge</p>
-                        <p class="font-medium text-slate-800">{{ $task->team_in_charge ?: '-' }}</p>
+                        <p class="text-slate-500 dark:text-slate-400">Person-in-charge</p>
+                        <p class="font-medium text-slate-800 dark:text-slate-100">{{ $task->team_in_charge ?: '-' }}</p>
                     </div>
                     <div>
-                        <p class="text-slate-500">Blocked By</p>
-                        <p class="font-medium text-slate-800">
+                        <p class="text-slate-500 dark:text-slate-400">Blocked By</p>
+                        <p class="font-medium text-slate-800 dark:text-slate-100">
                             @if($task->blockedByTask)
                                 <a href="{{ route('tasks.show', $task->blockedByTask) }}" class="text-blue-600 hover:underline">{{ $task->blockedByTask->title }}</a>
                             @else
@@ -73,29 +73,29 @@
                         </p>
                     </div>
                     <div>
-                        <p class="text-slate-500">Deliverables</p>
-                        <p class="font-medium text-slate-800">{{ $task->deliverables ?: '-' }}</p>
+                        <p class="text-slate-500 dark:text-slate-400">Deliverables</p>
+                        <p class="font-medium text-slate-800 dark:text-slate-100">{{ $task->deliverables ?: '-' }}</p>
                     </div>
                     <div>
-                        <p class="text-slate-500">Project Owner</p>
-                        <p class="font-medium text-slate-800">{{ $task->project?->project_owner ?: 'Sales (Sales Project)' }}</p>
+                        <p class="text-slate-500 dark:text-slate-400">Project Owner</p>
+                        <p class="font-medium text-slate-800 dark:text-slate-100">{{ $task->project?->project_owner ?: 'Sales (Sales Project)' }}</p>
                     </div>
                 </div>
                 @if($task->remarks)
-                    <div class="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+                    <div class="mt-4 rounded-xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/30 p-4 text-sm text-amber-900 dark:text-amber-200">
                         <p class="mb-1 text-xs font-semibold uppercase tracking-wide">Remarks</p>
                         <p>{{ $task->remarks }}</p>
                     </div>
                 @endif
                 @if($task->description)
-                    <div class="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+                    <div class="mt-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50 p-4 text-sm text-slate-700 dark:text-slate-300">
                         {{ $task->description }}
                     </div>
                 @endif
             </div>
 
-            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h2 class="mb-4 text-lg font-semibold text-slate-800">Checklists</h2>
+            <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
+                <h2 class="mb-4 text-lg font-semibold text-slate-800 dark:text-slate-100">Checklists</h2>
 
                 @can('update', $task)
                     <form method="POST" action="{{ route('tasks.checklists.store', $task) }}" class="mb-4 flex flex-col gap-2 sm:flex-row">
@@ -105,7 +105,7 @@
                             name="title"
                             required
                             placeholder="Add checklist item"
-                            class="w-full rounded border-2 border-cyan-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 placeholder:text-slate-500 ring-1 ring-cyan-100 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-200"
+                            class="w-full rounded border-2 border-cyan-300 bg-white dark:bg-slate-800 px-3 py-2 text-sm font-semibold text-slate-900 placeholder:text-slate-500 dark:text-slate-400 ring-1 ring-cyan-100 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-200"
                         >
                         <button type="submit" class="rounded-lg bg-cyan-600 px-4 py-2 text-sm font-medium text-white hover:bg-cyan-700">Add</button>
                     </form>
@@ -115,16 +115,16 @@
                 @endcan
 
                 @if($task->checklistItems->isEmpty())
-                    <p class="text-sm text-slate-500">No checklist items yet.</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">No checklist items yet.</p>
                 @else
                     <ul class="space-y-2">
                         @foreach($task->checklistItems as $item)
-                            <li class="flex items-center justify-between gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm">
+                            <li class="flex items-center justify-between gap-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50 px-3 py-2 text-sm">
                                 <form method="POST" action="{{ route('tasks.checklists.toggle', [$task, $item]) }}" class="flex items-center gap-2">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="submit" class="h-4 w-4 rounded border border-slate-300 {{ $item->is_completed ? 'bg-emerald-500' : 'bg-white' }}"></button>
-                                    <span class="{{ $item->is_completed ? 'text-slate-400 line-through' : 'text-slate-700' }}">{{ $item->title }}</span>
+                                    <button type="submit" class="h-4 w-4 rounded border border-slate-300 dark:border-slate-600 {{ $item->is_completed ? 'bg-emerald-50 dark:bg-emerald-900/300' : 'bg-white dark:bg-slate-800' }}"></button>
+                                    <span class="{{ $item->is_completed ? 'text-slate-400 line-through' : 'text-slate-700 dark:text-slate-300' }}">{{ $item->title }}</span>
                                 </form>
                                 @can('update', $task)
                                     <form method="POST" action="{{ route('tasks.checklists.destroy', [$task, $item]) }}" onsubmit="return confirm('Delete this checklist item?')">
@@ -139,11 +139,11 @@
                 @endif
             </div>
 
-            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h2 class="mb-4 text-lg font-semibold text-slate-800">Task Attachments</h2>
+            <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
+                <h2 class="mb-4 text-lg font-semibold text-slate-800 dark:text-slate-100">Task Attachments</h2>
                 <form method="POST" action="{{ route('tasks.attachments.store', $task) }}" enctype="multipart/form-data" class="mb-4 flex flex-col gap-3 md:flex-row md:items-center">
                     @csrf
-                    <input type="file" name="file" required class="block w-full text-sm text-slate-700 file:mr-3 file:rounded file:border-0 file:bg-cyan-600 file:px-3 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-cyan-700">
+                    <input type="file" name="file" required class="block w-full text-sm text-slate-700 dark:text-slate-300 file:mr-3 file:rounded file:border-0 file:bg-cyan-600 file:px-3 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-cyan-700">
                     <button type="submit" class="rounded-lg bg-cyan-600 px-4 py-2 text-sm font-medium text-white hover:bg-cyan-700">Upload</button>
                 </form>
 
@@ -152,17 +152,20 @@
                 @enderror
 
                 @if($task->attachments->isEmpty())
-                    <p class="text-sm text-slate-500">No attachments yet.</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">No attachments yet.</p>
                 @else
                     <ul class="divide-y divide-slate-100">
                         @foreach($task->attachments as $attachment)
                             <li class="flex items-center justify-between py-3 text-sm">
                                 <div>
-                                    <p class="font-medium text-slate-700">{{ $attachment->filename }}</p>
-                                    <p class="text-slate-500">{{ number_format($attachment->size / 1024, 1) }} KB · {{ $attachment->created_at?->diffForHumans() }}</p>
+                                    <p class="font-medium text-slate-700 dark:text-slate-300">{{ $attachment->filename }}</p>
+                                    <p class="text-slate-500 dark:text-slate-400">{{ number_format($attachment->size / 1024, 1) }} KB · {{ $attachment->created_at?->diffForHumans() }}</p>
                                 </div>
                                 <div class="flex items-center gap-2">
-                                    <a href="{{ route('attachments.download', $attachment->id) }}" class="rounded border border-slate-300 px-3 py-1 text-slate-700 hover:bg-slate-50">Download</a>
+                                    @if(str_starts_with($attachment->mime_type, 'image/'))
+                                        <button type="button" onclick="openImageModal('{{ route('attachments.view', $attachment->id) }}')" class="rounded border border-cyan-300 dark:border-cyan-600 px-3 py-1 text-cyan-700 dark:text-cyan-300 hover:bg-cyan-50 dark:hover:bg-cyan-900/30">View</button>
+                                    @endif
+                                    <a href="{{ route('attachments.download', $attachment->id) }}" class="rounded border border-slate-300 dark:border-slate-600 px-3 py-1 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 dark:bg-slate-700/50">Download</a>
                                     @if(auth()->id() === $attachment->user_id || auth()->user()?->isAdmin())
                                         <form method="POST" action="{{ route('attachments.destroy', $attachment->id) }}" onsubmit="return confirm('Delete this attachment?')">
                                             @csrf
@@ -177,18 +180,18 @@
                 @endif
             </div>
 
-            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
                 <div class="mb-4 flex items-center justify-between gap-3">
-                    <h2 class="text-lg font-semibold text-slate-800">Activity Timeline</h2>
-                    <span id="task-activity-count" class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">0</span>
+                    <h2 class="text-lg font-semibold text-slate-800 dark:text-slate-100">Activity Timeline</h2>
+                    <span id="task-activity-count" class="rounded-full bg-slate-100 dark:bg-slate-700 px-2.5 py-1 text-xs font-medium text-slate-600 dark:text-slate-400">0</span>
                 </div>
                 <div id="task-activity-timeline" class="space-y-4">
-                    <p class="text-sm text-slate-500">Loading timeline...</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Loading timeline...</p>
                 </div>
             </div>
 
-            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h2 class="mb-4 text-lg font-semibold text-slate-800">Comments</h2>
+            <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
+                <h2 class="mb-4 text-lg font-semibold text-slate-800 dark:text-slate-100">Comments</h2>
 
                 <form method="POST" action="{{ route('comments.store', $task) }}" class="mb-4 space-y-2">
                     @csrf
@@ -196,27 +199,27 @@
                         name="body"
                         rows="3"
                         required
-                        class="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                        class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
                         placeholder="Write a comment..."
                     >{{ old('body') }}</textarea>
                     <div class="flex items-center justify-between">
                         @error('body')
                             <p class="text-sm text-red-600">{{ $message }}</p>
                         @else
-                            <span class="text-xs text-slate-500">Share updates, blockers, or clarifications.</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Share updates, blockers, or clarifications.</span>
                         @enderror
                         <button type="submit" class="rounded-lg bg-cyan-600 px-3 py-2 text-sm font-medium text-white hover:bg-cyan-700">Post Comment</button>
                     </div>
                 </form>
 
                 @if($task->comments->isEmpty())
-                    <p class="text-sm text-slate-500">No comments yet.</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">No comments yet.</p>
                 @else
                     <ul class="space-y-3">
                         @foreach($task->comments->sortByDesc('created_at')->take(20) as $comment)
-                            <li class="rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm">
-                                <div class="mb-1 flex items-center justify-between text-xs text-slate-500">
-                                    <span class="font-medium text-slate-700">{{ $comment->user?->name ?? 'Unknown user' }}</span>
+                            <li class="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50 p-3 text-sm">
+                                <div class="mb-1 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                                    <span class="font-medium text-slate-700 dark:text-slate-300">{{ $comment->user?->name ?? 'Unknown user' }}</span>
                                     <div class="flex items-center gap-2">
                                         <span>{{ $comment->created_at?->diffForHumans() }}</span>
                                         @if(auth()->id() === $comment->user_id || auth()->user()?->isAdmin())
@@ -228,7 +231,7 @@
                                         @endif
                                     </div>
                                 </div>
-                                <p class="text-slate-700">{{ $comment->body }}</p>
+                                <p class="text-slate-700 dark:text-slate-300">{{ $comment->body }}</p>
                             </li>
                         @endforeach
                     </ul>
@@ -237,12 +240,13 @@
         </div>
 
         <div class="space-y-6">
-            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h2 class="mb-3 text-lg font-semibold text-slate-800">Completion</h2>
-                <p class="mb-3 text-sm text-slate-500">Submit for review when work is finished, then manager/admin can approve as done.</p>
+            <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm">
+                <h2 class="mb-3 text-lg font-semibold text-slate-800 dark:text-slate-100">Completion</h2>
+                <p class="mb-3 text-sm text-slate-500 dark:text-slate-400">Submit for review when work is finished, then manager/admin can approve as done.</p>
 
                 @php
                     $hasCompletionDocument = $task->attachments->isNotEmpty();
+                    $hasIncompleteChecklists = $task->checklistItems->where('is_completed', false)->count() > 0;
                     $canUpdateTaskStatus = auth()->user() && Gate::allows('update-task-status', $task);
                     $canCompleteTask = auth()->user() && Gate::allows('complete-task', $task);
                     $canApproveNow = $task->status === 'for_review' && $canCompleteTask;
@@ -252,31 +256,29 @@
                         default => 'Not Submitted',
                     };
                     $approvalStatusClass = match($task->status) {
-                        'done' => 'bg-emerald-100 text-emerald-800 border border-emerald-200',
-                        'for_review' => 'bg-slate-100 text-slate-700 border border-slate-300',
-                        default => 'bg-slate-100 text-slate-600 border border-slate-300',
-                    };
-                    $approvalButtonLabel = match($task->status) {
-                        'done' => 'Approve As Done',
-                        'for_review' => 'Pending Review',
-                        default => 'Not Submitted',
-                    };
-                    $approvalButtonClass = match($task->status) {
-                        'done' => 'bg-emerald-600 hover:bg-emerald-700',
-                        'for_review' => 'bg-slate-400',
-                        default => 'bg-slate-400',
+                        'done' => 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800',
+                        'for_review' => 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-600',
+                        default => 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-600',
                     };
                 @endphp
 
-                <div class="mb-4 rounded-xl border {{ $hasCompletionDocument ? 'border-emerald-200 bg-emerald-50' : 'border-amber-200 bg-amber-50' }} px-4 py-3 text-sm">
+                <div class="mb-4 rounded-xl border {{ ($hasCompletionDocument && !$hasIncompleteChecklists) ? 'border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/30' : 'border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/30' }} px-4 py-3 text-sm">
                     <div class="mb-3 flex items-center justify-between gap-3">
                         <div>
-                            <p class="font-semibold {{ $hasCompletionDocument ? 'text-emerald-800' : 'text-amber-800' }}">
-                                {{ $hasCompletionDocument ? 'Completion document uploaded' : 'No completion document yet' }}
+                            <p class="font-semibold {{ ($hasCompletionDocument && !$hasIncompleteChecklists) ? 'text-emerald-800 dark:text-emerald-300' : 'text-amber-800 dark:text-amber-300' }}">
+                                {{ ($hasCompletionDocument && !$hasIncompleteChecklists) ? 'Ready for review' : 'Requirements pending' }}
                             </p>
-                            <p class="mt-1 {{ $hasCompletionDocument ? 'text-emerald-700' : 'text-amber-700' }}">
-                                {{ $hasCompletionDocument ? 'Attachment(s) are available in Task Attachments.' : 'Upload at least one proof file before requesting review.' }}
-                            </p>
+                            <div class="mt-1 {{ ($hasCompletionDocument && !$hasIncompleteChecklists) ? 'text-emerald-700 dark:text-emerald-400' : 'text-amber-700 dark:text-amber-400' }}">
+                                @if(!$hasCompletionDocument)
+                                    <p>• Upload at least one proof file.</p>
+                                @endif
+                                @if($hasIncompleteChecklists)
+                                    <p>• Complete all checklist items.</p>
+                                @endif
+                                @if($hasCompletionDocument && !$hasIncompleteChecklists)
+                                    <p>All requirements met. You can request a review.</p>
+                                @endif
+                            </div>
                         </div>
                         <span class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold {{ $approvalStatusClass }}">
                             {{ $approvalStatusLabel }}
@@ -286,56 +288,53 @@
 
                 @if($canUpdateTaskStatus)
                     <div class="grid grid-cols-1 gap-2">
-                        <form method="POST" action="{{ route('tasks.status.update', $task) }}">
-                            @csrf
-                            <input type="hidden" name="status" value="in_progress">
-                            <button
-                                type="submit"
-                                class="w-full rounded-lg bg-cyan-600 px-3 py-2 text-sm font-medium text-white hover:bg-cyan-700"
-                            >
-                                Start Progress
-                            </button>
-                        </form>
-
-                        <form method="POST" action="{{ route('tasks.status.update', $task) }}">
-                            @csrf
-                            <input type="hidden" name="status" value="for_review">
-                            <button
-                                type="submit"
-                                class="w-full rounded-lg bg-orange-600 px-3 py-2 text-sm font-medium text-white hover:bg-orange-700"
-                            >
-                                Mark As For Review
-                            </button>
-                        </form>
-
-                        <button
-                            type="button"
-                            class="w-full rounded-lg px-3 py-2 text-sm font-medium text-white {{ $approvalButtonClass }}"
-                            disabled
-                        >
-                            {{ $approvalButtonLabel }}
-                        </button>
-
-                        @if($task->status === 'for_review' && $canApproveNow)
-                            <form method="POST" action="{{ route('tasks.status.update', $task) }}">
+                        @if(!in_array($task->status, ['in_progress', 'for_review', 'done']))
+                            <form method="POST" action="{{ route('tasks.status.update', $task) }}" onsubmit="const btn = this.querySelector('button'); setTimeout(() => { btn.disabled = true; btn.textContent = 'Updating...'; }, 0);">
                                 @csrf
-                                <input type="hidden" name="status" value="done">
-                                <button
-                                    type="submit"
-                                    class="w-full rounded-lg bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-700"
-                                >
-                                    Approve As Done
+                                <input type="hidden" name="status" value="in_progress">
+                                <button type="submit" class="w-full rounded-lg bg-cyan-600 px-3 py-2 text-sm font-medium text-white hover:bg-cyan-700">
+                                    Start Progress
                                 </button>
                             </form>
+                        @elseif($task->status === 'in_progress')
+                            @if(!$hasCompletionDocument || $hasIncompleteChecklists)
+                                <button type="button" class="w-full rounded-lg bg-slate-400 px-3 py-2 text-sm font-medium text-white cursor-not-allowed" disabled>
+                                    Mark As For Review
+                                </button>
+                            @else
+                                <form method="POST" action="{{ route('tasks.status.update', $task) }}" onsubmit="const btn = this.querySelector('button'); setTimeout(() => { btn.disabled = true; btn.textContent = 'Updating...'; }, 0);">
+                                    @csrf
+                                    <input type="hidden" name="status" value="for_review">
+                                    <button type="submit" class="w-full rounded-lg bg-orange-600 px-3 py-2 text-sm font-medium text-white hover:bg-orange-700">
+                                        Mark As For Review
+                                    </button>
+                                </form>
+                            @endif
                         @elseif($task->status === 'for_review')
-                            <p class="text-xs text-amber-700">Approve As Done is enabled only after Mark As For Review.</p>
+                            @if($canApproveNow)
+                                <form method="POST" action="{{ route('tasks.status.update', $task) }}" onsubmit="const btn = this.querySelector('button'); setTimeout(() => { btn.disabled = true; btn.textContent = 'Updating...'; }, 0);">
+                                    @csrf
+                                    <input type="hidden" name="status" value="done">
+                                    <button type="submit" class="w-full rounded-lg bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-700">
+                                        Approve As Done
+                                    </button>
+                                </form>
+                            @else
+                                <button type="button" class="w-full rounded-lg px-3 py-2 text-sm font-medium text-white bg-slate-400" disabled>
+                                    Pending Review
+                                </button>
+                            @endif
+                        @elseif($task->status === 'done')
+                            <button type="button" class="w-full rounded-lg px-3 py-2 text-sm font-medium text-white bg-emerald-600" disabled>
+                                Approved As Done
+                            </button>
                         @endif
                     </div>
                     @error('status')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 @else
-                    <p class="text-sm text-slate-500">You are not allowed to change task status.</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">You are not allowed to change task status.</p>
                 @endif
             </div>
         </div>
@@ -395,7 +394,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (!activities || activities.length === 0) {
-            timelineEl.innerHTML = '<p class="text-sm text-slate-500">No activity recorded yet.</p>';
+            timelineEl.innerHTML = '<p class="text-sm text-slate-500 dark:text-slate-400">No activity recorded yet.</p>';
             if (countEl) {
                 countEl.textContent = '0';
             }
@@ -406,12 +405,12 @@ document.addEventListener('DOMContentLoaded', function () {
             countEl.textContent = String(activities.length);
         }
 
-        timelineEl.innerHTML = `<ol class="relative border-l border-slate-200 pl-5 space-y-5">${activities.map((item) => {
+        timelineEl.innerHTML = `<ol class="relative border-l border-slate-200 dark:border-slate-700 pl-5 space-y-5">${activities.map((item) => {
             const actor = escapeHtml(item.actor_name || item.actor?.name || 'Unknown User');
             const description = escapeHtml(item.action_text || item.description || '-');
             const ts = escapeHtml(item.created_at_human || item.timestamp_human || 'just now');
             const isAutomation = Boolean(item.is_automation || item.is_system);
-            const bgClass = isAutomation ? 'bg-violet-100 text-violet-700 border-violet-200' : 'bg-blue-100 text-blue-700 border-blue-200';
+            const bgClass = isAutomation ? 'bg-violet-100 text-violet-700 border-violet-200' : 'bg-blue-100 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800';
             const badge = isAutomation ? '<span class="ml-2 rounded-full bg-violet-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-violet-700">Bot</span>' : '';
 
             return `
@@ -419,12 +418,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     <span class="absolute -left-[31px] mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full border ${bgClass}">
                         ${iconSvg(item.action_type)}
                     </span>
-                    <div class="rounded-xl border border-slate-200 bg-white p-3">
+                    <div class="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3">
                         <div class="flex items-center justify-between gap-2">
-                            <p class="flex items-center text-sm font-semibold text-slate-800">${actor}${badge}</p>
+                            <p class="flex items-center text-sm font-semibold text-slate-800 dark:text-slate-100">${actor}${badge}</p>
                             <span class="text-xs text-slate-400">${ts}</span>
                         </div>
-                        <p class="mt-1 text-sm text-slate-600">${description}</p>
+                        <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">${description}</p>
                     </div>
                 </li>
             `;
@@ -463,7 +462,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         statusFeedbackEl.textContent = message;
-        statusFeedbackEl.className = `mt-2 text-sm ${isError ? 'text-red-600' : 'text-emerald-700'}`;
+        statusFeedbackEl.className = `mt-2 text-sm ${isError ? 'text-red-600' : 'text-emerald-700 dark:text-emerald-400'}`;
     };
 
     const applyStatusActionAvailability = async () => {
@@ -617,5 +616,44 @@ document.addEventListener('DOMContentLoaded', function () {
     loadTimeline();
     applyStatusActionAvailability();
 });
+
+function openImageModal(url) {
+    const modal = document.getElementById('image-view-modal');
+    const img = document.getElementById('modal-image-element');
+    img.src = url;
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeImageModal() {
+    const modal = document.getElementById('image-view-modal');
+    const img = document.getElementById('modal-image-element');
+    img.src = '';
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        const modal = document.getElementById('image-view-modal');
+        if (modal && !modal.classList.contains('hidden')) {
+            closeImageModal();
+        }
+    }
+});
 </script>
+
+<!-- Image View Modal -->
+<div id="image-view-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-slate-900/80 p-4 backdrop-blur-sm" onclick="closeImageModal()">
+    <div class="relative max-h-full max-w-5xl w-full flex flex-col justify-center items-center" onclick="event.stopPropagation()">
+        <button type="button" onclick="closeImageModal()" class="absolute -top-12 right-0 rounded-full bg-white/20 p-2 text-white hover:bg-white/40 focus:outline-none transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <div class="overflow-auto max-h-[85vh] rounded-lg shadow-2xl bg-slate-800/50">
+            <img id="modal-image-element" src="" class="max-w-full object-contain" alt="Attachment Image">
+        </div>
+    </div>
+</div>
 @endsection

@@ -3,11 +3,7 @@
 @section('content')
 <div class="space-y-6 bg-slate-100 dark:bg-slate-900 min-h-screen p-6">
 
-    @if (session('success'))
-        <div class="mb-4 rounded border border-green-200 bg-green-50 px-4 py-3 text-green-700">
-            {{ session('success') }}
-        </div>
-    @endif
+
 
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-lg font-bold text-slate-800 dark:text-slate-100">Projects</h2>
@@ -123,21 +119,39 @@
                     </div>
                 </div>
 
-                <div class="relative z-10 mt-auto pt-4 border-t border-slate-200 dark:border-slate-700 flex flex-wrap gap-2">
-                    <a href="{{ route('projects.show', $project) }}" class="rounded-md border border-blue-300 dark:border-blue-500/35 bg-blue-50 dark:bg-white/5 px-3 py-1.5 text-xs font-semibold text-blue-600 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-500/10 transition">View</a>
-                    @can('create-task')
-                        <a href="{{ route('tasks.create', ['project_id' => $project->id]) }}" class="rounded-md border border-emerald-300 dark:border-emerald-300/35 bg-emerald-50 dark:bg-white/5 px-3 py-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-500/10 transition">Create Task</a>
-                    @endcan
-                    @can('update', $project)
-                        <a href="{{ route('projects.edit', $project) }}" class="rounded-md border border-yellow-300 dark:border-yellow-300/35 bg-yellow-50 dark:bg-white/5 px-3 py-1.5 text-xs font-semibold text-yellow-700 dark:text-yellow-300 hover:bg-yellow-100 dark:hover:bg-yellow-500/10 transition">Edit</a>
-                    @endcan
-                    @can('delete', $project)
-                        <form action="{{ route('projects.destroy', $project) }}" method="POST" class="inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" onclick="return confirm('Are you sure you want to delete this project?')" class="rounded-md border border-red-300 dark:border-red-300/35 bg-red-50 dark:bg-white/5 px-3 py-1.5 text-xs font-semibold text-red-600 dark:text-rose-300 hover:bg-red-100 dark:hover:bg-rose-500/10 transition">Delete</button>
-                        </form>
-                    @endcan
+                <div class="relative z-10 mt-auto pt-4">
+                    <div class="mb-2.5 flex items-center gap-2">
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">Actions</span>
+                        <div class="flex-1 h-px bg-slate-200 dark:bg-slate-700"></div>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <a href="{{ route('projects.show', $project) }}" class="inline-flex items-center gap-1.5 rounded-lg border border-blue-200 dark:border-blue-500/30 bg-blue-50/80 dark:bg-blue-500/10 px-3 py-1.5 text-xs font-semibold text-blue-600 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-500/20 transition-all duration-200 hover:-translate-y-0.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                            View
+                        </a>
+                        @can('create-task')
+                            <a href="{{ route('tasks.create', ['project_id' => $project->id]) }}" class="inline-flex items-center gap-1.5 rounded-lg border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50/80 dark:bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 transition-all duration-200 hover:-translate-y-0.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                                Create Task
+                            </a>
+                        @endcan
+                        @can('update', $project)
+                            <a href="{{ route('projects.edit', $project) }}" class="inline-flex items-center gap-1.5 rounded-lg border border-amber-200 dark:border-amber-500/30 bg-amber-50/80 dark:bg-amber-500/10 px-3 py-1.5 text-xs font-semibold text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-500/20 transition-all duration-200 hover:-translate-y-0.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                                Edit
+                            </a>
+                        @endcan
+                        @can('delete', $project)
+                            <form action="{{ route('projects.destroy', $project) }}" method="POST" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" onclick="return confirm('Are you sure you want to delete this project?')" class="inline-flex items-center gap-1.5 rounded-lg border border-red-200 dark:border-red-500/30 bg-red-50/80 dark:bg-red-500/10 px-3 py-1.5 text-xs font-semibold text-red-600 dark:text-rose-300 hover:bg-red-100 dark:hover:bg-rose-500/20 transition-all duration-200 hover:-translate-y-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                    Delete
+                                </button>
+                            </form>
+                        @endcan
+                    </div>
                 </div>
 
             </div>

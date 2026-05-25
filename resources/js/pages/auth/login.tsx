@@ -49,7 +49,7 @@ export default function Login({
                                     Email
                                 </Label>
                                 <div className="relative">
-                                    <Mail className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-slate-500" />
+                                    <Mail className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-slate-400 dark:text-slate-500" />
                                     <input
                                         id="email"
                                         type="email"
@@ -59,7 +59,7 @@ export default function Login({
                                         tabIndex={1}
                                         autoComplete="email"
                                         placeholder="you@company.com"
-                                        className="h-12 w-full rounded-2xl border border-white/[0.08] bg-white/[0.04] pl-12 pr-4 text-sm text-white placeholder:text-slate-500 outline-none backdrop-blur-sm transition-all duration-300 focus:border-indigo-500/50 focus:bg-white/[0.06] focus:ring-2 focus:ring-indigo-500/20"
+                                        className="h-12 w-full rounded-2xl border border-slate-300/50 dark:border-white/10 bg-white/50 dark:bg-slate-900/40 pl-12 pr-4 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 outline-none backdrop-blur-sm transition-all duration-300 focus:border-blue-500/50 dark:focus:border-blue-400/50 focus:bg-white/80 dark:focus:bg-slate-800/60 focus:ring-2 focus:ring-blue-500/20 dark:focus:ring-blue-400/20"
                                     />
                                 </div>
                                 <InputError message={errors.email} />
@@ -71,7 +71,7 @@ export default function Login({
                                     Password
                                 </Label>
                                 <div className="relative">
-                                    <Lock className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-slate-500" />
+                                    <Lock className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-slate-400 dark:text-slate-500" />
                                     <input
                                         id="password"
                                         type="password"
@@ -80,7 +80,7 @@ export default function Login({
                                         tabIndex={2}
                                         autoComplete="current-password"
                                         placeholder="••••••••"
-                                        className="h-12 w-full rounded-2xl border border-white/[0.08] bg-white/[0.04] pl-12 pr-4 text-sm text-white placeholder:text-slate-500 outline-none backdrop-blur-sm transition-all duration-300 focus:border-indigo-500/50 focus:bg-white/[0.06] focus:ring-2 focus:ring-indigo-500/20"
+                                        className="h-12 w-full rounded-2xl border border-slate-300/50 dark:border-white/10 bg-white/50 dark:bg-slate-900/40 pl-12 pr-4 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 outline-none backdrop-blur-sm transition-all duration-300 focus:border-blue-500/50 dark:focus:border-blue-400/50 focus:bg-white/80 dark:focus:bg-slate-800/60 focus:ring-2 focus:ring-blue-500/20 dark:focus:ring-blue-400/20"
                                     />
                                 </div>
                                 <InputError message={errors.password} />
@@ -90,7 +90,7 @@ export default function Login({
                                     <div className="mt-1 text-right">
                                         <TextLink
                                             href={request()}
-                                            className="text-[12px] font-semibold tracking-wide text-indigo-400 no-underline transition-colors duration-200 hover:text-indigo-300"
+                                            className="text-[12px] font-semibold tracking-wide text-blue-600 dark:text-blue-400 no-underline transition-colors duration-200 hover:text-blue-700 dark:hover:text-blue-300"
                                             tabIndex={5}
                                         >
                                             Forgot password?
@@ -105,9 +105,9 @@ export default function Login({
                                     id="remember"
                                     name="remember"
                                     tabIndex={3}
-                                    className="border-white/20 data-[state=checked]:bg-indigo-500 data-[state=checked]:border-indigo-500"
+                                    className="border-slate-300 dark:border-white/20 data-[state=checked]:bg-blue-600 dark:data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-600 dark:data-[state=checked]:border-blue-500"
                                 />
-                                <Label htmlFor="remember" className="text-[13px] font-normal text-slate-400 cursor-pointer">
+                                <Label htmlFor="remember" className="text-[13px] font-medium text-slate-600 dark:text-slate-400 cursor-pointer">
                                     Keep me signed in
                                 </Label>
                             </div>
@@ -115,7 +115,7 @@ export default function Login({
                             {/* Login button */}
                             <Button
                                 type="submit"
-                                className="mt-2 h-12 w-full rounded-2xl border-0 bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600 text-sm font-semibold text-white shadow-[0_4px_30px_rgba(99,102,241,0.35)] transition-all duration-300 hover:shadow-[0_6px_40px_rgba(99,102,241,0.5)] hover:brightness-110 active:scale-[0.98]"
+                                className="mt-2 h-12 w-full rounded-2xl border-0 bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-500 dark:to-cyan-400 text-sm font-bold text-white shadow-[0_4px_20px_rgba(59,130,246,0.25)] transition-all duration-300 hover:shadow-[0_6px_30px_rgba(59,130,246,0.4)] hover:brightness-110 active:scale-[0.98]"
                                 tabIndex={4}
                                 disabled={processing}
                                 data-test="login-button"

@@ -23,13 +23,13 @@ export default function ForgotPassword({ status }: { status?: string }) {
                 </div>
             )}
 
-            <div className="rounded-xl border border-amber-300/40 bg-amber-500/10 px-4 py-3 text-xs leading-relaxed text-amber-100">
-                <p className="font-semibold uppercase tracking-wide text-amber-200">Local Testing Tip</p>
-                <p className="mt-1">
+            <div className="rounded-2xl border border-amber-500/30 dark:border-amber-300/40 bg-amber-50 dark:bg-amber-500/10 px-5 py-4 text-[13px] leading-relaxed text-amber-900 dark:text-amber-100 shadow-sm">
+                <p className="font-bold uppercase tracking-wider text-amber-700 dark:text-amber-200 text-xs mb-1.5">Local Testing Tip</p>
+                <p>
                     If reset email is not delivered, open{' '}
                     <a
                         href="/dev/password-reset-link?email=admin@test.com"
-                        className="font-semibold text-amber-200 underline underline-offset-4 hover:text-amber-50"
+                        className="font-bold text-amber-700 dark:text-amber-200 underline underline-offset-4 hover:text-amber-900 dark:hover:text-amber-50 transition-colors"
                     >
                         direct reset link (local only)
                     </a>

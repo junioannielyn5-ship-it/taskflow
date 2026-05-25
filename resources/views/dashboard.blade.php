@@ -8,139 +8,57 @@
     $logoPath = \App\Modules\Admin\Models\SystemSetting::valueOf('branding_logo_path', null);
 @endphp
 <div class="mv-dashboard-shell">
-<div class="relative flex flex-row items-start gap-0 w-full min-h-[calc(100vh-4.5rem)] bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-200 overflow-hidden transition-colors duration-300">
-<div class="pointer-events-none absolute top-0 left-[-10%] hidden h-[60%] w-[40%] rounded-full bg-slate-200/30 blur-[120px]"></div>
-<div class="pointer-events-none absolute bottom-[-10%] right-[-5%] hidden h-[50%] w-[50%] rounded-full bg-slate-300/20 blur-[150px]"></div>
-        <!-- Sidebar -->
-<div id="mv-sidebar-wrapper" class="shrink-0 hidden md:block sticky top-0 z-30" style="width: 16rem; height: 100vh;">
-<aside class="dashboard-sidebar relative z-10 h-full w-full shrink-0 overflow-y-auto border-r border-slate-200 dark:border-slate-700 bg-gray-100 dark:bg-slate-800 p-4 text-slate-700 dark:text-slate-200 shadow-[0_12px_26px_rgba(15,23,42,0.10)] backdrop-blur-2xl transition-colors duration-300">
-    <!-- Taskflow Sidebar Logo -->
-    <div class="mb-6 flex items-center gap-3 px-2 py-4">
-        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#00E5FF] to-[#2962FF] shadow-[0_0_15px_rgba(0,229,255,0.4)]">
-            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-            </svg>
-        </div>
+<div class="relative w-full min-h-[calc(100vh-4rem)] bg-transparent text-slate-700 dark:text-slate-200 transition-colors duration-300">
 
-        <div>
-            <h1 class="text-2xl font-black tracking-wider text-slate-800 dark:text-white">TASK<span class="text-[#0EA5E9]">FLOW</span></h1>
-            <p class="mt-0.5 text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Workspace</p>
-        </div>
+<!-- Dashboard Navbar (Glass) -->
+<div class="mv-navbar relative overflow-hidden h-14 border-b border-white/40 dark:border-white/10 bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl flex items-center justify-between px-5 sticky top-0 z-20 shadow-[0_4px_30px_rgba(0,0,0,0.05)]">
+    <div class="pointer-events-none absolute right-0 top-0 h-28 w-28 translate-x-1/3 -translate-y-1/3 rounded-full bg-gradient-to-br from-[#00E5FF]/30 to-[#2962FF]/30 blur-3xl"></div>
+    <div class="pointer-events-none absolute bottom-0 left-24 h-20 w-20 rounded-full bg-[#9D4EDD]/20 blur-2xl"></div>
+    {{-- Left: Title --}}
+    <div class="relative z-10 flex items-center gap-4 pl-6">
+        <h1 class="text-2xl font-semibold text-slate-800 dark:text-slate-100">Dashboard</h1>
+        <span class="hidden sm:inline text-xs text-slate-600 dark:text-slate-400">{{ $greeting }}, {{ auth()->user()->name }}</span>
     </div>
-
-    <nav class="relative z-10 space-y-1 text-sm">
-        <a href="{{ route('dashboard') }}" class="nav-item-active">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-            <span>Dashboard</span>
-        </a>
-
-        <a href="{{ route('tasks.list') }}" class="nav-item">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
-            <span>My Tasks</span>
-        </a>
-
-        <a href="{{ route('tasks.kanban') }}" class="nav-item">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" /></svg>
-            <span>Kanban</span>
-        </a>
-
-        <a href="{{ route('tasks.calendar') }}" class="nav-item">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-            <span>Calendar</span>
-        </a>
-
-        <a href="{{ route('meetings.index') }}" class="nav-item">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-            <span>Meetings</span>
-        </a>
-
-        <a href="{{ route('holidays.index') }}" class="nav-item">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-            <span>Holidays</span>
-        </a>
-
-        <a href="{{ route('notifications.history') }}" class="nav-item justify-between">
-            <div class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-                <span>Notifications</span>
-            </div>
-            @if(isset($sidebarUnreadCount) && $sidebarUnreadCount > 0)
-                <span class="bg-rose-500 text-white text-[10px] px-1.5 py-0.5 rounded-full">{{ $sidebarUnreadCount }}</span>
-            @endif
-        </a>
-
-        <a href="{{ route('help') }}" class="nav-item">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253z" /></svg>
-            <span>User Manual</span>
-        </a>
-
-        <hr class="my-2 border-slate-300 dark:border-slate-700">
-
-
-        @if (auth()->user()?->hasAnyRole(['project_manager', 'pm', 'admin']))
-            <a href="{{ route('project-manager.index') }}" class="nav-item">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
-                <span>Project Manager</span>
-            </a>
-        @endif
-
-        @if (Route::has('logout'))
-            <form method="POST" action="{{ route('logout') }}" class="mt-4 w-fit">
-                @csrf
-                <button type="submit" class="flex w-fit items-center gap-2 rounded-xl border border-rose-300 dark:border-rose-800 bg-rose-50 dark:bg-rose-900/30 px-3 py-2 text-rose-700 dark:text-rose-400 transition hover:bg-rose-100 dark:hover:bg-rose-900/50 hover:text-rose-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
-                    Logout
-                </button>
-            </form>
-        @endif
-    </nav>
-</aside>
+    {{-- Right: New Project --}}
+    <div class="relative z-10 flex items-center gap-3">
+        @can('create-project')
+            <a href="{{ route('projects.create') }}" class="dashboard-create-btn rounded-xl bg-gradient-to-r from-[#2962FF] to-[#00E5FF] px-4 py-2 text-sm font-medium text-white shadow-[0_0_15px_rgba(0,229,255,0.28)] transition hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(0,229,255,0.45)] backdrop-blur-sm">+ New Project</a>
+        @endcan
+    </div>
 </div>
 
-<!-- Main Content -->
-<section class="dashboard-main relative z-10 flex-1 min-w-0 p-0 h-screen overflow-y-auto bg-gray-100 dark:bg-slate-900">
-            <!-- Dashboard Navbar -->
-            <div class="mv-navbar relative overflow-hidden h-14 border-b border-slate-300 dark:border-slate-700 bg-gradient-to-r from-slate-100 via-slate-50 to-gray-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 backdrop-blur-xl flex items-center justify-between px-5 sticky top-0 z-20">
-                <div class="pointer-events-none absolute right-0 top-0 h-28 w-28 translate-x-1/3 -translate-y-1/3 rounded-full bg-gradient-to-br from-[#00E5FF]/20 to-[#2962FF]/20 blur-3xl"></div>
-                <div class="pointer-events-none absolute bottom-0 left-24 h-20 w-20 rounded-full bg-[#9D4EDD]/15 blur-2xl"></div>
-                {{-- Left: Hamburger + Title --}}
-                <div class="relative z-10 flex items-center gap-3">
-                    <button onclick="mvToggleSidebar()" id="mv-sidebar-toggle-btn" class="p-2 rounded-xl border-2 border-cyan-400 dark:border-cyan-500 bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-cyan-900/40 dark:to-blue-900/30 shadow-[0_0_12px_rgba(0,229,255,0.4)] hover:shadow-[0_0_22px_rgba(0,229,255,0.7)] hover:scale-110 transition-all duration-200" title="Toggle Sidebar">
-                        <svg id="mv-sidebar-icon-open" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-cyan-600 dark:text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                        <svg id="mv-sidebar-icon-close" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-cyan-600 dark:text-cyan-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
-                        </svg>
-                    </button>
-                    <h1 class="text-2xl font-semibold text-slate-800 dark:text-slate-100">Dashboard</h1>
-                    <span class="hidden sm:inline text-xs text-slate-600 dark:text-slate-400">{{ $greeting }}, {{ auth()->user()->name }}</span>
-                </div>
-                {{-- Right: New Project --}}
-                <div class="relative z-10 flex items-center gap-3">
-                    @can('create-project')
-                        <a href="{{ route('projects.create') }}" class="dashboard-create-btn rounded-xl bg-gradient-to-r from-[#2962FF] to-[#00E5FF] px-4 py-2 text-sm font-medium text-white shadow-[0_0_15px_rgba(0,229,255,0.28)] transition hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(0,229,255,0.45)]">+ New Project</a>
-                    @endcan
-                </div>
-            </div>
+            <div class="mv-content-inner w-full max-w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pb-6 pt-6 space-y-6 transition-all duration-300">
 
-            <div class="mv-content-inner w-full max-w-7xl mx-auto px-4 pb-6 pt-0 md:px-6 md:pb-6 md:pt-0 space-y-6 transition-all duration-300">
+            <style>
+                /* Glassmorphism Panel Utilities */
+                .dashboard-glass-panel {
+                    background: rgba(255, 255, 255, 0.60);
+                    backdrop-filter: blur(16px) saturate(180%);
+                    -webkit-backdrop-filter: blur(16px) saturate(180%);
+                    border: 1px solid rgba(255, 255, 255, 0.45);
+                    box-shadow: 0 4px 30px rgba(15, 23, 42, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+                }
+                html.dark .dashboard-glass-panel {
+                    background: rgba(15, 23, 42, 0.65);
+                    backdrop-filter: blur(16px) saturate(160%);
+                    -webkit-backdrop-filter: blur(16px) saturate(160%);
+                    border: 1px solid rgba(255, 255, 255, 0.08);
+                    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+                }
+                .glass-override {
+                    background: transparent !important;
+                    border: none !important;
+                }
+            </style>
             {{-- ===== UPGRADED WELCOME BANNER ===== --}}
-            <div class="relative mt-0 overflow-hidden rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 md:p-6 shadow-md dark:shadow-none transition-all duration-300">
+            <div class="relative mt-0 overflow-hidden rounded-3xl dashboard-glass-panel border-none p-5 md:p-6 shadow-md dark:shadow-none transition-all duration-300">
 
                 {{-- Main Content --}}
                 <div class="relative z-10 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
 
                     {{-- Left: Text & Badge --}}
                     <div class="max-w-2xl space-y-3">
-                        {{-- Status Badge --}}
-                        <div class="flex items-center gap-3">
-                            <span class="flex items-center gap-2 rounded-full border border-blue-300 bg-blue-50 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-blue-600 shadow-sm">
-                                <span class="h-2 w-2 animate-pulse rounded-full bg-blue-500"></span>
-                                System Online • Phase 1
-                            </span>
-                        </div>
-
+                        
                         {{-- Headline --}}
                         <h2 class="text-2xl font-black tracking-wide text-slate-800 dark:text-slate-100 md:text-3xl">
                             Welcome to <span class="text-blue-600">TaskFlow Workspace</span>
@@ -159,13 +77,13 @@
                             Open My Tasks
                         </a>
 
-                        <a href="{{ route('tasks.kanban') }}" class="flex items-center justify-center gap-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-5 py-2.5 text-sm font-bold text-slate-800 dark:text-slate-200 transition-all duration-300 hover:bg-slate-50 dark:hover:bg-slate-600">
+                        <a href="{{ route('tasks.kanban') }}" class="dashboard-glass-panel flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-slate-800 dark:text-slate-200 transition-all duration-300 hover:bg-white/40 dark:hover:bg-white/10">
                             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path></svg>
                             Kanban Board
                         </a>
 
                         @if(auth()->user()?->hasAnyRole(['admin', 'manager']))
-                        <a href="{{ route('admin.config.index') }}#broadcast-email" class="flex items-center justify-center gap-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-5 py-2.5 text-sm font-bold text-slate-800 dark:text-slate-200 transition-all duration-300 hover:bg-slate-50 dark:hover:bg-slate-600">
+                        <a href="{{ route('admin.config.index') }}#broadcast-email" class="dashboard-glass-panel flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-slate-800 dark:text-slate-200 transition-all duration-300 hover:bg-white/40 dark:hover:bg-white/10">
                             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
                             Email Broadcast
                         </a>
@@ -176,7 +94,7 @@
 
             <div class="dashboard-stats grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 -mt-4">
                 
-                <a href="/projects" class="relative overflow-hidden rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 group hover:shadow-lg transition-all duration-300">
+                <a href="/projects" class="relative overflow-hidden rounded-3xl dashboard-glass-panel border-none p-6 group hover:shadow-lg transition-all duration-300">
                     
                     <div class="relative z-10">
                         <div class="flex justify-between items-start mb-4">
@@ -192,7 +110,7 @@
                     </div>
                 </a>
 
-                <a href="{{ route('tasks.list') }}" class="relative overflow-hidden rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 group hover:shadow-lg transition-all duration-300">
+                <a href="{{ route('tasks.list') }}" class="relative overflow-hidden rounded-3xl dashboard-glass-panel border-none p-6 group hover:shadow-lg transition-all duration-300">
                     <div class="relative z-10">
                         <div class="flex justify-between items-start mb-4">
                             <p class="text-purple-600 text-xs font-bold uppercase tracking-wider">My Tasks</p>
@@ -207,7 +125,7 @@
                     </div>
                 </a>
 
-                <a href="{{ route('tasks.list', ['status' => 'for_review']) }}" class="relative overflow-hidden rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 group hover:shadow-lg transition-all duration-300">
+                <a href="{{ route('tasks.list', ['status' => 'for_review']) }}" class="relative overflow-hidden rounded-3xl dashboard-glass-panel border-none p-6 group hover:shadow-lg transition-all duration-300">
                     
                     <div class="relative z-10">
                         <div class="flex justify-between items-start mb-4">
@@ -223,7 +141,7 @@
                     </div>
                 </a>
 
-                <a href="{{ route('tasks.list') }}" class="relative overflow-hidden rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 group hover:shadow-lg transition-all duration-300">
+                <a href="{{ route('tasks.list') }}" class="relative overflow-hidden rounded-3xl dashboard-glass-panel border-none p-6 group hover:shadow-lg transition-all duration-300">
                     
                     <div class="relative z-10">
                         <div class="flex justify-between items-start mb-4">
@@ -242,7 +160,7 @@
             </div>
 
             <div class="dashboard-analytics grid grid-cols-1 gap-4 xl:grid-cols-2">
-                <div id="latest-notifications-card" class="relative overflow-hidden rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-md dark:shadow-none transition-all scroll-mt-24" style="border-left: 4px solid #2563eb;">
+                <div id="latest-notifications-card" class="relative overflow-hidden rounded-2xl dashboard-glass-panel border-none p-5 shadow-md dark:shadow-none transition-all scroll-mt-24" style="border-left: 4px solid #2563eb;">
                     <div class="mb-4 flex items-center justify-between gap-3">
                         <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-100">Task Status Overview</h3>
                         <div class="flex items-center gap-2">
@@ -255,7 +173,7 @@
                         <canvas id="taskStatusChart"></canvas>
                     </div>
                 </div>
-                <div class="relative overflow-hidden rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-md dark:shadow-none transition-all" style="border-left: 4px solid #10b981;">
+                <div class="relative overflow-hidden rounded-2xl dashboard-glass-panel border-none p-5 shadow-md dark:shadow-none transition-all" style="border-left: 4px solid #10b981;">
                     <h3 class="mb-4 text-lg font-semibold text-slate-800 dark:text-slate-100">Tasks Over Time</h3>
                     <div class="relative h-64 w-full">
                         <canvas id="tasksOverTimeChart"></canvas>
@@ -264,7 +182,7 @@
             </div>
 
             {{-- ===== PROJECT PROGRESS: Sales / Technical Tabs ===== --}}
-            <div class="dashboard-panel relative overflow-hidden rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-md dark:shadow-none transition-all hover:shadow-lg" id="mv-progress-panel">
+            <div class="dashboard-panel relative overflow-hidden rounded-3xl dashboard-glass-panel border-none p-5 shadow-md dark:shadow-none transition-all hover:shadow-lg" id="mv-progress-panel">
 
                 {{-- Tab header --}}
                 <div class="relative z-10 mb-4 flex items-center gap-2">
@@ -495,12 +413,12 @@
             </div>
 
             <style>
-                .mv-tab-btn { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; transition: all 0.2s; }
-                .mv-tab-btn.mv-tab-active-sales { background: linear-gradient(135deg, #d1fae5, #a7f3d0); color: #065f46; border: 2px solid #10b981; font-weight: 800; box-shadow: 0 0 14px rgba(16,185,129,0.45), 0 2px 6px rgba(16,185,129,0.25); transform: scale(1.06); }
-                .mv-tab-btn.mv-tab-active-technical { background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #1e40af; border: 2px solid #3b82f6; font-weight: 800; box-shadow: 0 0 14px rgba(59,130,246,0.45), 0 2px 6px rgba(59,130,246,0.25); transform: scale(1.06); }
-                html.dark .mv-tab-btn { background: #1e293b; color: #94a3b8; border: 1px solid #334155; transition: all 0.2s; }
-                html.dark .mv-tab-btn.mv-tab-active-sales { background: linear-gradient(135deg, rgba(16,185,129,0.30), rgba(16,185,129,0.18)); color: #6ee7b7; border: 2px solid #10b981; font-weight: 800; box-shadow: 0 0 18px rgba(16,185,129,0.55), 0 2px 8px rgba(16,185,129,0.30); transform: scale(1.06); }
-                html.dark .mv-tab-btn.mv-tab-active-technical { background: linear-gradient(135deg, rgba(59,130,246,0.30), rgba(59,130,246,0.18)); color: #93c5fd; border: 2px solid #3b82f6; font-weight: 800; box-shadow: 0 0 18px rgba(59,130,246,0.55), 0 2px 8px rgba(59,130,246,0.30); transform: scale(1.06); }
+                .mv-tab-btn { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); color: #475569; border: 1px solid rgba(255, 255, 255, 0.5); transition: all 0.2s; }
+                .mv-tab-btn.mv-tab-active-sales { background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(52, 211, 153, 0.2)); color: #065f46; border: 1px solid rgba(16, 185, 129, 0.4); font-weight: 800; box-shadow: 0 0 14px rgba(16, 185, 129, 0.3); transform: scale(1.06); }
+                .mv-tab-btn.mv-tab-active-technical { background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(96, 165, 250, 0.2)); color: #1e40af; border: 1px solid rgba(59, 130, 246, 0.4); font-weight: 800; box-shadow: 0 0 14px rgba(59, 130, 246, 0.3); transform: scale(1.06); }
+                html.dark .mv-tab-btn { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(8px); color: #94a3b8; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.2s; }
+                html.dark .mv-tab-btn.mv-tab-active-sales { background: linear-gradient(135deg, rgba(16, 185, 129, 0.30), rgba(16, 185, 129, 0.18)); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.5); font-weight: 800; box-shadow: 0 0 18px rgba(16, 185, 129, 0.4); transform: scale(1.06); }
+                html.dark .mv-tab-btn.mv-tab-active-technical { background: linear-gradient(135deg, rgba(59, 130, 246, 0.30), rgba(59, 130, 246, 0.18)); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.5); font-weight: 800; box-shadow: 0 0 18px rgba(59, 130, 246, 0.4); transform: scale(1.06); }
                 .mv-chevron.open { transform: rotate(180deg); }
                 .mv-task-node:not(:first-child)::before {
                     content: '';
@@ -582,22 +500,22 @@
 
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 {{-- Urgent Tasks (Compact) --}}
-                <div class="dashboard-panel relative overflow-hidden rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-md dark:shadow-none transition-all hover:shadow-lg">
+                <div class="dashboard-panel relative overflow-hidden rounded-3xl dashboard-glass-panel border-none p-4 shadow-md dark:shadow-none transition-all hover:shadow-lg">
                     <div class="relative z-10 mb-3 flex items-center justify-between">
                         <h3 class="text-base font-semibold text-slate-800 dark:text-slate-100">Urgent Tasks</h3>
                         <a href="{{ route('tasks.list', ['priority' => 'urgent']) }}" class="text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:underline">View All</a>
                     </div>
                     @if($urgentTasks->isEmpty())
-                        <div class="relative z-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/30 px-4 py-6 text-center">
+                        <div class="relative z-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 dark:border-slate-600 bg-white/40 dark:bg-slate-800/40 px-4 py-6 text-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                             </svg>
                             <p class="mt-2 text-xs text-slate-600 dark:text-slate-400">No urgent tasks</p>
                         </div>
                     @else
-                        <div class="relative z-10 overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 max-h-80 overflow-y-auto">
+                        <div class="relative z-10 overflow-x-auto rounded-2xl border border-slate-200/50 dark:border-slate-700/50 bg-white/50 dark:bg-slate-900/50 max-h-80 overflow-y-auto">
                             <table class="min-w-full text-xs">
-                                <thead class="sticky top-0 bg-slate-100 dark:bg-slate-800">
+                                <thead class="sticky top-0 bg-white/60 dark:bg-slate-800/60 backdrop-blur-md">
                                     <tr class="border-b border-slate-200 dark:border-slate-700">
                                         <th class="px-2 py-2 text-left font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">Title</th>
                                         <th class="px-2 py-2 text-left font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">Project</th>
@@ -621,13 +539,13 @@
                 </div>
 
                 {{-- Upcoming Meetings --}}
-                <div class="dashboard-panel relative overflow-hidden rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-md dark:shadow-none transition-all hover:shadow-lg">
+                <div class="dashboard-panel relative overflow-hidden rounded-3xl dashboard-glass-panel border-none p-4 shadow-md dark:shadow-none transition-all hover:shadow-lg">
                     <div class="relative z-10 mb-3 flex items-center justify-between">
                         <h3 class="text-base font-semibold text-slate-800 dark:text-slate-100">Upcoming Meetings</h3>
                         <a href="{{ route('meetings.index') }}" class="text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:underline">View All</a>
                     </div>
                     @if($upcomingMeetings->isEmpty())
-                        <div class="relative z-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/30 px-4 py-6 text-center">
+                        <div class="relative z-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 dark:border-slate-600 bg-white/40 dark:bg-slate-800/40 px-4 py-6 text-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
@@ -636,7 +554,7 @@
                     @else
                         <div class="relative z-10 space-y-2 max-h-80 overflow-y-auto">
                             @foreach($upcomingMeetings as $meeting)
-                                <div class="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50 p-2.5 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                                <div class="rounded-lg border border-slate-200/50 dark:border-slate-700/50 bg-white/40 dark:bg-slate-800/40 p-2.5 hover:bg-white/60 dark:hover:bg-slate-700/60 transition-colors">
                                     <div class="flex items-start justify-between gap-2">
                                         <div class="min-w-0 flex-1">
                                             <a href="{{ route('meetings.index') }}" class="block text-xs font-semibold text-blue-600 hover:text-blue-800 truncate" title="{{ $meeting->title }}">
@@ -659,7 +577,7 @@
             </div>
 
             <div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
-                <div class="dashboard-panel relative flex h-[320px] flex-col overflow-hidden rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-md dark:shadow-none transition-all hover:shadow-lg">
+                <div class="dashboard-panel relative flex h-[320px] flex-col overflow-hidden rounded-3xl dashboard-glass-panel border-none p-4 shadow-md dark:shadow-none transition-all hover:shadow-lg">
                     <div class="relative z-10 mb-3 flex items-center justify-between">
                         <h3 class="text-base font-semibold text-slate-800 dark:text-slate-100">Recent Activity</h3>
                         <a href="{{ route('tasks.list') }}" class="text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:underline">View All</a>
@@ -702,7 +620,7 @@
                             </li>
                         @empty
                             <li class="py-3">
-                                <div class="flex flex-col items-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-6 text-center">
+                                <div class="flex flex-col items-center rounded-2xl border border-dashed border-slate-300 dark:border-slate-600 bg-white/40 dark:bg-slate-800/40 px-4 py-6 text-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17v-2m3 2v-4m3 4V9m2 12H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                     </svg>
@@ -713,10 +631,10 @@
                         @endforelse
                     </ul>
                 </div>
-                <div class="dashboard-panel relative flex h-[320px] flex-col overflow-hidden rounded-3xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-md dark:shadow-none transition-all hover:shadow-lg">
+                <div class="dashboard-panel relative flex h-[320px] flex-col overflow-hidden rounded-3xl dashboard-glass-panel border-none p-4 shadow-md dark:shadow-none transition-all hover:shadow-lg">
                     <div class="relative z-10 mb-3 flex items-center justify-between gap-2">
                         <h3 class="text-base font-semibold text-slate-800 dark:text-slate-100">Latest Notifications</h3>
-                        <button id="mark-all-notifications-read" type="button" class="rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-2.5 py-1 text-[11px] font-medium text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-600">Mark all as read</button>
+                        <button id="mark-all-notifications-read" type="button" class="rounded-lg border border-slate-300 dark:border-slate-600 bg-white/40 dark:bg-slate-800/40 px-2.5 py-1 text-[11px] font-medium text-slate-700 dark:text-slate-300 transition hover:bg-white/60 dark:hover:bg-slate-700/60">Mark all as read</button>
                     </div>
                     <ul id="latest-notifications-list" class="relative z-10 flex-1 divide-y divide-slate-200 dark:divide-slate-700 overflow-y-auto pr-1">
                         @forelse($latestNotifications as $notifIdx => $notif)
@@ -743,8 +661,7 @@
                 </div>
             </div>
             </div>{{-- end .px-4.py-3 --}}
-        </section>
-    </div>
+</div>
 </div>
 @php
     $dashboardData = [
@@ -835,7 +752,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    cutout: '68%',
+                    cutout: '0%',
                     plugins: {
                         legend: {
                             display: true,
@@ -1174,6 +1091,31 @@ document.addEventListener('DOMContentLoaded', function () {
         bar.style.width = width + '%';
     });
 
+    window.addEventListener('theme-changed', function(e) {
+        const isDark = e.detail.theme === 'dark';
+
+        // Update Pie/Doughnut Chart (statusChart)
+        if (statusChart) {
+            statusChart.data.datasets[0].borderColor = isDark ? '#1e293b' : '#ffffff';
+            statusChart.options.plugins.legend.labels.color = isDark ? '#94a3b8' : '#64748b';
+            statusChart.options.plugins.tooltip.backgroundColor = isDark ? '#1e293b' : '#fff';
+            statusChart.options.plugins.tooltip.titleColor = isDark ? '#e2e8f0' : '#0f172a';
+            statusChart.options.plugins.tooltip.bodyColor = isDark ? '#94a3b8' : '#64748b';
+            statusChart.options.plugins.tooltip.borderColor = isDark ? '#334155' : '#e2e8f0';
+            statusChart.update();
+        }
+
+        // Update Line Chart (lineChart)
+        if (lineChart) {
+            lineChart.options.plugins.tooltip.backgroundColor = isDark ? '#1e293b' : '#fff';
+            lineChart.options.plugins.tooltip.titleColor = isDark ? '#e2e8f0' : '#0f172a';
+            lineChart.options.plugins.tooltip.bodyColor = isDark ? '#94a3b8' : '#64748b';
+            lineChart.options.plugins.tooltip.borderColor = isDark ? '#334155' : '#e2e8f0';
+            lineChart.options.scales.y.grid.color = isDark ? 'rgba(148,163,184,0.30)' : 'rgba(226,232,240,0.60)';
+            lineChart.update();
+        }
+    });
+
     var notifInterval = setInterval(refreshNotifications, 15000);
     var metricsInterval = setInterval(refreshMetrics, 15000);
 
@@ -1184,41 +1126,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-/* ── Sidebar Toggle ── */
-function mvToggleSidebar() {
-    var wrapper = document.getElementById('mv-sidebar-wrapper');
-    var iconOpen = document.getElementById('mv-sidebar-icon-open');
-    var iconClose = document.getElementById('mv-sidebar-icon-close');
-    if (!wrapper) return;
-
-    var isCollapsed = wrapper.classList.toggle('mv-sidebar-collapsed');
-
-    if (iconOpen && iconClose) {
-        iconOpen.classList.toggle('hidden', !isCollapsed);
-        iconClose.classList.toggle('hidden', isCollapsed);
-    }
-
-    localStorage.setItem('mv-sidebar', isCollapsed ? 'collapsed' : 'open');
-}
-
-/* Restore sidebar state - default to open */
-(function() {
-    var state = localStorage.getItem('mv-sidebar');
-    var wrapper = document.getElementById('mv-sidebar-wrapper');
-    var iconOpen = document.getElementById('mv-sidebar-icon-open');
-    var iconClose = document.getElementById('mv-sidebar-icon-close');
-
-    if (state === 'collapsed') {
-        if (wrapper) wrapper.classList.add('mv-sidebar-collapsed');
-        if (iconOpen) iconOpen.classList.remove('hidden');
-        if (iconClose) iconClose.classList.add('hidden');
-    } else {
-        // Sidebar open: show close icon, hide hamburger
-        localStorage.setItem('mv-sidebar', 'open');
-        if (iconOpen) iconOpen.classList.add('hidden');
-        if (iconClose) iconClose.classList.remove('hidden');
-    }
-})();
 </script>
 @endsection
 

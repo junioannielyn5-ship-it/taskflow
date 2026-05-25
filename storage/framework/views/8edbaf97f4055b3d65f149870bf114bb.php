@@ -5,17 +5,17 @@
     <div class="pointer-events-none absolute right-0 top-0 h-64 w-64 translate-x-1/3 -translate-y-1/3 rounded-full bg-blue-100/40 blur-3xl dark:hidden"></div>
     <div class="pointer-events-none absolute bottom-0 left-20 h-52 w-52 rounded-full bg-slate-200/30 blur-3xl dark:hidden"></div>
 
-    <div class="relative overflow-visible rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-md dark:shadow-none flex gap-4">
+    <div class="relative overflow-visible rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/50 p-4 shadow-md dark:shadow-none flex gap-4">
         <div class="relative inline-block" id="kanban-project-picker">
             <button
                 type="button"
                 id="project-toggle-btn"
-                class="inline-flex items-center gap-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600"
+                class="inline-flex items-center gap-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
             >
                 Project
                 <span class="text-xs text-slate-500 dark:text-slate-400" id="project-selected-label">All Projects</span>
             </button>
-            <div id="project-dropdown" class="absolute left-0 z-20 mt-2 hidden min-w-[260px] rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 p-2 shadow-xl">
+            <div id="project-dropdown" class="absolute left-0 z-20 mt-2 hidden min-w-[260px] rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-2 shadow-xl">
                 <button type="button" class="project-option-btn block w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" data-project-id="">All Projects</button>
                 <?php $__empty_1 = true; $__currentLoopData = ($projects ?? collect()); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $project): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                     <button
@@ -36,12 +36,12 @@
             <button
                 type="button"
                 id="company-toggle-btn"
-                class="inline-flex items-center gap-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600"
+                class="inline-flex items-center gap-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
             >
                 Company Name
                 <span class="text-xs text-slate-500 dark:text-slate-400" id="company-selected-label">All Companies</span>
             </button>
-            <div id="company-dropdown" class="absolute left-0 z-20 mt-2 hidden min-w-[260px] rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 p-2 shadow-xl">
+            <div id="company-dropdown" class="absolute left-0 z-20 mt-2 hidden min-w-[260px] rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-2 shadow-xl">
                 <button type="button" class="company-option-btn block w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" data-company-name="">All Companies</button>
                 <?php $__currentLoopData = ['PBI', 'TOYOTA', 'Splash', 'Movaflex']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <button
@@ -78,7 +78,7 @@
                 ],
                 'in_progress' => [
                     'label' => 'In-Progress',
-                    'headerClass' => 'bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-200 border border-blue-300 dark:border-blue-400/35',
+                    'headerClass' => 'bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-400/35',
                     'columnClass' => 'border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80',
                     'countClass' => 'bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-200 border border-blue-300 dark:border-blue-400/30',
                     'cardClass' => 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800',
@@ -86,7 +86,7 @@
                 ],
                 'done' => [
                     'label' => 'Done',
-                    'headerClass' => 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-400/35',
+                    'headerClass' => 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-400/35',
                     'columnClass' => 'border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80',
                     'countClass' => 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-400/30',
                     'cardClass' => 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800',
@@ -160,7 +160,7 @@
                                 </div>
                             </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <p class="mt-2 text-center text-[11px] italic text-slate-400 dark:text-slate-500">— Example cards (no real tasks yet) —</p>
+                            <p class="mt-2 text-center text-[11px] italic text-slate-400 dark:text-slate-500 dark:text-slate-400">— Example cards (no real tasks yet) —</p>
                         <?php else: ?>
                             <p class="rounded-xl border border-dashed px-3 py-4 text-center text-xs <?php echo e($columnMeta[$key]['emptyClass']); ?>">No tasks in this column.</p>
                         <?php endif; ?>

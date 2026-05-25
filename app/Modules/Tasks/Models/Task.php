@@ -132,6 +132,14 @@ class Task extends Model
     }
 
     /**
+     * Bypass legacy database column conflict when accessing $task->assignees
+     */
+    public function getAssigneesAttribute()
+    {
+        return $this->relationLoaded('assignees') ? $this->getRelation('assignees') : $this->assignees()->get();
+    }
+
+    /**
      * Get all assignee records.
      */
     public function taskAssignees(): HasMany

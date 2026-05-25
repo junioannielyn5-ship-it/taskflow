@@ -134,13 +134,28 @@ class TaskService
             ]));
 
             if (empty($task->task_no)) {
-                // Auto format: P-<project>-<owner initials>-<task id>
                 $project = \App\Modules\Projects\Models\Project::find($projectId);
                 $ownerInitials = 'XX';
+                $ownerProjectCount = 1;
+
                 if ($project && $project->project_owner) {
-                    $ownerInitials = strtoupper($project->project_owner);
+                    $words = explode(' ', trim($project->project_owner));
+                    $initials = '';
+                    foreach ($words as $word) {
+                        if (!empty($word)) {
+                            $initials .= strtoupper($word[0]);
+                        }
+                    }
+                    if (strlen($initials) > 0) {
+                        $ownerInitials = substr($initials, 0, 2);
+                    }
+
+                    $ownerProjectCount = \App\Modules\Projects\Models\Project::where('project_owner', $project->project_owner)
+                        ->where('id', '<=', $project->id)
+                        ->count();
                 }
-                $task->task_no = sprintf('P-%03d-%s-%04d', $projectId, $ownerInitials, $task->id);
+
+                $task->task_no = sprintf('P%s-%04d-%04d', $ownerInitials, $ownerProjectCount, $task->id);
                 $task->save();
             }
 

@@ -112,6 +112,41 @@ use App\Modules\Workflow\Http\Controllers\MeetingController;
 use App\Modules\Workflow\Http\Controllers\HolidayController;
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::middleware(['role:admin,manager'])->group(function () {
+        // Inventory Items Master
+        Route::get('/inventory', [\App\Modules\Inventory\Http\Controllers\InventoryItemController::class, 'index'])->name('inventory.index');
+        Route::post('/inventory', [\App\Modules\Inventory\Http\Controllers\InventoryItemController::class, 'store'])->name('inventory.store');
+        Route::put('/inventory/{item}', [\App\Modules\Inventory\Http\Controllers\InventoryItemController::class, 'update'])->name('inventory.update');
+        Route::delete('/inventory/{item}', [\App\Modules\Inventory\Http\Controllers\InventoryItemController::class, 'destroy'])->name('inventory.destroy');
+        Route::get('/inventory/export', [\App\Modules\Inventory\Http\Controllers\InventoryItemController::class, 'export'])->name('inventory.export');
+        Route::post('/inventory/import', [\App\Modules\Inventory\Http\Controllers\InventoryItemController::class, 'import'])->name('inventory.import');
+
+        // Inventory Transactions
+        Route::get('/inventory/stock-move', [\App\Modules\Inventory\Http\Controllers\InventoryTransactionController::class, 'stockMove'])->name('inventory.stock-move');
+        Route::get('/inventory/stock-out', [\App\Modules\Inventory\Http\Controllers\InventoryTransactionController::class, 'stockOut'])->name('inventory.stock-out');
+        Route::get('/inventory/stock-correction', [\App\Modules\Inventory\Http\Controllers\InventoryTransactionController::class, 'stockCorrection'])->name('inventory.stock-correction');
+        Route::post('/inventory/transactions', [\App\Modules\Inventory\Http\Controllers\InventoryTransactionController::class, 'store'])->name('inventory.transactions.store');
+
+        // Supplier List Master
+        Route::get('/supplier', [\App\Modules\Supplier\Http\Controllers\SupplierController::class, 'index'])->name('supplier.index');
+        Route::post('/supplier', [\App\Modules\Supplier\Http\Controllers\SupplierController::class, 'store'])->name('supplier.store');
+        Route::put('/supplier/{supplier}', [\App\Modules\Supplier\Http\Controllers\SupplierController::class, 'update'])->name('supplier.update');
+        Route::patch('/supplier/{supplier}/status', [\App\Modules\Supplier\Http\Controllers\SupplierController::class, 'updateStatus'])->name('supplier.update-status');
+        Route::delete('/supplier/{supplier}', [\App\Modules\Supplier\Http\Controllers\SupplierController::class, 'destroy'])->name('supplier.destroy');
+        Route::get('/supplier/export', [\App\Modules\Supplier\Http\Controllers\SupplierController::class, 'export'])->name('supplier.export');
+        Route::post('/supplier/import', [\App\Modules\Supplier\Http\Controllers\SupplierController::class, 'import'])->name('supplier.import');
+
+        // Client List Master
+        Route::get('/client', [\App\Modules\Client\Http\Controllers\ClientController::class, 'index'])->name('client.index');
+        Route::post('/client', [\App\Modules\Client\Http\Controllers\ClientController::class, 'store'])->name('client.store');
+        Route::put('/client/{client}', [\App\Modules\Client\Http\Controllers\ClientController::class, 'update'])->name('client.update');
+        Route::patch('/client/{client}/status', [\App\Modules\Client\Http\Controllers\ClientController::class, 'updateStatus'])->name('client.update-status');
+        Route::delete('/client/{client}', [\App\Modules\Client\Http\Controllers\ClientController::class, 'destroy'])->name('client.destroy');
+        Route::get('/client/export', [\App\Modules\Client\Http\Controllers\ClientController::class, 'export'])->name('client.export');
+        Route::post('/client/import', [\App\Modules\Client\Http\Controllers\ClientController::class, 'import'])->name('client.import');
+    });
+
+
     $isDeliverableEmail = static function (mixed $email): bool {
         $normalized = strtolower(trim((string) $email));
 
@@ -729,6 +764,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->header('Pragma', 'no-cache')
             ->header('Expires', '0');
     })->name('help.pdf');
+    Route::get('/dashboard-bridge', function () {
+        return Inertia::location(route('dashboard'));
+    })->name('dashboard.bridge');
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::get('/dashboard/advanced', [DashboardController::class, 'advanced'])->name('dashboard.advanced');
     Route::get('/dashboard/notifications/unread', [DashboardController::class, 'unreadNotifications'])->name('dashboard.notifications.unread');
@@ -758,6 +796,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->whereNumber('task')->name('tasks.destroy');
     Route::post('/tasks/{task}/attachments', [AttachmentController::class, 'store'])->whereNumber('task')->name('tasks.attachments.store');
     Route::get('/attachments/{attachment}/download', [AttachmentController::class, 'download'])->whereNumber('attachment')->name('attachments.download');
+    Route::get('/attachments/{attachment}/view', [AttachmentController::class, 'view'])->whereNumber('attachment')->name('attachments.view');
     Route::delete('/attachments/{attachment}', [AttachmentController::class, 'destroy'])->whereNumber('attachment')->name('attachments.destroy');
     Route::post('/tasks/{task}/timer/start', [TaskTimeLogController::class, 'start'])->whereNumber('task')->name('tasks.timer.start');
     Route::post('/tasks/{task}/timer/stop', [TaskTimeLogController::class, 'stop'])->whereNumber('task')->name('tasks.timer.stop');

@@ -1,20 +1,7 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Email Alerts Overview</title>
-    <script>
-        if (localStorage.getItem('mv-theme') === 'dark' || (!('mv-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    </script>
-    @vite(['resources/css/app.css'])
-</head>
-<body class="min-h-screen bg-[#f8fafc] dark:bg-[#0A0F1C] text-slate-800 dark:text-slate-200">
-    <div class="relative mx-auto max-w-7xl px-4 py-8 md:px-6">
+@extends('layouts.app')
+
+@section('content')
+    <div class="relative w-full">
         <div class="pointer-events-none absolute right-0 top-0 h-64 w-64 translate-x-1/3 -translate-y-1/3 rounded-full bg-blue-100/40 blur-3xl dark:hidden"></div>
         <div class="pointer-events-none absolute bottom-0 left-20 h-52 w-52 rounded-full bg-slate-200/30 blur-3xl dark:hidden"></div>
         <div class="mb-6 flex flex-wrap items-start justify-between gap-3">
@@ -26,11 +13,6 @@
                 <p class="mt-1 text-xs text-slate-400 dark:text-slate-400">As of {{ $today->format('M d, Y') }}</p>
             </div>
             <div class="flex gap-2">
-                {{-- Dark Mode Toggle --}}
-                <button onclick="toggleDarkMode()" class="rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-slate-500 dark:text-amber-300 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors" title="Toggle Dark Mode">
-                    <svg class="h-5 w-5 hidden dark:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" /></svg>
-                    <svg class="h-5 w-5 block dark:hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" /></svg>
-                </button>
                 <a href="{{ route('email.shortcut', ['send_test' => 1, 'to' => auth()->user()?->email]) }}" class="rounded-lg bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm">Send Test Email</a>
                 <a href="#overdue-reminder-status" class="rounded-lg border border-emerald-300/50 dark:border-emerald-400/35 bg-white dark:bg-white/5 px-4 py-2 text-sm font-medium text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-500/10">Open Overdue Status</a>
                 <a href="{{ route('dashboard') }}" class="rounded-lg border border-slate-300 dark:border-white/20 bg-white dark:bg-white/5 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/10">Back to Dashboard</a>
@@ -368,17 +350,4 @@
             }
         });
     </script>
-
-    <script>
-    function toggleDarkMode() {
-        var html = document.documentElement;
-        html.classList.toggle('dark');
-        if (html.classList.contains('dark')) {
-            localStorage.setItem('mv-theme', 'dark');
-        } else {
-            localStorage.setItem('mv-theme', 'light');
-        }
-    }
-    </script>
-</body>
-</html>
+@endsection

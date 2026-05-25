@@ -88,7 +88,7 @@ class TaskController extends Controller
 
         $projectsQuery = Project::query()
             ->with(['tasks:id,project_id,title,status', 'members:id,project_id,user_id'])
-            ->select(['id', 'name', 'created_by'])
+            ->select(['id', 'name', 'created_by', 'project_owner'])
             ->orderBy('name');
 
         // If user doesn't have create-task permission, only show projects they're members of
@@ -223,6 +223,35 @@ class TaskController extends Controller
 
         $nextTaskSequence = (int) (Task::max('id') ?? 0) + 1;
 
+        $defaultSelectedAssignees = User::query()
+            ->whereIn(DB::raw('LOWER(TRIM(name))'), ['philip borromeo', 'edcel ching'])
+            ->pluck('id')
+            ->toArray();
+
+        $projectPrefixes = $projects->mapWithKeys(function ($project) {
+            $ownerInitials = 'XX';
+            $ownerProjectCount = 1;
+
+            if ($project->project_owner) {
+                $words = explode(' ', trim($project->project_owner));
+                $initials = '';
+                foreach ($words as $word) {
+                    if (!empty($word)) {
+                        $initials .= strtoupper($word[0]);
+                    }
+                }
+                if (strlen($initials) > 0) {
+                    $ownerInitials = substr($initials, 0, 2);
+                }
+
+                $ownerProjectCount = \App\Modules\Projects\Models\Project::where('project_owner', $project->project_owner)
+                    ->where('id', '<=', $project->id)
+                    ->count();
+            }
+
+            return [$project->id => sprintf('P%s-%04d', $ownerInitials, $ownerProjectCount)];
+        });
+
         return view('tasks.create', [
             'projects' => $projects,
             'projectMembers' => $projectMembers,
@@ -235,6 +264,8 @@ class TaskController extends Controller
             'personInChargeDirectory' => $personInChargeDirectory,
             'processCatalog' => $processCatalog,
                 'tasks' => $tasks,
+            'defaultSelectedAssignees' => $defaultSelectedAssignees,
+            'projectPrefixes' => $projectPrefixes,
         ]);
     }
 

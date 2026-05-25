@@ -24,13 +24,13 @@
         </div>
     @endif
 
-    <form id="create-task-form" method="POST" action="{{ route('tasks.quickStore') }}" enctype="multipart/form-data" autocomplete="off" class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm" onsubmit="this.querySelector('button[type=submit]').disabled=true; this.querySelector('button[type=submit]').textContent='Submitting...';">
+    <form id="create-task-form" method="POST" action="{{ route('tasks.quickStore') }}" enctype="multipart/form-data" autocomplete="off" class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm" onsubmit="const btn = this.querySelector('button[type=submit]'); setTimeout(() => { btn.disabled = true; btn.textContent = 'Submitting...'; }, 0);">
         @csrf
 
         <div class="mb-4">
-            <label for="task_no_preview" class="block text-gray-700 dark:text-slate-300">Ref. No.</label>
-            <input id="task_no_preview" name="task_no_preview" type="text" class="form-input mt-1 block w-full bg-gray-100 dark:bg-slate-700 dark:text-slate-400" value="Auto-generated on save" disabled>
-            <p class="mt-1 text-xs text-gray-500 dark:text-slate-400">Auto format: PRJ-&lt;Project No&gt;-&lt;Ref No&gt; (halimbawa: PRJ-009-0123).</p>
+            <label for="task_no" class="block text-gray-700 dark:text-slate-300">Ref. No.</label>
+            <input id="task_no" name="task_no" type="text" class="form-input mt-1 block w-full bg-gray-100 dark:bg-slate-700 dark:text-slate-400" placeholder="Auto-generated on save" disabled>
+            <p class="mt-1 text-xs text-gray-500 dark:text-slate-400">Auto format: P&lt;Initials&gt;-&lt;ProjectCount&gt;-&lt;TaskNo&gt; (e.g. PLS-0001-0123).</p>
         </div>
 
         <div class="mb-4">
@@ -82,14 +82,14 @@
 
             <div id="validity-lead-time-controls" class="mt-3 hidden rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 p-3">
                 <label class="inline-flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
-                    <input id="use_quotation_validity" name="use_quotation_validity" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+                    <input id="use_quotation_validity" name="use_quotation_validity" type="checkbox" class="h-4 w-4 rounded border-slate-300 dark:border-slate-600 text-blue-600 focus:ring-blue-500">
                     Adjust lead time based on quotation validity date
                 </label>
                 <div class="mt-2">
                     <label for="quotation_validity_date" class="block text-xs font-medium text-slate-600 dark:text-slate-400">Quotation Validity Date</label>
                     <input id="quotation_validity_date" name="quotation_validity_date" type="date" class="form-input mt-1 block w-full" disabled>
                 </div>
-                <p class="mt-1 text-xs text-slate-500">If enabled, due date and SLA days follow the quotation validity date.</p>
+                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">If enabled, due date and SLA days follow the quotation validity date.</p>
             </div>
 
             @error('specific_process')
@@ -237,7 +237,7 @@
                 <div class="mb-2">
                     <label for="reference_task_no_input" class="block text-gray-700 dark:text-slate-300">Ref. No.</label>
                     <input id="reference_task_no_input" name="reference_task_no" type="text" class="form-input mt-1 block w-full bg-gray-100 dark:bg-slate-700 dark:text-slate-400" value="Auto-generated on save" disabled>
-                    <p class="mt-1 text-xs text-gray-500 dark:text-slate-400">Auto format: PRJ-&lt;Project No&gt;-&lt;Ref No&gt; (example: PRJ-009-0123).</p>
+                    <p class="mt-1 text-xs text-gray-500 dark:text-slate-400">Auto format: P&lt;Initials&gt;-&lt;ProjectCount&gt;-&lt;TaskNo&gt; (e.g. PLS-0001-0123).</p>
                 </div>
                 <div class="mb-2">
                     <label for="reference_description_input" class="block text-gray-700 dark:text-slate-300">Description</label>
@@ -378,11 +378,12 @@
         'projectMembers' => $projectMembers,
         'projectDefaultAssignees' => $projectDefaultAssignees,
         'projectTasks' => $projectTasks,
+        'projectPrefixes' => $projectPrefixes,
         'nextTaskSequence' => $nextTaskSequence ?? 1,
         'processCatalog' => $processCatalog,
         'selectedTaskProcess' => old('task_process'),
         'selectedSpecificProcess' => old('specific_process'),
-        'selectedAssignees' => old('assignees') ?? [],
+        'selectedAssignees' => old('assignees', $defaultSelectedAssignees ?? []),
         'selectedDependency' => old('blocked_by_task_id'),
         'currentUserId' => auth()->id(),
         'taskCreated' => session()->has('success'),
@@ -436,6 +437,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const projectDefaultAssigneesMap = payload.projectDefaultAssignees || {};
     const projectTasksMap = payload.projectTasks || {};
     const processCatalog = payload.processCatalog || {};
+    const projectPrefixes = payload.projectPrefixes || {};
+    const nextTaskSequence = payload.nextTaskSequence || 1;
     const selectedTaskProcess = payload.selectedTaskProcess || '';
     const selectedSpecificProcess = payload.selectedSpecificProcess || '';
     const selectedAssignees = payload.selectedAssignees || [];
@@ -468,6 +471,28 @@ document.addEventListener('DOMContentLoaded', function () {
     hiddenAssigneesContainer.className = 'hidden';
     if (form) {
         form.appendChild(hiddenAssigneesContainer);
+    }
+
+    const updateReferencePreview = () => {
+        const previewInput = document.getElementById('task_no');
+        if (!previewInput) return;
+        
+        const projId = projectSelect ? projectSelect.value : null;
+        if (projId && projectPrefixes[projId]) {
+            const prefix = projectPrefixes[projId];
+            const sequence = String(nextTaskSequence).padStart(4, '0');
+            previewInput.value = `${prefix}-${sequence}`;
+        } else {
+            previewInput.value = '';
+            previewInput.placeholder = 'Auto-generated on save';
+        }
+    };
+
+    if (projectSelect) {
+        projectSelect.addEventListener('change', () => {
+            renderAssignees(projectSelect.value);
+            updateReferencePreview();
+        });
     }
 
     const syncHiddenAssigneeInputs = () => {
@@ -509,7 +534,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const searchTerm = (assigneeSearchInput ? assigneeSearchInput.value : '').trim().toLowerCase();
 
         if (members.length === 0) {
-            assigneesContainer.innerHTML = '<p class="text-sm text-slate-500">No assignable members in this project yet.</p>';
+            assigneesContainer.innerHTML = '<p class="text-sm text-slate-500 dark:text-slate-400">No assignable members in this project yet.</p>';
             selectedAssigneeValues = [];
             syncHiddenAssigneeInputs();
             updateAssigneeHelperState();
@@ -526,7 +551,7 @@ document.addEventListener('DOMContentLoaded', function () {
             : members.filter((member) => String(member.name || '').toLowerCase().includes(searchTerm));
 
         if (filteredMembers.length === 0) {
-            assigneesContainer.innerHTML = '<p class="text-sm text-slate-500">No assignee matched your search.</p>';
+            assigneesContainer.innerHTML = '<p class="text-sm text-slate-500 dark:text-slate-400">No assignee matched your search.</p>';
             updateAssigneeHelperState();
             return;
         }
@@ -541,7 +566,7 @@ document.addEventListener('DOMContentLoaded', function () {
             checkbox.id = 'assignee-' + member.id;
             checkbox.name = 'assignees[]';
             checkbox.value = String(member.id);
-            checkbox.className = 'h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500';
+            checkbox.className = 'h-4 w-4 rounded border-slate-300 dark:border-slate-600 text-blue-600 focus:ring-blue-500';
             checkbox.checked = selectedAssigneeValues.includes(String(member.id));
 
             checkbox.addEventListener('change', () => {
@@ -715,9 +740,12 @@ document.addEventListener('DOMContentLoaded', function () {
         initialSpecificProcess = '';
     };
 
-    renderAssignees(projectSelect.value);
-    // renderDependencies(projectSelect.value); // removed
     updateDependencyLockState();
+
+    if (projectSelect) {
+        renderAssignees(projectSelect.value);
+        updateReferencePreview();
+    }
 
     if (taskProcessSelect && selectedTaskProcess) {
         taskProcessSelect.value = selectedTaskProcess;
@@ -945,35 +973,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    var projectSelect = document.getElementById('project_id');
-    var taskNoPreview = document.getElementById('task_no_preview');
-    var payloadEl = document.getElementById('task-create-data');
-    var payload = payloadEl ? JSON.parse(payloadEl.textContent || '{}') : {};
-    var nextTaskSequence = parseInt(payload.nextTaskSequence || '1', 10);
-    if (!Number.isFinite(nextTaskSequence) || nextTaskSequence < 1) {
-        nextTaskSequence = 1;
-    }
 
-    function updateTaskNoPreview() {
-        if (!projectSelect || !taskNoPreview) return;
-
-        var rawProjectId = parseInt(projectSelect.value || '0', 10);
-        if (!rawProjectId || rawProjectId < 1) {
-            taskNoPreview.value = 'Auto-generated on save';
-            return;
-        }
-
-        var projectPart = String(rawProjectId).padStart(3, '0');
-        var taskPart = String(nextTaskSequence).padStart(4, '0');
-        taskNoPreview.value = 'PRJ-' + projectPart + '-' + taskPart;
-    }
-
-    updateTaskNoPreview();
-    projectSelect && projectSelect.addEventListener('change', updateTaskNoPreview);
-});
-</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

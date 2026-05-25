@@ -2,193 +2,36 @@
 
 <?php $__env->startSection('content'); ?>
 <style>
-    .tasks-page {
-        color: #1e293b;
-    }
-    html.dark .tasks-page {
-        color: #e2e8f0;
-    }
-    .tasks-page form label {
-        color: #475569 !important;
-    }
-    html.dark .tasks-page form label {
-        color: #cbd5e1 !important;
-    }
-    .tasks-page form input,
-    .tasks-page form select {
-        background: #ffffff !important;
-        border-color: #cbd5e1 !important;
-        color: #1e293b !important;
-    }
-    html.dark .tasks-page form input,
-    html.dark .tasks-page form select {
-        background: #1e293b !important;
-        border-color: #475569 !important;
-        color: #e2e8f0 !important;
-    }
-    .tasks-page form input::placeholder {
-        color: #94a3b8 !important;
-    }
-    .tasks-page form option {
-        background: #ffffff;
-        color: #1e293b;
-    }
-    html.dark .tasks-page form option {
-        background: #1e293b;
-        color: #e2e8f0;
-    }
-    .tasks-table th,
-    .tasks-table td {
-        border-right: 1px solid #e2e8f0;
-    }
-    html.dark .tasks-table th,
-    html.dark .tasks-table td {
-        border-right: 1px solid rgba(148, 163, 184, 0.22);
-    }
     .tasks-table th:last-child,
     .tasks-table td:last-child {
-        border-right: none;
         position: sticky;
         right: 0;
         z-index: 5;
-        box-shadow: -3px 0 8px rgba(0,0,0,0.08);
-        background: #ffffff;
+        background-color: #ffffff;
+        box-shadow: -6px 0 15px -3px rgba(0, 0, 0, 0.05);
+        border-left: 1px solid #e2e8f0;
+        transition: background-color 0.2s;
     }
     html.dark .tasks-table th:last-child,
     html.dark .tasks-table td:last-child {
-        box-shadow: -3px 0 8px rgba(2, 6, 23, 0.35);
-        background: #1e293b;
+        background-color: #1e293b; /* slate-800 */
+        box-shadow: -6px 0 15px -3px rgba(0, 0, 0, 0.4);
+        border-left: 1px solid #334155;
     }
-    .tasks-table thead th {
-        background: #f8fafc !important;
-        color: #64748b !important;
+    /* Match row hover */
+    .tasks-table tr:hover td:last-child {
+        background-color: #f8fafc; /* slate-50 */
     }
-    html.dark .tasks-table thead th {
-        background: #1e293b !important;
-        color: #94a3b8 !important;
+    html.dark .tasks-table tr:hover td:last-child {
+        background-color: #334155; /* slate-700 */
     }
     .tasks-table thead th:last-child {
-        background: #f8fafc;
         z-index: 15;
+        background-color: #ffffff;
     }
     html.dark .tasks-table thead th:last-child {
-        background: #1e293b;
+        background-color: #1e293b;
     }
-    .tasks-table tbody tr td:last-child {
-        background: #ffffff;
-    }
-    html.dark .tasks-table tbody tr td:last-child {
-        background: #1e293b;
-    }
-    .tasks-table tbody tr:hover td:last-child {
-        background: #f1f5f9;
-    }
-    html.dark .tasks-table tbody tr:hover td:last-child {
-        background: rgba(30, 41, 59, 0.98);
-    }
-    .tasks-table tbody tr.is-overdue-row td:last-child {
-        background: #ffe4e6;
-    }
-    html.dark .tasks-table tbody tr.is-overdue-row td:last-child {
-        background: rgba(30, 41, 59, 0.98);
-    }
-    .tasks-table tbody tr.bg-emerald-50\/30 td:last-child {
-        background: #f0fdf4;
-    }
-    html.dark .tasks-table tbody tr.bg-emerald-50\/30 td:last-child {
-        background: rgba(5, 46, 22, 0.7);
-    }
-    .tasks-page .tasks-table tbody tr {
-        background-color: #ffffff !important;
-    }
-    html.dark .tasks-page .tasks-table tbody tr {
-        background-color: #1e293b !important;
-    }
-    .tasks-table tbody tr:nth-child(even) {
-        background-color: #f8fafc;
-    }
-    html.dark .tasks-table tbody tr:nth-child(even) {
-        background-color: #172033;
-    }
-    .tasks-page .tasks-table tbody tr:hover {
-        background-color: #f1f5f9 !important;
-    }
-    html.dark .tasks-page .tasks-table tbody tr:hover {
-        background-color: rgba(30, 41, 59, 0.98) !important;
-    }
-    .tasks-page .tasks-table tbody tr.is-overdue-row {
-        background-color: #ffe4e6 !important;
-        box-shadow: inset 4px 0 0 #ef4444;
-    }
-    html.dark .tasks-page .tasks-table tbody tr.is-overdue-row {
-        background-color: rgba(30, 41, 59, 0.98) !important;
-    }
-    .tasks-page .tasks-table tbody tr.bg-emerald-50\/30 {
-        background-color: #f0fdf4 !important;
-    }
-    html.dark .tasks-page .tasks-table tbody tr.bg-emerald-50\/30 {
-        background-color: rgba(5, 46, 22, 0.35) !important;
-    }
-    .tasks-page .tasks-table td,
-    .tasks-page .tasks-table td p {
-        color: #334155 !important;
-    }
-    html.dark .tasks-page .tasks-table td,
-    html.dark .tasks-page .tasks-table td p {
-        color: #e2e8f0 !important;
-    }
-    .tasks-page .tasks-table td a {
-        color: #2563eb !important;
-    }
-    html.dark .tasks-page .tasks-table td a {
-        color: #93c5fd !important;
-    }
-    .tasks-page .tasks-table td .text-slate-500,
-    .tasks-page .tasks-table td .text-slate-600,
-    .tasks-page .tasks-table td .text-slate-700,
-    .tasks-page .tasks-table td .text-slate-800 {
-        color: #475569 !important;
-    }
-    html.dark .tasks-page .tasks-table td .text-slate-500,
-    html.dark .tasks-page .tasks-table td .text-slate-600,
-    html.dark .tasks-page .tasks-table td .text-slate-700,
-    html.dark .tasks-page .tasks-table td .text-slate-800 {
-        color: #cbd5e1 !important;
-    }
-    .tasks-page .tasks-table td .bg-slate-50,
-    .tasks-page .tasks-table td .bg-slate-100 {
-        background-color: #f8fafc !important;
-        border-color: #e2e8f0 !important;
-    }
-    html.dark .tasks-page .tasks-table td .bg-slate-50,
-    html.dark .tasks-page .tasks-table td .bg-slate-100 {
-        background-color: #1e293b !important;
-        border-color: #334155 !important;
-    }
-    .tasks-page .tasks-table td .hover\:bg-blue-50:hover {
-        background-color: #eff6ff !important;
-    }
-    html.dark .tasks-page .tasks-table td .hover\:bg-blue-50:hover {
-        background-color: #1e3a8a !important;
-    }
-    .tasks-page .tasks-table td .hover\:bg-yellow-50:hover {
-        background-color: #fefce8 !important;
-    }
-    html.dark .tasks-page .tasks-table td .hover\:bg-yellow-50:hover {
-        background-color: #78350f !important;
-    }
-    .tasks-page .tasks-table td .hover\:bg-red-50:hover {
-        background-color: #fff1f2 !important;
-    }
-    html.dark .tasks-page .tasks-table td .hover\:bg-red-50:hover {
-        background-color: #7f1d1d !important;
-    }
-    /* Softer pastel for priority badges */
-    .priority-urgent { background: #fee2e2; color: #b91c1c; }
-    .priority-high { background: #ffedd5; color: #c2410c; }
-    .priority-medium { background: #fef9c3; color: #a16207; }
-    .priority-low { background: #dcfce7; color: #166534; }
-
     /* Priority pin badges */
     .priority-pin {
         display: inline-flex;
@@ -205,6 +48,9 @@
     }
     .pin-dot {
         box-shadow: 0 0 0 3px rgba(255,255,255,0.45);
+    }
+    .dark .pin-dot {
+        box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.5);
     }
     .priority-pin.pin-urgent {
         background: #fef2f2 !important;
@@ -249,23 +95,6 @@
     .dark .pin-dot {
         box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.5);
     }
-    /* Pill badge for status indicators */
-    .pill-badge {
-        display: inline-block;
-        border-radius: 9999px;
-        padding: 0.25em 0.9em;
-        font-size: 0.85em;
-        font-weight: 600;
-        border: 1.5px solid #cbd5e1;
-        background: rgba(255,255,255,0.08);
-        color: #334155;
-    }
-    .dark .pill-badge {
-        border-color: #475569;
-        background: rgba(30,41,59,0.7);
-        color: #e2e8f0;
-    }
-    /* Compact filter group */
     .filter-group {
         display: flex;
         flex-wrap: wrap;
@@ -289,7 +118,6 @@
     .filter-advanced-toggle:hover {
         color: #0ea5e9;
     }
-    /* Icon buttons for actions */
     .action-btn {
         background: none;
         border: none;
@@ -310,21 +138,10 @@
         background: #334155;
         color: #38bdf8;
     }
-    /* Narrow Task No column, wider text columns */
     .tasks-table th.w-20, .tasks-table td.w-20 { width: 80px !important; min-width: 60px; }
     .tasks-table th.w-40, .tasks-table td.w-40 { width: 180px !important; min-width: 120px; }
     .tasks-table th.w-44, .tasks-table td.w-44 { width: 220px !important; min-width: 140px; }
     .tasks-table th.w-48, .tasks-table td.w-48 { width: 260px !important; min-width: 160px; }
-    .tasks-table th.w-52, .tasks-table td.w-52 { width: 280px !important; min-width: 180px; }
-    .tasks-table th.w-36, .tasks-table td.w-36 { width: 140px !important; min-width: 100px; }
-    .tasks-table th.w-28, .tasks-table td.w-28 { width: 110px !important; min-width: 80px; }
-    .tasks-table th.w-24, .tasks-table td.w-24 { width: 90px !important; min-width: 70px; }
-    .tasks-table th.w-32, .tasks-table td.w-32 { width: 120px !important; min-width: 90px; }
-    .tasks-table th.w-52, .tasks-table td.w-52 { width: 280px !important; min-width: 180px; }
-    .tasks-table th.w-36, .tasks-table td.w-36 { width: 140px !important; min-width: 100px; }
-    .tasks-table th.w-28, .tasks-table td.w-28 { width: 110px !important; min-width: 80px; }
-    .tasks-table th.w-24, .tasks-table td.w-24 { width: 90px !important; min-width: 70px; }
-    .tasks-table th.w-32, .tasks-table td.w-32 { width: 120px !important; min-width: 90px; }
     .tasks-table th.w-52, .tasks-table td.w-52 { width: 280px !important; min-width: 180px; }
     .tasks-table th.w-36, .tasks-table td.w-36 { width: 140px !important; min-width: 100px; }
     .tasks-table th.w-28, .tasks-table td.w-28 { width: 110px !important; min-width: 80px; }
@@ -536,7 +353,7 @@
                         <th class="w-32 whitespace-nowrap px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Date Started</th>
                         <th class="w-32 whitespace-nowrap px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Date Finish</th>
                         <th class="w-36 whitespace-nowrap px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Target Deadline</th>
-                        <th class="w-32 whitespace-nowrap px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Actions</th>
+                        <th class="w-32 whitespace-nowrap px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-slate-400">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white dark:bg-slate-800">

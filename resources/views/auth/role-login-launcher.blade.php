@@ -9,11 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css'])
 </head>
-<body class="min-h-screen bg-slate-50" style="font-family: 'Inter', sans-serif;">
+<body class="min-h-screen bg-slate-50 dark:bg-slate-900" style="font-family: 'Inter', sans-serif;">
     <div class="mx-auto max-w-5xl px-4 py-10">
         <div class="mb-8 text-center">
-            <h1 class="text-3xl font-bold text-slate-800">Role Login Launcher</h1>
-            <p class="mt-2 text-sm text-slate-500">Choose your role to continue to the correct login page.</p>
+            <h1 class="text-3xl font-bold text-slate-800 dark:text-slate-100">Role Login Launcher</h1>
+            <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">Choose your role to continue to the correct login page.</p>
         </div>
 
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-6">
@@ -42,7 +42,7 @@
             @endforeach
         </div>
 
-        <div class="mt-8 text-center text-sm text-slate-500">
+        <div class="mt-8 text-center text-sm text-slate-500 dark:text-slate-400">
             Default login is still available at
             <a href="/login" class="text-blue-600 hover:underline">/login</a>.
         </div>

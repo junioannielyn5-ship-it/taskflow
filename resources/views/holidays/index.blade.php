@@ -14,7 +14,7 @@
     </div>
 
     @if (session('success'))
-        <div class="mb-4 rounded border border-green-200 bg-green-50 px-4 py-3 text-green-700">
+        <div class="mb-4 rounded border border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/30 px-4 py-3 text-green-700 dark:text-green-400">
             {{ session('success') }}
         </div>
     @endif
@@ -36,9 +36,9 @@
         </div>
     @endif
 
-    <div class="rounded-xl border border-amber-200 bg-amber-50 p-6 text-center text-amber-700 text-sm font-semibold">
+    <div class="rounded-xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/30 p-6 text-center text-amber-700 dark:text-amber-400 text-sm font-semibold">
         Holidays are now visible in the Calendar. The table is no longer shown here.
-        <a href="{{ route('tasks.calendar') }}" class="mt-4 inline-block rounded-full border border-emerald-300 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700 hover:bg-emerald-100">Open Calendar</a>
+        <a href="{{ route('tasks.calendar') }}" class="mt-4 inline-block rounded-full border border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-900/30 px-4 py-2 text-sm font-semibold text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/50">Open Calendar</a>
     </div>
 </div>
 @endsection
