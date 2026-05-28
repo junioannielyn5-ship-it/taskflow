@@ -129,8 +129,8 @@
                     <div class="mb-3 flex items-center justify-between gap-3">
                         <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100">Task Status Overview</h3>
                         <div class="flex items-center gap-1.5">
-                            <a href="<?php echo e(route('dashboard.export.status-overview.csv')); ?>" class="rounded-lg border border-slate-200/50 bg-white/70 backdrop-blur-md px-2.5 py-1 text-[11px] font-bold text-slate-700 dark:text-slate-300 hover:bg-white/95 dark:hover:bg-slate-800/90 dark:border-slate-800 hover:-translate-y-0.5 transition-all duration-200 shadow-sm">CSV</a>
-                            <a href="<?php echo e(route('dashboard.export.status-overview.pdf')); ?>" class="rounded-lg border border-slate-200/50 bg-white/70 backdrop-blur-md px-2.5 py-1 text-[11px] font-bold text-slate-700 dark:text-slate-300 hover:bg-white/95 dark:hover:bg-slate-800/90 dark:border-slate-800 hover:-translate-y-0.5 transition-all duration-200 shadow-sm">PDF</a>
+                            <a href="<?php echo e(route('dashboard.export.status-overview.csv')); ?>" class="rounded-lg border border-slate-200/50 bg-white/70 dark:bg-slate-700/70 backdrop-blur-md px-2.5 py-1 text-[11px] font-bold text-slate-700 dark:text-slate-300 hover:bg-white/95 dark:hover:bg-slate-800/90 dark:border-slate-800 hover:-translate-y-0.5 transition-all duration-200 shadow-sm">CSV</a>
+                            <a href="<?php echo e(route('dashboard.export.status-overview.pdf')); ?>" class="rounded-lg border border-slate-200/50 bg-white/70 dark:bg-slate-700/70 backdrop-blur-md px-2.5 py-1 text-[11px] font-bold text-slate-700 dark:text-slate-300 hover:bg-white/95 dark:hover:bg-slate-800/90 dark:border-slate-800 hover:-translate-y-0.5 transition-all duration-200 shadow-sm">PDF</a>
                         </div>
                     </div>
                     <p class="mb-2 text-xs font-medium text-slate-600 dark:text-slate-400">Done: <span id="done-percentage" class="font-extrabold text-emerald-600"><?php echo e($donePercentage); ?>%</span> · In Progress: <span id="in-progress-percentage" class="font-extrabold text-blue-600"><?php echo e($inProgressPercentage); ?>%</span></p>
@@ -605,7 +605,7 @@
                 <div class="relative flex h-[280px] flex-col overflow-hidden rounded-2xl border border-slate-200/40 bg-white/90 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 transition-all">
                     <div class="relative z-10 mb-2.5 flex items-center justify-between gap-2">
                         <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100">Latest Notifications</h3>
-                        <button id="mark-all-notifications-read" type="button" class="rounded-lg border border-slate-200/50 bg-white/70 backdrop-blur-md px-2 py-0.5 text-[10px] font-bold text-slate-700 dark:text-slate-300 hover:bg-white/95 dark:hover:bg-slate-800/90 dark:border-slate-800 hover:-translate-y-0.5 transition-all duration-200 shadow-sm">Mark all as read</button>
+                        <button id="mark-all-notifications-read" type="button" class="rounded-lg border border-slate-200/50 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md px-2 py-0.5 text-[10px] font-bold text-slate-700 dark:text-slate-300 hover:bg-white/95 dark:hover:bg-slate-800/90 dark:border-slate-800 hover:-translate-y-0.5 transition-all duration-200 shadow-sm">Mark all as read</button>
                     </div>
                     <ul id="latest-notifications-list" class="relative z-10 flex-1 divide-y divide-slate-200/50 dark:divide-slate-700/50 overflow-y-auto pr-1">
                         <?php $__empty_1 = true; $__currentLoopData = $latestNotifications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $notifIdx => $notif): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
